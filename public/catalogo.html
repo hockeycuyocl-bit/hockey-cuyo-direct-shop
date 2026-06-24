@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hockey Cuyo — Tienda de Hockey sobre Patines</title>
+<meta name="description" content="Tienda online de Hockey Cuyo. Sticks, patines, protecciones y accesorios para hockey sobre patines. Compra directa por WhatsApp." />
+<style>
+  :root{
+    --bg:#0c0c0e;
+    --bg-2:#141418;
+    --surface:#1a1a1f;
+    --surface-2:#202028;
+    --border:#2a2a33;
+    --text:#f5f5f7;
+    --muted:#9a9aa6;
+    --accent:#ff4d2e;       /* naranja deportivo */
+    --accent-2:#ffb800;     /* destello */
+    --whats:#25d366;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+    --font:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;line-height:1.5}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none}
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(12,12,14,.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{
+    max-width:1280px;margin:0 auto;padding:18px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo-mark{
+    width:48px;height:48px;border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),#c0301a);
+    display:grid;place-items:center;font-weight:900;color:#fff;
+    font-style:italic;font-size:22px;letter-spacing:-1px;
+    box-shadow:0 6px 18px rgba(255,77,46,.35);
+  }
+  .brand-text h1{
+    font-size:20px;font-weight:900;letter-spacing:-.5px;
+    text-transform:lowercase;font-style:italic;
+  }
+  .brand-text p{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--whats);color:#062b13;font-weight:700;
+    padding:10px 16px;border-radius:999px;font-size:14px;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
+  .nav-cta svg{width:18px;height:18px}
+
+  /* ============ HERO ============ */
+  .hero{
+    max-width:1280px;margin:0 auto;padding:64px 24px 40px;
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 0%,rgba(255,77,46,.18),transparent 60%);
+    pointer-events:none;
+  }
+  .hero .eyebrow{
+    display:inline-block;padding:6px 14px;border:1px solid var(--border);
+    border-radius:999px;font-size:12px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;
+  }
+  .hero h2{
+    font-size:clamp(34px,5vw,58px);font-weight:900;letter-spacing:-1.5px;
+    line-height:1.05;
+  }
+  .hero h2 span{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{
+    max-width:600px;margin:18px auto 0;color:var(--muted);font-size:17px;
+  }
+
+  /* ============ FILTROS ============ */
+  .filters{
+    max-width:1280px;margin:0 auto;padding:24px;
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  }
+  .filter-btn{
+    background:var(--surface);color:var(--text);
+    border:1px solid var(--border);padding:10px 20px;border-radius:999px;
+    font-size:14px;font-weight:600;transition:all .2s;
+  }
+  .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .filter-btn.active{
+    background:var(--accent);border-color:var(--accent);color:#fff;
+    box-shadow:0 6px 18px rgba(255,77,46,.4);
+  }
+
+  /* ============ PRODUCTOS ============ */
+  .products{
+    max-width:1280px;margin:0 auto;padding:24px 24px 80px;
+    display:grid;gap:24px;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  }
+  .card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;
+    display:flex;flex-direction:column;
+    transition:transform .25s,border-color .25s,box-shadow .25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
+  .card-img{
+    position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-2);
+  }
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .card:hover .card-img img{transform:scale(1.06)}
+  .badge{
+    position:absolute;top:12px;left:12px;
+    background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+    color:#fff;font-size:11px;font-weight:700;
+    padding:5px 10px;border-radius:6px;
+    text-transform:uppercase;letter-spacing:1px;
+  }
+  .card-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .card-body h3{font-size:17px;font-weight:800;letter-spacing:-.3px}
+  .card-body .desc{color:var(--muted);font-size:13px}
+  .features{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .features span{
+    font-size:11px;background:var(--surface-2);color:var(--muted);
+    padding:4px 8px;border-radius:6px;border:1px solid var(--border);
+  }
+  .price{
+    font-size:24px;font-weight:900;color:var(--accent);
+    margin-top:10px;letter-spacing:-.5px;
+  }
+  .buy-btn{
+    margin-top:14px;background:var(--whats);color:#062b13;
+    font-weight:700;padding:12px;border-radius:10px;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-size:14px;transition:transform .2s,box-shadow .2s;
+  }
+  .buy-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
+  .buy-btn svg{width:18px;height:18px}
+
+  /* ============ EMPTY ============ */
+  .empty{
+    grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:1px solid var(--border);background:var(--bg-2);
+    padding:30px 24px;text-align:center;color:var(--muted);font-size:13px;
+  }
+
+  /* ============ FAB ============ */
+  .fab{
+    position:fixed;bottom:24px;right:24px;z-index:100;
+    width:60px;height:60px;border-radius:50%;
+    background:var(--whats);display:grid;place-items:center;
+    box-shadow:0 10px 30px rgba(37,211,102,.5);
+    transition:transform .2s;
+  }
+  .fab:hover{transform:scale(1.08)}
+  .fab svg{width:30px;height:30px;color:#fff}
+
+  @media (max-width:640px){
+    .nav{padding:14px 16px}
+    .brand-text p{display:none}
+    .nav-cta span{display:none}
+    .nav-cta{padding:10px}
+    .hero{padding:40px 16px 24px}
+    .products{padding:16px 16px 100px;gap:16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo-mark">HC</div>
+      <div class="brand-text">
+        <h1>hockey cuyo</h1>
+        <p>Tienda oficial</p>
+      </div>
+    </div>
+    <a class="nav-cta" id="navWhats" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.173.198-.297.297-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+      <span>Contactar</span>
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Hockey sobre Patines · Mendoza</span>
+  <h2>Equipate con lo mejor del <span>hockey</span></h2>
+  <p>Sticks, patines, protecciones y accesorios para jugadores y porteros. Atención personalizada y envíos a todo el país.</p>
+</section>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="all">Ver Todo</button>
+  <button class="filter-btn" data-filter="patines">Patines & Sticks</button>
+  <button class="filter-btn" data-filter="protecciones">Protecciones</button>
+</div>
+
+<section class="products" id="products"></section>
+
+<a class="fab" id="fabWhats" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.173.198-.297.297-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+</a>
+
+<footer>
+  <p>© <span id="year"></span> Hockey Cuyo · Mendoza, Argentina · Todos los derechos reservados</p>
+</footer>
+
+<script>
+  // ====== CONFIG ======
+  const WHATSAPP_NUMBER = "5492614199542"; // <-- Reemplazá por tu número real
+  const GENERAL_MSG = "¡Hola Hockey Cuyo! Quiero hacer una consulta.";
+
+  // ====== PRODUCTOS ======
+  const PRODUCTS = [
+    {
+      name: "Stick Profesional Reno",
+      category: "patines",
+      badge: "Top Ventas",
+      price: 85000,
+      desc: "Stick de competición de alta gama, balance perfecto para jugadores avanzados.",
+      features: ["Fibra de carbono", "Talles 90-100cm", "Negro/Rojo"],
+      img: "https://images.unsplash.com/photo-1580748141549-71748dbe0bdc?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Patines Azemad Eagle",
+      category: "patines",
+      badge: "Nuevo",
+      price: 165000,
+      desc: "Patines de cuero premium, livianos y con excelente sujeción del tobillo.",
+      features: ["Talles 35-45", "Cuero", "Plata/Negro"],
+      img: "https://images.unsplash.com/photo-1606889464198-fcb18894cf50?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Bolso Deportivo Hockey",
+      category: "patines",
+      price: 38000,
+      desc: "Bolso amplio con compartimento para patines, sticks y protecciones.",
+      features: ["50L", "Resistente al agua", "Negro"],
+      img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Rodilleras de Jugador",
+      category: "protecciones",
+      badge: "Oferta",
+      price: 32000,
+      desc: "Rodilleras acolchadas con refuerzos laterales, máxima movilidad.",
+      features: ["Talles S/M/L/XL", "Espuma EVA", "Velcro ajustable"],
+      img: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Casco de Portero",
+      category: "protecciones",
+      price: 95000,
+      desc: "Casco de portero homologado, máxima protección con visión panorámica.",
+      features: ["Talle único ajustable", "Rejilla acero", "Negro mate"],
+      img: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Guantes Portero Pro",
+      category: "protecciones",
+      price: 72000,
+      desc: "Guantes de portero con relleno multidensidad y palma reforzada.",
+      features: ["Talles M/L/XL", "Cuero sintético", "Negro/Rojo"],
+      img: "https://images.unsplash.com/photo-1607627000458-210e8d2bdb1d?auto=format&fit=crop&w=800&q=80"
+    }
+  ];
+
+  // ====== RENDER ======
+  const grid = document.getElementById("products");
+  const filterBtns = document.querySelectorAll(".filter-btn");
+
+  const formatPrice = (n) => "$" + n.toLocaleString("es-AR");
+  const waLink = (msg) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+  function render(filter = "all") {
+    const items = PRODUCTS.filter(p => filter === "all" || p.category === filter);
+    if (!items.length) {
+      grid.innerHTML = `<div class="empty">No hay productos en esta categoría.</div>`;
+      return;
+    }
+    grid.innerHTML = items.map(p => `
+      <article class="card">
+        <div class="card-img">
+          ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+          <img src="${p.img}" alt="${p.name}" loading="lazy" />
+        </div>
+        <div class="card-body">
+          <h3>${p.name}</h3>
+          <p class="desc">${p.desc}</p>
+          <div class="features">${p.features.map(f => `<span>${f}</span>`).join("")}</div>
+          <div class="price">${formatPrice(p.price)}</div>
+          <a class="buy-btn" target="_blank" rel="noopener"
+             href="${waLink(`¡Hola Hockey Cuyo! Quiero comprar: ${p.name} (${formatPrice(p.price)})`)}">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-.607z"/></svg>
+            Comprar por WhatsApp
+          </a>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      render(btn.dataset.filter);
+    });
+  });
+
+  document.getElementById("navWhats").href = waLink(GENERAL_MSG);
+  document.getElementById("fabWhats").href = waLink(GENERAL_MSG);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  render();
+</script>
+</body>
+</html>

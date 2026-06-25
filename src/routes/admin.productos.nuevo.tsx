@@ -14,6 +14,26 @@ function NewProduct() {
   const [costo, setCosto] = useState<number>(0);
   const margen = precio && costo ? Math.round(((precio - costo) / precio) * 100) : 0;
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [images, setImages] = useState<{ id: string; url: string; name: string }[]>([]);
+  const [dragOver, setDragOver] = useState(false);
+
+  useEffect(() => () => { images.forEach(i => URL.revokeObjectURL(i.url)); }, [images]);
+
+  const addFiles = (files: FileList | File[] | null) => {
+    if (!files) return;
+    const accepted = Array.from(files).filter(f => ["image/png", "image/jpeg", "image/webp", "image/gif"].includes(f.type));
+    const next = accepted.map(f => ({ id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2,7)}`, url: URL.createObjectURL(f), name: f.name }));
+    setImages(prev => [...prev, ...next]);
+  };
+  const removeImage = (id: string) => {
+    setImages(prev => {
+      const target = prev.find(i => i.id === id);
+      if (target) URL.revokeObjectURL(target.url);
+      return prev.filter(i => i.id !== id);
+    });
+  };
+
   return (
     <>
       <div className="admin-page-head">

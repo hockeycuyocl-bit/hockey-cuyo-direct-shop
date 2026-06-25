@@ -1,37 +1,108 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useRef, useEffect } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState, useRef } from "react";
 import { Upload, Sparkles, Bold, Italic, List, Link2, Image as ImageIcon, X } from "lucide-react";
+import { addProduct } from "@/lib/product-storage";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/productos/nuevo")({
   component: NewProduct,
 });
 
+function fileToDataURL(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result));
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
 function NewProduct() {
+  const navigate = useNavigate();
+
   const [tipo, setTipo] = useState<"fisico" | "digital">("fisico");
   const [stock, setStock] = useState<"infinito" | "limitado">("infinito");
+  const [stockQty, setStockQty] = useState<number>(0);
   const [precio, setPrecio] = useState<number>(0);
   const [promo, setPromo] = useState<number>(0);
   const [costo, setCosto] = useState<number>(0);
   const margen = precio && costo ? Math.round(((precio - costo) / precio) * 100) : 0;
 
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [sku, setSku] = useState("");
+  const [barcode, setBarcode] = useState("");
+  const [weight, setWeight] = useState<number>(0.14);
+  const [depth, setDepth] = useState<number>(30);
+  const [width, setWidth] = useState<number>(30);
+  const [height, setHeight] = useState<number>(30);
+  const [mpn, setMpn] = useState("");
+  const [ageRange, setAgeRange] = useState("adulto");
+  const [gender, setGender] = useState("sin");
+  const [freeShipping, setFreeShipping] = useState(false);
+  const [visible, setVisible] = useState(true);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<{ id: string; url: string; name: string }[]>([]);
   const [dragOver, setDragOver] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  useEffect(() => () => { images.forEach(i => URL.revokeObjectURL(i.url)); }, [images]);
-
-  const addFiles = (files: FileList | File[] | null) => {
+  const addFiles = async (files: FileList | File[] | null) => {
     if (!files) return;
     const accepted = Array.from(files).filter(f => ["image/png", "image/jpeg", "image/webp", "image/gif"].includes(f.type));
-    const next = accepted.map(f => ({ id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2,7)}`, url: URL.createObjectURL(f), name: f.name }));
+    const next = await Promise.all(accepted.map(async f => ({
+      id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2,7)}`,
+      url: await fileToDataURL(f),
+      name: f.name,
+    })));
     setImages(prev => [...prev, ...next]);
   };
   const removeImage = (id: string) => {
-    setImages(prev => {
-      const target = prev.find(i => i.id === id);
-      if (target) URL.revokeObjectURL(target.url);
-      return prev.filter(i => i.id !== id);
-    });
+    setImages(prev => prev.filter(i => i.id !== id));
+  };
+
+  const handleSave = () => {
+    if (!name.trim()) {
+      toast.error("El nombre del producto es obligatorio");
+      return;
+    }
+    if (!precio || precio <= 0) {
+      toast.error("Ingresá un precio de venta válido");
+      return;
+    }
+    setSaving(true);
+    try {
+      addProduct({
+        name: name.trim(),
+        description,
+        price: precio,
+        promoPrice: promo || undefined,
+        cost: costo || undefined,
+        sku: sku || undefined,
+        barcode: barcode || undefined,
+        stockType: stock,
+        stockQty: stock === "limitado" ? stockQty : undefined,
+        productType: tipo,
+        weight: tipo === "fisico" ? weight : undefined,
+        depth: tipo === "fisico" ? depth : undefined,
+        width: tipo === "fisico" ? width : undefined,
+        height: tipo === "fisico" ? height : undefined,
+        mpn: mpn || undefined,
+        ageRange,
+        gender,
+        videoUrl: videoUrl || undefined,
+        images: images.map(i => i.url),
+        freeShipping,
+        visible,
+      });
+      toast.success("Producto guardado");
+      navigate({ to: "/admin/productos" });
+    } catch (err) {
+      console.error(err);
+      toast.error("No se pudo guardar (probablemente las imágenes son muy grandes para localStorage)");
+      setSaving(false);
+    }
   };
 
   return (
@@ -45,7 +116,9 @@ function NewProduct() {
         </div>
         <div className="admin-page-actions">
           <Link to="/admin/productos" className="adm-btn">Cancelar</Link>
-          <button className="adm-btn primary">Guardar producto</button>
+          <button className="adm-btn primary" onClick={handleSave} disabled={saving}>
+            {saving ? "Guardando…" : "Guardar producto"}
+          </button>
         </div>
       </div>
 
@@ -59,7 +132,7 @@ function NewProduct() {
             </div>
             <div className="adm-field">
               <label>Nombre</label>
-              <input className="adm-input" placeholder="Ej: Campera de cuero" defaultValue="Campera de cuero"/>
+              <input className="adm-input" placeholder="Ej: Campera de cuero" value={name} onChange={e=>setName(e.target.value)}/>
             </div>
             <div className="adm-field">
               <label>Descripción</label>
@@ -70,7 +143,7 @@ function NewProduct() {
                 <button title="Link"><Link2 size={14}/></button>
                 <button title="Imagen"><ImageIcon size={14}/></button>
               </div>
-              <textarea className="adm-textarea with-toolbar" placeholder="Detalles, talles, cuidados del material…"/>
+              <textarea className="adm-textarea with-toolbar" placeholder="Detalles, talles, cuidados del material…" value={description} onChange={e=>setDescription(e.target.value)}/>
             </div>
           </div>
 
@@ -114,7 +187,7 @@ function NewProduct() {
             )}
             <div className="adm-field" style={{ marginTop: 14 }}>
               <label>Link para video externo</label>
-              <input className="adm-input" placeholder="https://youtube.com/... o https://vimeo.com/..."/>
+              <input className="adm-input" placeholder="https://youtube.com/... o https://vimeo.com/..." value={videoUrl} onChange={e=>setVideoUrl(e.target.value)}/>
               <span className="hint">Se mostrará como pestaña o reproductor en la tienda.</span>
             </div>
           </div>
@@ -168,7 +241,7 @@ function NewProduct() {
                   <label className="adm-radio"><input type="radio" name="stock" checked={stock==="limitado"} onChange={()=>setStock("limitado")}/> Limitado</label>
                 </div>
                 {stock === "limitado" && (
-                  <input className="adm-input" type="number" placeholder="Unidades disponibles" style={{ marginTop: 8 }}/>
+                  <input className="adm-input" type="number" placeholder="Unidades disponibles" style={{ marginTop: 8 }} value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)}/>
                 )}
               </div>
             </div>
@@ -181,10 +254,10 @@ function NewProduct() {
                   <button className="adm-ai-btn"><Sparkles size={12}/>Generar con IA</button>
                 </div>
                 <div className="adm-row-4">
-                  <div className="adm-field"><label>Peso (kg)</label><input className="adm-input" type="number" defaultValue="0.14"/></div>
-                  <div className="adm-field"><label>Profundidad (cm)</label><input className="adm-input" type="number" defaultValue="30"/></div>
-                  <div className="adm-field"><label>Ancho (cm)</label><input className="adm-input" type="number" defaultValue="30"/></div>
-                  <div className="adm-field"><label>Alto (cm)</label><input className="adm-input" type="number" defaultValue="30"/></div>
+                  <div className="adm-field"><label>Peso (kg)</label><input className="adm-input" type="number" value={weight} onChange={e=>setWeight(+e.target.value)}/></div>
+                  <div className="adm-field"><label>Profundidad (cm)</label><input className="adm-input" type="number" value={depth} onChange={e=>setDepth(+e.target.value)}/></div>
+                  <div className="adm-field"><label>Ancho (cm)</label><input className="adm-input" type="number" value={width} onChange={e=>setWidth(+e.target.value)}/></div>
+                  <div className="adm-field"><label>Alto (cm)</label><input className="adm-input" type="number" value={height} onChange={e=>setHeight(+e.target.value)}/></div>
                 </div>
               </>
             )}
@@ -194,19 +267,19 @@ function NewProduct() {
           <div className="adm-card">
             <h3 className="adm-card-h">Códigos de identificación</h3>
             <div className="adm-row">
-              <div className="adm-field"><label>SKU</label><input className="adm-input" placeholder="HC-0001"/></div>
-              <div className="adm-field"><label>Código de barras</label><input className="adm-input" placeholder="EAN/UPC 13 dígitos"/></div>
+              <div className="adm-field"><label>SKU</label><input className="adm-input" placeholder="HC-0001" value={sku} onChange={e=>setSku(e.target.value)}/></div>
+              <div className="adm-field"><label>Código de barras</label><input className="adm-input" placeholder="EAN/UPC 13 dígitos" value={barcode} onChange={e=>setBarcode(e.target.value)}/></div>
             </div>
           </div>
 
           {/* F: SEO externos */}
           <div className="adm-card">
             <h3 className="adm-card-h">Canales externos (Instagram y Google Shopping)</h3>
-            <div className="adm-field"><label>MPN</label><input className="adm-input" placeholder="Número de pieza del fabricante"/></div>
+            <div className="adm-field"><label>MPN</label><input className="adm-input" placeholder="Número de pieza del fabricante" value={mpn} onChange={e=>setMpn(e.target.value)}/></div>
             <div className="adm-row">
               <div className="adm-field">
                 <label>Rango de edad</label>
-                <select className="adm-select" defaultValue="adulto">
+                <select className="adm-select" value={ageRange} onChange={e=>setAgeRange(e.target.value)}>
                   <option value="0-3m">0 a 3 meses</option>
                   <option value="3-12m">3 a 12 meses</option>
                   <option value="1-5">1 a 5 años</option>
@@ -216,7 +289,7 @@ function NewProduct() {
               </div>
               <div className="adm-field">
                 <label>Sexo</label>
-                <select className="adm-select" defaultValue="sin">
+                <select className="adm-select" value={gender} onChange={e=>setGender(e.target.value)}>
                   <option value="fem">Femenino</option>
                   <option value="mas">Masculino</option>
                   <option value="sin">Sin género</option>
@@ -262,8 +335,8 @@ function NewProduct() {
           <div className="adm-side-card">
             <h4>Opciones finales</h4>
             <div className="adm-check-group">
-              <label className="adm-check"><input type="checkbox"/> Este producto tiene envío gratis</label>
-              <label className="adm-check"><input type="checkbox" defaultChecked/> Mostrar en la tienda</label>
+              <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Este producto tiene envío gratis</label>
+              <label className="adm-check"><input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar en la tienda</label>
             </div>
           </div>
         </div>
@@ -271,7 +344,9 @@ function NewProduct() {
 
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 20 }}>
         <Link to="/admin/productos" className="adm-btn">Cancelar</Link>
-        <button className="adm-btn primary">Guardar producto</button>
+        <button className="adm-btn primary" onClick={handleSave} disabled={saving}>
+          {saving ? "Guardando…" : "Guardar producto"}
+        </button>
       </div>
     </>
   );

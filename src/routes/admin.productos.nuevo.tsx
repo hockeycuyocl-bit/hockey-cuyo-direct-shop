@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Upload, Sparkles, Bold, Italic, List, Link2, Image as ImageIcon } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Upload, Sparkles, Bold, Italic, List, Link2, Image as ImageIcon, X } from "lucide-react";
 
 export const Route = createFileRoute("/admin/productos/nuevo")({
   component: NewProduct,

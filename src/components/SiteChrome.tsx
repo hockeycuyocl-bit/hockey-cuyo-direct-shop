@@ -88,12 +88,8 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-nav">
-        <Link to="/" className="brand-link">
-          <div className="logo-mark">HC</div>
-          <div>
-            <h1 className="brand-h1">hockey cuyo</h1>
-            <p className="brand-p">Tienda oficial</p>
-          </div>
+        <Link to="/" className="brand-link logo-header">
+          <img src={logoAsset.url} alt="Hockey Cuyo" className="logo-img" />
         </Link>
 
         <nav className="nav-desktop">

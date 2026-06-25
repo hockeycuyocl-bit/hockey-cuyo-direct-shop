@@ -78,11 +78,40 @@ function NewProduct() {
           <div className="adm-card">
             <h3 className="adm-card-h">Fotos y video</h3>
             <p className="adm-card-sub">WEBP, PNG, JPEG, GIF. Tamaño mínimo recomendado: 1280px.</p>
-            <div className="adm-upload">
+            <div
+              className={`adm-upload${dragOver ? " dragover" : ""}`}
+              onClick={() => fileInputRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => { e.preventDefault(); setDragOver(false); addFiles(e.dataTransfer.files); }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+            >
               <Upload size={28} style={{ margin: "0 auto 8px" }}/>
               <div style={{ fontSize: 14, color: "var(--a-text)", fontWeight: 600 }}>Arrastrá tus imágenes aquí</div>
               <div style={{ fontSize: 12, marginTop: 4 }}>o hacé clic para seleccionar archivos</div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                multiple
+                style={{ display: "none" }}
+                onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }}
+              />
             </div>
+            {images.length > 0 && (
+              <div className="adm-thumbs">
+                {images.map(img => (
+                  <div key={img.id} className="adm-thumb">
+                    <img src={img.url} alt={img.name}/>
+                    <button type="button" className="adm-thumb-remove" onClick={(e) => { e.stopPropagation(); removeImage(img.id); }} aria-label={`Eliminar ${img.name}`}>
+                      <X size={14}/>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="adm-field" style={{ marginTop: 14 }}>
               <label>Link para video externo</label>
               <input className="adm-input" placeholder="https://youtube.com/... o https://vimeo.com/..."/>

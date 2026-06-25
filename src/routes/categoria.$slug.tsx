@@ -47,7 +47,7 @@ function CategoryPage() {
         <>
           <div className="section-head"><h2>Subcategorías</h2></div>
           <div className="cat-grid">
-            {group.subcategories.map(s => (
+            {group.subcategories.map((s: { slug: string; name: string; image: string }) => (
               <Link key={s.slug} to="/categoria/$slug" params={{ slug: s.slug }} className="cat-card">
                 <img src={s.image} alt={s.name} loading="lazy" />
                 <div className="cat-card-label">{s.name}</div>

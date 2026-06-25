@@ -3,6 +3,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import {
   SECTIONS, BRANDS, WHATSAPP_NUMBER, CONTACT_EMAIL, ADDRESS, waLink,
 } from "@/data/catalog";
+import logoAsset from "@/assets/logo-hockey-cuyo.png.asset.json";
 
 const GENERAL_MSG = "¡Hola Hockey Cuyo! Quiero hacer una consulta.";
 
@@ -87,12 +88,8 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-nav">
-        <Link to="/" className="brand-link">
-          <div className="logo-mark">HC</div>
-          <div>
-            <h1 className="brand-h1">hockey cuyo</h1>
-            <p className="brand-p">Tienda oficial</p>
-          </div>
+        <Link to="/" className="brand-link logo-header">
+          <img src={logoAsset.url} alt="Hockey Cuyo" className="logo-img" />
         </Link>
 
         <nav className="nav-desktop">
@@ -171,12 +168,8 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <div className="brand-link" style={{ textDecoration: "none" }}>
-            <div className="logo-mark">HC</div>
-            <div>
-              <h3 className="brand-h1">hockey cuyo</h3>
-              <p className="brand-p">Mendoza, Argentina</p>
-            </div>
+          <div className="brand-link logo-footer" style={{ textDecoration: "none" }}>
+            <img src={logoAsset.url} alt="Hockey Cuyo" className="logo-img" />
           </div>
           <p style={{ color: "#9a9aa6", fontSize: 13, marginTop: 12 }}>
             Equipamiento profesional para hockey sobre patines y patinaje artístico.

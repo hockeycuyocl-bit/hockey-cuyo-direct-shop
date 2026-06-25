@@ -78,14 +78,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Hockey Cuyo — Tienda de Hockey y Patinaje" },
+      { name: "description", content: "Sticks, patines, protecciones y accesorios para hockey sobre patines y patinaje artístico. Mendoza, Argentina." },
+      { property: "og:title", content: "Hockey Cuyo" },
+      { property: "og:description", content: "Equipamiento profesional para hockey sobre patines y patinaje artístico." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {

@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Toaster } from "@/components/ui/sonner";
 import {
   LayoutDashboard, BarChart3, ShoppingCart, Package, Boxes, Tags, Repeat, Table2,
   CreditCard, Truck, Users, Percent, Megaphone, Store, Plug, Settings, ChevronDown,
@@ -187,6 +188,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         </header>
         <main className="admin-content">{children}</main>
       </div>
+      <Toaster position="top-right" richColors />
     </div>
   );
 }

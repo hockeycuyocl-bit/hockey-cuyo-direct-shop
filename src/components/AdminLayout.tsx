@@ -1,114 +1,153 @@
-import { Link, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, BarChart3, ShoppingCart, Package, CreditCard, Truck,
-  Users, Tag, Megaphone, Store, Grid3x3, Settings, Search, Bell, ChevronDown,
-  Menu, X, LogOut, HelpCircle,
+  LayoutDashboard, BarChart3, ShoppingCart, Package, Boxes, Tags, Repeat, Table2,
+  CreditCard, Truck, Users, Percent, Megaphone, Store, Plug, Settings, ChevronDown,
+  Search, Bell, HelpCircle, Menu, X, Globe, MessageSquare, Mail, ShieldCheck, Languages, Code2, Building2,
 } from "lucide-react";
 
-type Item = {
-  to?: string;
-  label: string;
-  icon?: any;
-  badge?: string | number;
-  tag?: string;
-  children?: Item[];
-};
+type NavChild = { label: string; to: string; tag?: string };
+type NavItem = { label: string; icon: any; to?: string; badge?: number; children?: NavChild[] };
+type NavSection = { title: string; items: NavItem[] };
 
-const NAV: { section: string; items: Item[] }[] = [
+const NAV: NavSection[] = [
   {
-    section: "Inicio",
+    title: "Inicio y estadísticas",
     items: [
-      { to: "/admin", label: "Inicio", icon: LayoutDashboard },
-      { to: "/admin/estadisticas", label: "Estadísticas", icon: BarChart3, tag: "Nuevo" },
+      { label: "Inicio", icon: LayoutDashboard, to: "/admin" },
+      { label: "Estadísticas", icon: BarChart3, to: "/admin/estadisticas" },
     ],
   },
   {
-    section: "Gestión",
+    title: "Gestión",
     items: [
-      { to: "/admin/ventas", label: "Ventas", icon: ShoppingCart, badge: 1 },
+      { label: "Ventas", icon: ShoppingCart, to: "/admin/ventas", badge: 1 },
       {
         label: "Productos", icon: Package, to: "/admin/productos",
         children: [
-          { to: "/admin/productos", label: "Lista de productos" },
-          { to: "/admin/productos/inventario", label: "Inventario" },
-          { to: "/admin/productos/categorias", label: "Categorías" },
-          { to: "/admin/productos/suscripciones", label: "Suscripciones", tag: "Nuevo" },
-          { to: "/admin/productos/precios", label: "Tablas de precios", tag: "Nuevo" },
+          { label: "Lista de productos", to: "/admin/productos" },
+          { label: "Inventario", to: "/admin/productos/inventario" },
+          { label: "Categorías", to: "/admin/productos/categorias" },
+          { label: "Suscripciones", to: "/admin/productos/suscripciones", tag: "Nuevo" },
+          { label: "Tablas de precios", to: "/admin/productos/tablas-precios", tag: "Nuevo" },
         ],
       },
-      { to: "/admin/pago-nube", label: "Pago Nube", icon: CreditCard },
-      { to: "/admin/envio-nube", label: "Envío Nube", icon: Truck, tag: "Nuevo" },
-      { to: "/admin/clientes", label: "Clientes", icon: Users },
-      { to: "/admin/descuentos", label: "Descuentos", icon: Tag },
-      { to: "/admin/marketing", label: "Marketing", icon: Megaphone },
+      { label: "Pago Nube", icon: CreditCard, to: "/admin/pago-nube" },
+      { label: "Envío Nube", icon: Truck, to: "/admin/envio-nube" },
+      { label: "Clientes", icon: Users, to: "/admin/clientes" },
+      { label: "Descuentos", icon: Percent, to: "/admin/descuentos" },
+      { label: "Marketing", icon: Megaphone, to: "/admin/marketing" },
     ],
   },
   {
-    section: "Canales de venta",
+    title: "Canales y aplicaciones",
     items: [
-      { to: "/admin/canales", label: "Canales", icon: Store },
-      { to: "/admin/apps", label: "Tienda de Aplicaciones", icon: Grid3x3 },
+      { label: "Canales", icon: Store, to: "/admin/canales" },
+      { label: "Tienda de aplicaciones", icon: Plug, to: "/admin/aplicaciones" },
     ],
   },
   {
-    section: "Configuración",
+    title: "Configuración",
     items: [
-      { to: "/admin/config", label: "Configuración", icon: Settings },
+      {
+        label: "Pagos y envíos", icon: Settings,
+        children: [
+          { label: "Medios de pago", to: "/admin/config/medios-de-pago" },
+          { label: "Medios de envío", to: "/admin/config/medios-de-envio" },
+          { label: "Centros de distribución", to: "/admin/config/centros-distribucion" },
+        ],
+      },
+      {
+        label: "Comunicación", icon: MessageSquare,
+        children: [
+          { label: "Información de contacto", to: "/admin/config/contacto" },
+          { label: "Botón de WhatsApp", to: "/admin/config/whatsapp" },
+          { label: "E-mails automáticos", to: "/admin/config/emails" },
+        ],
+      },
+      { label: "Checkout", icon: ShieldCheck, to: "/admin/config/checkout" },
+      {
+        label: "Otros", icon: Building2,
+        children: [
+          { label: "Usuarios y notificaciones", to: "/admin/config/usuarios" },
+          { label: "Dominios", to: "/admin/config/dominios" },
+          { label: "Códigos externos", to: "/admin/config/codigos-externos" },
+          { label: "Idiomas y monedas", to: "/admin/config/idiomas" },
+          { label: "Redireccionamientos 301", to: "/admin/config/redirecciones" },
+          { label: "Campos personalizados", to: "/admin/config/campos" },
+        ],
+      },
     ],
   },
 ];
 
+// fallback icons used (Boxes, Tags, Repeat, Table2, Globe, Mail, Languages, Code2)
+void Boxes; void Tags; void Repeat; void Table2; void Globe; void Mail; void Languages; void Code2;
+
 export function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [openMobile, setOpenMobile] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
+    const init: Record<string, boolean> = {};
+    NAV.forEach((s) => s.items.forEach((i) => {
+      if (i.children?.some((c) => pathname.startsWith(c.to))) init[i.label] = true;
+    }));
+    return init;
+  });
 
-  const isActive = (to?: string) =>
-    !!to && (to === "/admin" ? pathname === "/admin" : pathname.startsWith(to));
+  const isActive = (to?: string) => !!to && (to === "/admin" ? pathname === "/admin" : pathname === to || pathname.startsWith(to + "/"));
 
   return (
     <div className="admin-root">
-      <aside className={`admin-sidebar${openMobile ? " open" : ""}`}>
+      {open && <div className="admin-backdrop" onClick={() => setOpen(false)} />}
+      <aside className={`admin-sidebar${open ? " open" : ""}`}>
         <div className="admin-brand">
           <div className="admin-brand-mark">HC</div>
           <div>
             <div className="admin-brand-name">Hockey Cuyo</div>
             <div className="admin-brand-sub">Panel de administración</div>
           </div>
-          <button className="admin-sidebar-close" onClick={() => setOpenMobile(false)} aria-label="Cerrar">
-            <X size={18} />
-          </button>
+          <button className="admin-sidebar-close" onClick={() => setOpen(false)} aria-label="Cerrar"><X size={20}/></button>
         </div>
 
         <nav className="admin-nav">
-          {NAV.map((sec) => (
-            <div key={sec.section} className="admin-nav-section">
-              <div className="admin-nav-title">{sec.section}</div>
-              {sec.items.map((it) => {
-                const Icon = it.icon;
-                const active = isActive(it.to);
-                const hasChildren = it.children && it.children.length > 0;
+          {NAV.map((section) => (
+            <div className="admin-nav-section" key={section.title}>
+              <div className="admin-nav-title">{section.title}</div>
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const hasChildren = !!item.children?.length;
+                const isOpen = expanded[item.label];
+                const active = isActive(item.to) || item.children?.some(c => isActive(c.to));
+
+                const head = (
+                  <>
+                    <Icon size={18}/>
+                    <span>{item.label}</span>
+                    {item.badge != null && <span className="admin-badge">{item.badge}</span>}
+                    {hasChildren && <ChevronDown size={14} className="admin-chev" style={{ transform: isOpen ? "rotate(180deg)" : "none" }}/>}
+                  </>
+                );
+
                 return (
-                  <div key={it.label}>
-                    {it.to ? (
-                      <Link to={it.to} className={`admin-nav-item${active ? " active" : ""}`}>
-                        {Icon && <Icon size={18} />}
-                        <span>{it.label}</span>
-                        {it.tag && <span className="admin-tag">{it.tag}</span>}
-                        {it.badge != null && <span className="admin-badge">{it.badge}</span>}
-                        {hasChildren && <ChevronDown size={14} className="admin-chev" />}
-                      </Link>
+                  <div key={item.label}>
+                    {hasChildren ? (
+                      <button
+                        className={`admin-nav-item${active ? " active" : ""}`}
+                        onClick={() => setExpanded((p) => ({ ...p, [item.label]: !p[item.label] }))}
+                        style={{ width: "100%", background: "transparent", border: 0, textAlign: "left" }}
+                      >
+                        {head}
+                      </button>
                     ) : (
-                      <div className={`admin-nav-item${active ? " active" : ""}`}>
-                        {Icon && <Icon size={18} />}
-                        <span>{it.label}</span>
-                        {hasChildren && <ChevronDown size={14} className="admin-chev" />}
-                      </div>
+                      <Link to={item.to!} className={`admin-nav-item${active ? " active" : ""}`} onClick={() => setOpen(false)}>
+                        {head}
+                      </Link>
                     )}
-                    {hasChildren && active && (
+                    {hasChildren && isOpen && (
                       <div className="admin-nav-children">
-                        {it.children!.map((c) => (
-                          <Link key={c.label} to={c.to!} className={`admin-nav-child${pathname === c.to ? " active" : ""}`}>
+                        {item.children!.map((c) => (
+                          <Link key={c.to} to={c.to} className={`admin-nav-child${isActive(c.to) ? " active" : ""}`} onClick={() => setOpen(false)}>
                             <span>{c.label}</span>
                             {c.tag && <span className="admin-tag">{c.tag}</span>}
                           </Link>
@@ -123,40 +162,31 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         </nav>
 
         <div className="admin-sidebar-foot">
-          <Link to="/" className="admin-nav-item">
-            <LogOut size={18} /><span>Volver a la tienda</span>
-          </Link>
+          <Link to="/" className="admin-nav-item"><Store size={18}/><span>Ver mi tienda</span></Link>
         </div>
       </aside>
 
       <div className="admin-main">
         <header className="admin-topbar">
-          <button className="admin-burger" onClick={() => setOpenMobile(true)} aria-label="Menú">
-            <Menu size={20} />
-          </button>
+          <button className="admin-burger" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu size={20}/></button>
           <div className="admin-search">
-            <Search size={16} />
-            <input placeholder="Buscar productos, pedidos, clientes…" />
+            <Search size={16}/>
+            <input placeholder="Buscar productos, pedidos, clientes…"/>
           </div>
           <div className="admin-top-actions">
-            <button className="admin-icon-btn" aria-label="Ayuda"><HelpCircle size={18} /></button>
-            <button className="admin-icon-btn admin-notif" aria-label="Notificaciones">
-              <Bell size={18} /><span className="admin-dot" />
-            </button>
+            <button className="admin-icon-btn" aria-label="Ayuda"><HelpCircle size={18}/></button>
+            <button className="admin-icon-btn" aria-label="Notificaciones"><Bell size={18}/><span className="admin-dot"/></button>
             <div className="admin-user">
               <div className="admin-avatar">HC</div>
               <div className="admin-user-info">
                 <div className="admin-user-name">Hockey Cuyo</div>
-                <div className="admin-user-mail">admin@hockeycuyo.cl</div>
+                <div className="admin-user-mail">hockeycuyo.cl@gmail.com</div>
               </div>
             </div>
           </div>
         </header>
-
-        <div className="admin-content">{children}</div>
+        <main className="admin-content">{children}</main>
       </div>
-
-      {openMobile && <div className="admin-backdrop" onClick={() => setOpenMobile(false)} />}
     </div>
   );
 }

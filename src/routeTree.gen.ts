@@ -12,9 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as EnviosRouteImport } from './routes/envios'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as MarcaSlugRouteImport } from './routes/marca.$slug'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
+import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminProductosIndexRouteImport } from './routes/admin.productos.index'
+import { Route as AdminProductosNuevoRouteImport } from './routes/admin.productos.nuevo'
 
 const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
   id: '/sobre-nosotros',
@@ -31,10 +36,20 @@ const ContactoRoute = ContactoRouteImport.update({
   path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const MarcaSlugRoute = MarcaSlugRouteImport.update({
   id: '/marca/$slug',
@@ -46,61 +61,105 @@ const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   path: '/categoria/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSplatRoute = AdminSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProductosIndexRoute = AdminProductosIndexRouteImport.update({
+  id: '/productos/',
+  path: '/productos/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProductosNuevoRoute = AdminProductosNuevoRouteImport.update({
+  id: '/productos/nuevo',
+  path: '/productos/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
+  '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/productos/nuevo': typeof AdminProductosNuevoRoute
+  '/admin/productos/': typeof AdminProductosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
+  '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/productos/nuevo': typeof AdminProductosNuevoRoute
+  '/admin/productos': typeof AdminProductosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
+  '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/productos/nuevo': typeof AdminProductosNuevoRoute
+  '/admin/productos/': typeof AdminProductosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/contacto'
     | '/envios'
     | '/sobre-nosotros'
+    | '/admin/$'
     | '/categoria/$slug'
     | '/marca/$slug'
+    | '/admin/'
+    | '/admin/productos/nuevo'
+    | '/admin/productos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contacto'
     | '/envios'
     | '/sobre-nosotros'
+    | '/admin/$'
     | '/categoria/$slug'
     | '/marca/$slug'
+    | '/admin'
+    | '/admin/productos/nuevo'
+    | '/admin/productos'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/contacto'
     | '/envios'
     | '/sobre-nosotros'
+    | '/admin/$'
     | '/categoria/$slug'
     | '/marca/$slug'
+    | '/admin/'
+    | '/admin/productos/nuevo'
+    | '/admin/productos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContactoRoute: typeof ContactoRoute
   EnviosRoute: typeof EnviosRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
@@ -131,12 +190,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/marca/$slug': {
       id: '/marca/$slug'
@@ -152,11 +225,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/$': {
+      id: '/admin/$'
+      path: '/$'
+      fullPath: '/admin/$'
+      preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/productos/': {
+      id: '/admin/productos/'
+      path: '/productos'
+      fullPath: '/admin/productos/'
+      preLoaderRoute: typeof AdminProductosIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/productos/nuevo': {
+      id: '/admin/productos/nuevo'
+      path: '/productos/nuevo'
+      fullPath: '/admin/productos/nuevo'
+      preLoaderRoute: typeof AdminProductosNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminSplatRoute: typeof AdminSplatRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminProductosNuevoRoute: typeof AdminProductosNuevoRoute
+  AdminProductosIndexRoute: typeof AdminProductosIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminSplatRoute: AdminSplatRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminProductosNuevoRoute: AdminProductosNuevoRoute,
+  AdminProductosIndexRoute: AdminProductosIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContactoRoute: ContactoRoute,
   EnviosRoute: EnviosRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,

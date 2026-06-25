@@ -168,12 +168,8 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <div className="brand-link" style={{ textDecoration: "none" }}>
-            <div className="logo-mark">HC</div>
-            <div>
-              <h3 className="brand-h1">hockey cuyo</h3>
-              <p className="brand-p">Mendoza, Argentina</p>
-            </div>
+          <div className="brand-link logo-footer" style={{ textDecoration: "none" }}>
+            <img src={logoAsset.url} alt="Hockey Cuyo" className="logo-img" />
           </div>
           <p style={{ color: "#9a9aa6", fontSize: 13, marginTop: 12 }}>
             Equipamiento profesional para hockey sobre patines y patinaje artístico.

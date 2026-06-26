@@ -77,18 +77,10 @@ function Hero() {
           <span className="dot" /> Mendoza · Envíos a todo el país
         </motion.span>
 
-        <motion.h1
-          className="hero-title"
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
-        >
-          HOCKEY <span className="accent">CUYO</span>
-        </motion.h1>
-
         <motion.p
-          className="hero-sub"
+          className="hero-sub hero-sub-lead"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.8 }}
+          transition={{ delay: 0.25, duration: 0.8 }}
         >
           La tienda especializada en hockey sobre patines más innovadora de Argentina.
           Equipamiento profesional para potencia, velocidad y precisión.
@@ -97,14 +89,14 @@ function Hero() {
         <motion.div
           className="hero-actions"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.7 }}
+          transition={{ delay: 0.45, duration: 0.7 }}
         >
-          <a href="#productos" className="btn-primary">
-            Comprar ahora
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <a href={waLink("¡Hola Hockey Cuyo! Quiero hacer una consulta.")} target="_blank" rel="noopener noreferrer" className="btn-wa-primary">
+            <WhatsIcon size={18} /> Hablar por WhatsApp
           </a>
-          <a href={waLink("¡Hola Hockey Cuyo! Quiero hacer una consulta.")} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-            <WhatsIcon size={16} /> Hablar por WhatsApp
+          <a href="#productos" className="btn-ghost">
+            Ver productos
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </motion.div>
       </motion.div>

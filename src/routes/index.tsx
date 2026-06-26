@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { SECTIONS, PRODUCTS, BRANDS, waLink } from "@/data/catalog";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
+import heroVideoAsset from "@/assets/hero-hockey-rink-aerial.mp4.asset.json";
+import heroPosterAsset from "@/assets/hero-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,7 +19,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const HERO_VIDEO = "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4";
+const HERO_VIDEO = heroVideoAsset.url;
 
 function HeroParticles() {
   const particles = useMemo(
@@ -53,7 +55,7 @@ function Hero() {
       <video
         className="hero-video"
         autoPlay muted loop playsInline preload="metadata"
-        poster="https://images.unsplash.com/photo-1580748141549-71748dbe0bdc?auto=format&fit=crop&w=1920&q=80"
+        poster={heroPosterAsset.url}
       >
         <source src={HERO_VIDEO} type="video/mp4" />
       </video>

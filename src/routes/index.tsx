@@ -55,7 +55,7 @@ function Hero() {
       <video
         className="hero-video"
         autoPlay muted loop playsInline preload="metadata"
-        poster="https://images.unsplash.com/photo-1580748141549-71748dbe0bdc?auto=format&fit=crop&w=1920&q=80"
+        poster={heroPosterAsset.url}
       >
         <source src={HERO_VIDEO} type="video/mp4" />
       </video>

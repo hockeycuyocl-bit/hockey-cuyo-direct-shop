@@ -32,16 +32,17 @@ function CategoryPage() {
 
   return (
     <>
-      <section className="hero" style={{ paddingTop: 40, paddingBottom: 16 }}>
-        <div className="hero-glow" />
+      <section className="page-hero">
         <div className="breadcrumb">
           <Link to="/">Inicio</Link> {" / "}
           {parentSection && <>{parentSection.name} / </>}
           <span style={{ color: "#fff" }}>{meta.name}</span>
         </div>
-        <h2 className="hero-h2" style={{ fontSize: "clamp(28px,4vw,42px)" }}>{meta.name}</h2>
-        {meta.description && <p className="hero-p">{meta.description}</p>}
+        <span className="eyebrow">Categoría</span>
+        <h2>{meta.name}</h2>
+        {meta.description && <p>{meta.description}</p>}
       </section>
+
 
       {group && group.subcategories.length > 1 && (
         <>

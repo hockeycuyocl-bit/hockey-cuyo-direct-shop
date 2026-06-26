@@ -22,17 +22,17 @@ function BrandPage() {
   const products = getProductsByBrand(brand.slug);
   return (
     <>
-      <section className="hero" style={{ paddingTop: 40, paddingBottom: 16 }}>
-        <div className="hero-glow" />
+      <section className="page-hero">
         <div className="breadcrumb">
           <Link to="/">Inicio</Link> / Marcas / <span style={{ color: "#fff" }}>{brand.name}</span>
         </div>
         <span className="eyebrow">Marca</span>
-        <h2 className="hero-h2" style={{ fontSize: "clamp(28px,4vw,42px)" }}>{brand.name}</h2>
-        <p className="hero-p">Todos los productos {brand.name} disponibles en nuestro catálogo.</p>
+        <h2>{brand.name}</h2>
+        <p>Todos los productos {brand.name} disponibles en nuestro catálogo.</p>
       </section>
       <div className="section-head"><h2>Productos</h2></div>
       <ProductGrid items={products} />
     </>
   );
 }
+

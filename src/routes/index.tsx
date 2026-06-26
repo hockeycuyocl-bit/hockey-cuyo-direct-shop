@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { SECTIONS, PRODUCTS, BRANDS, waLink } from "@/data/catalog";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
+import heroVideoAsset from "@/assets/hero-hockey-rink-aerial.mp4.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const HERO_VIDEO = "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4";
+const HERO_VIDEO = heroVideoAsset.url;
 
 function HeroParticles() {
   const particles = useMemo(

@@ -5,6 +5,7 @@ import { SECTIONS, PRODUCTS, BRANDS, waLink } from "@/data/catalog";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
 import heroVideoAsset from "@/assets/hero-hockey-rink-aerial.mp4.asset.json";
+import heroPosterAsset from "@/assets/hero-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({

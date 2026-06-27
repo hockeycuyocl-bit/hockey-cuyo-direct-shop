@@ -252,11 +252,14 @@ export function WhatsFab() {
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="site-root">
-      <SiteHeader />
-      <main>{children}</main>
-      <SiteFooter />
-      <WhatsFab />
-    </div>
+    <CartProvider>
+      <div className="site-root">
+        <SiteHeader />
+        <main>{children}</main>
+        <SiteFooter />
+        <WhatsFab />
+        <CartDrawer />
+      </div>
+    </CartProvider>
   );
 }

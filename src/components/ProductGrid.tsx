@@ -19,14 +19,17 @@ export function ProductCard({ p }: { p: Product }) {
     return `¡Hola Hockey Cuyo! Quiero comprar: ${p.name}${v} (${qty} x ${formatPrice(p.price)})`;
   };
 
+  const slug = productSlug(p.name);
   return (
     <article className="card">
-      <div className="card-img">
+      <Link to="/producto/$slug" params={{ slug }} className="card-img card-img-link">
         {p.badge && <span className="badge">{p.badge}</span>}
         <img src={p.img} alt={p.name} loading="lazy" />
-      </div>
+      </Link>
       <div className="card-body">
-        <h3 className="card-h3">{p.name}</h3>
+        <Link to="/producto/$slug" params={{ slug }} className="card-h3-link">
+          <h3 className="card-h3">{p.name}</h3>
+        </Link>
         <p className="card-desc">{p.desc}</p>
         <div className="features">
           {p.features.map(f => <span key={f} className="feature">{f}</span>)}

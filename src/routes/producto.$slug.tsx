@@ -47,7 +47,7 @@ function ProductPage() {
 
           {product.features.length > 0 && (
             <ul className="pd-features">
-              {product.features.map(f => <li key={f}>{f}</li>)}
+              {product.features.map((f: string) => <li key={f}>{f}</li>)}
             </ul>
           )}
 

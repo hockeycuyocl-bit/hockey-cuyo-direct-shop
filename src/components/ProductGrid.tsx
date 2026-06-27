@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { formatPrice, waLink, type Product } from "@/data/catalog";
+import { Link } from "@tanstack/react-router";
+import { formatPrice, productSlug, waLink, type Product } from "@/data/catalog";
 import { WhatsIcon } from "./SiteChrome";
 import { useCart, parseVariants } from "@/lib/cart";
 

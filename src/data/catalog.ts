@@ -292,3 +292,15 @@ export function getCategoryMeta(slug: string): { name: string; image: string; de
   if (sub) return { name: sub.name, image: sub.image, description: sub.description };
   return undefined;
 }
+
+export function productSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function findProductBySlug(slug: string): Product | undefined {
+  return PRODUCTS.find(p => productSlug(p.name) === slug);
+}

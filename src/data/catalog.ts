@@ -7,7 +7,7 @@ export const ADDRESS = "Ruta de los Patos 2657, Maipú, Mendoza";
 export const waLink = (msg: string) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
-export const formatPrice = (n: number) => "$" + n.toLocaleString("es-AR");
+export const formatPrice = (n: number | string) => "$" + Number(n).toLocaleString("es-AR");
 
 // Imágenes genéricas por slug (Unsplash placeholders temáticos)
 const IMG = {
@@ -300,6 +300,8 @@ export function productSlug(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+export const generateSlug = productSlug;
 
 export function findProductBySlug(slug: string): Product | undefined {
   return PRODUCTS.find(p => productSlug(p.name) === slug);

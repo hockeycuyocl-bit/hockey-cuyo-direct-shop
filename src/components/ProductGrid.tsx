@@ -6,7 +6,7 @@ import { useCart, parseVariants } from "@/lib/cart";
 
 export function ProductCard({ p }: { p: Product }) {
   const { add } = useCart();
-  const variants = parseVariants(p.features);
+  const variants = parseVariants(p.features || []);
   const [variant, setVariant] = useState<string>(variants[0] ?? "");
   const [qty, setQty] = useState(1);
 
@@ -32,7 +32,7 @@ export function ProductCard({ p }: { p: Product }) {
         </Link>
         <p className="card-desc">{p.desc}</p>
         <div className="features">
-          {p.features.map(f => <span key={f} className="feature">{f}</span>)}
+          {(p.features || []).map(f => <span key={f} className="feature">{f}</span>)}
         </div>
 
         {variants.length > 0 && (

@@ -21,7 +21,7 @@ export const Route = createFileRoute("/producto/$slug")({
 
 function ProductPage() {
   const { product } = Route.useLoaderData();
-  const variants = parseVariants(product.features);
+  const variants = parseVariants(product.features || []);
   const [variant, setVariant] = useState<string>(variants[0] ?? "");
 
   const talleTxt = variants.length && variant ? variant : "—";
@@ -45,9 +45,9 @@ function ProductPage() {
           <div className="pd-price">{formatPrice(product.price)}</div>
           <p className="pd-desc">{product.desc}</p>
 
-          {product.features.length > 0 && (
+          {(product.features || []).length > 0 && (
             <ul className="pd-features">
-              {product.features.map((f: string) => <li key={f}>{f}</li>)}
+              {(product.features || []).map((f: string) => <li key={f}>{f}</li>)}
             </ul>
           )}
 

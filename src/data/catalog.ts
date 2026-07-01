@@ -301,7 +301,15 @@ export function productSlug(name: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-export const generateSlug = productSlug;
+export function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
 
 export function findProductBySlug(slug: string): Product | undefined {
   return PRODUCTS.find(p => productSlug(p.name) === slug);

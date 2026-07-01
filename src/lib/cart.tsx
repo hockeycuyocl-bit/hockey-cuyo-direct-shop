@@ -104,7 +104,7 @@ export function useCart() {
 }
 
 /** Detecta variantes/talles dentro de las features del producto */
-export function parseVariants(features: string[]): string[] {
+export function parseVariants(features: string[] = []): string[] {
   for (const f of features) {
     const clean = f.replace(/talles?\s*/i, "").trim();
     // patrón S/M/L o XS/S/M/L/XL

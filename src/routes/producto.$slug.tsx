@@ -1,219 +1,81 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
-import { formatPrice, waLink } from "@/data/catalog";
-import { getProductBySlug, getProducts } from "@/services/products";
-import { useCart } from "@/components/CartContext";
-import { WhatsIcon } from "@/components/SiteChrome";
-import { LeadModal } from "@/components/LeadModal";
-import { ProductCard } from "@/components/ProductGrid";
-import { Minus, Plus } from "lucide-react";
+import { useState } from "react";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { findProductBySlug, formatPrice, WHATSAPP_NUMBER } from "@/data/catalog";
+import { parseVariants } from "@/lib/cart";
 
 export const Route = createFileRoute("/producto/$slug")({
-  loader: async ({ params }) => {
-    const product = await getProductBySlug(params.slug);
-    const allProducts = await getProducts(true);
-    return { product, allProducts };
+  loader: ({ params }) => {
+    const product = findProductBySlug(params.slug);
+    if (!product) throw notFound();
+    return { product };
   },
+  head: ({ loaderData }) => ({
+    meta: [
+      { title: `${loaderData?.product.name ?? "Producto"} — Hockey Cuyo` },
+      { name: "description", content: loaderData?.product.desc ?? "" },
+      { property: "og:image", content: loaderData?.product.img ?? "" },
+    ],
+  }),
   component: ProductPage,
-  head: (ctx) => {
-    const p = ctx.loaderData?.product;
-    if (!p) return { meta: [{ title: "Producto no encontrado" }] };
-    return {
-      meta: [
-        { title: `${p.name} — Hockey Cuyo` },
-        { name: "description", content: p.description || "" },
-      ]
-    };
-  }
 });
 
-function parseSizes(features: string[], pSizes?: string[]): string[] {
-  if (pSizes && pSizes.length > 0) return pSizes;
-  
-  for (const f of features) {
-    if (f.includes("S/M/L/XL") || f.includes("XS-XL") || f.includes("S,M,L,XL")) return ["S", "M", "L", "XL"];
-    if (f.includes("S/M/L")) return ["S", "M", "L"];
-    if (f.includes("M/L/XL")) return ["M", "L", "XL"];
-    if (f.includes("M/L")) return ["M", "L"];
-    
-    // Check for number ranges like "35-45"
-    const match = f.match(/(\d{2})-(\d{2})/);
-    if (match) {
-      const start = parseInt(match[1]);
-      const end = parseInt(match[2]);
-      if (start > 0 && end > start && end - start <= 20) {
-        return Array.from({ length: end - start + 1 }, (_, i) => (start + i).toString());
-      }
-    }
-  }
-  return [];
-}
-
 function ProductPage() {
-  const { slug } = Route.useParams();
-  const { product, allProducts } = Route.useLoaderData();
-  const { addToCart } = useCart();
-  
-  const [size, setSize] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  
-  const productImages = product?.images?.length ? product.images : (product ? [product.img] : []);
-  
-  const [selectedImage, setSelectedImage] = useState("");
-  
-  useEffect(() => {
-    setSelectedImage("");
-  }, [slug]);
+  const { product } = Route.useLoaderData();
+  const variants = parseVariants(product.features);
+  const [variant, setVariant] = useState<string>(variants[0] ?? "");
 
-  const displayImage = selectedImage || (productImages.length > 0 ? productImages[0] : "");
-
-  const related = useMemo(() => {
-    if (!product) return [];
-    let list = allProducts.filter(p => p.categorySlug === product.categorySlug && p.slug !== product.slug);
-    if (list.length === 0) {
-      list = allProducts.filter(p => p.slug !== product.slug).sort(() => 0.5 - Math.random());
-    }
-    return list.slice(0, 4);
-  }, [allProducts, product]);
-
-  if (!product) {
-    return (
-      <div style={{ textAlign: "center", padding: "100px 24px", minHeight: "60vh" }}>
-        <h1>Producto no encontrado</h1>
-        <p style={{ color: "var(--muted)", marginBottom: 24 }}>El producto que buscás no existe o fue eliminado.</p>
-        <Link to="/" className="adm-btn">Volver al inicio</Link>
-      </div>
-    );
-  }
-
-  const features = (product as any).features || [];
-  const sizes = parseSizes(features, product.sizes);
-  const displayPrice = product.promoPrice || product.price;
-
-  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
-
-  const handleBuyWa = (customerName: string, email: string) => {
-    let text = `¡Hola Hockey Cuyo! Quiero comprar:\n\n*Datos del cliente:*\nNombre: ${customerName}\nEmail: ${email}\n\n*Pedido:*\n`;
-    text += `• ${product.name}, `;
-    if (sizes.length > 0 && size) text += `Talle: ${size}, `;
-    text += `Cantidad: ${quantity}, Precio: ${formatPrice(displayPrice * quantity)}`;
-    window.open(waLink(text), "_blank");
-    setIsLeadModalOpen(false);
-  };
-
-  const handleAddToCart = () => {
-    if (sizes.length > 0 && !size) {
-      alert("Por favor, elegí un talle");
-      return;
-    }
-    addToCart(product, size, quantity);
-  };
+  const talleTxt = variants.length && variant ? variant : "—";
+  const msg = `¡Hola Hockey Cuyo! Me interesa: ${product.name}, Talle: ${talleTxt}, Precio: ${formatPrice(product.price)}`;
+  const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
   return (
-    <motion.div 
-      className="product-page"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="product-gallery" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ position: "relative", width: "100%", height: 450, background: "var(--bg-2)", borderRadius: 12, overflow: "hidden", display: "grid", placeItems: "center" }}>
-          {product.badge && <span className="badge" style={{ position: "absolute", top: 16, left: 16, zIndex: 10 }}>{product.badge}</span>}
-          {displayImage ? (
-            <img src={displayImage} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-          ) : (
-            <div style={{ width: "100%", height: "100%", background: "#252525", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>
-              Sin imagen
-            </div>
-          )}
+    <section className="product-detail">
+      <div className="breadcrumb">
+        <Link to="/">Inicio</Link> / <span style={{ color: "#fff" }}>{product.name}</span>
+      </div>
+
+      <div className="pd-grid">
+        <div className="pd-img-wrap">
+          {product.badge && <span className="badge">{product.badge}</span>}
+          <img src={product.img} alt={product.name} />
         </div>
-        {productImages.length > 1 && (
-          <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8 }}>
-            {productImages.map((url, i) => (
-              <button 
-                key={i} 
-                onClick={() => setSelectedImage(url)}
-                style={{ 
-                  width: 80, height: 80, borderRadius: 8, overflow: "hidden", border: displayImage === url ? "2px solid var(--primary)" : "1px solid var(--border)", 
-                  padding: 0, background: "none", cursor: "pointer", flexShrink: 0
-                }}
+
+        <div className="pd-info">
+          <h1 className="pd-title">{product.name}</h1>
+          <div className="pd-price">{formatPrice(product.price)}</div>
+          <p className="pd-desc">{product.desc}</p>
+
+          {product.features.length > 0 && (
+            <ul className="pd-features">
+              {product.features.map((f: string) => <li key={f}>{f}</li>)}
+            </ul>
+          )}
+
+          {variants.length > 0 && (
+            <div className="variant-row" style={{ marginTop: 24 }}>
+              <label className="variant-label">Talle / Variante</label>
+              <select
+                className="variant-select"
+                value={variant}
+                onChange={(e) => setVariant(e.target.value)}
               >
-                <img src={url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="product-info">
-        <h1>{product.name}</h1>
-        <div className="product-price">
-          {formatPrice(displayPrice)}
-          {product.promoPrice && (
-            <span style={{ textDecoration: "line-through", color: "var(--muted)", fontSize: 20, marginLeft: 12 }}>
-              {formatPrice(product.price)}
-            </span>
-          )}
-        </div>
-        
-        <p className="product-desc">{product.description}</p>
-        
-        <div className="features" style={{ marginBottom: 32 }}>
-          {features.map((f: string) => <span key={f} className="feature">{f}</span>)}
-        </div>
-
-        {sizes.length > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <h4 style={{ margin: "0 0 12px" }}>Elegí tu talle:</h4>
-            <div className="size-selector">
-              {sizes.map(s => (
-                <button 
-                  key={s} 
-                  className={`size-btn ${size === s ? "active" : ""}`}
-                  onClick={() => setSize(s)}
-                >
-                  {s}
-                </button>
-              ))}
+                {variants.map(v => <option key={v} value={v}>{v}</option>)}
+              </select>
             </div>
-          </div>
-        )}
+          )}
 
-        <div style={{ marginBottom: 24 }}>
-          <h4 style={{ margin: "0 0 12px" }}>Cantidad:</h4>
-          <div className="cart-qty-ctrl" style={{ width: "fit-content", padding: "8px 12px" }}>
-            <button className="cart-qty-btn" onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={16}/></button>
-            <span style={{ fontSize: 18, width: 30, textAlign: "center" }}>{quantity}</span>
-            <button className="cart-qty-btn" onClick={() => setQuantity(quantity + 1)}><Plus size={16}/></button>
-          </div>
+          <a
+            href={waHref}
+            target="_blank" rel="noopener noreferrer"
+            className="pd-wa-btn"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+            </svg>
+            Consultar por WhatsApp
+          </a>
         </div>
-
-        <button className="add-to-cart-btn" onClick={handleAddToCart}>
-          Agregar al carrito
-        </button>
-        
-        <button className="btn-wa-primary" style={{ width: "100%", justifyContent: "center", padding: 16 }} onClick={() => setIsLeadModalOpen(true)}>
-          <WhatsIcon size={20} /> Comprar por WhatsApp
-        </button>
       </div>
-
-      <LeadModal 
-        isOpen={isLeadModalOpen} 
-        onClose={() => setIsLeadModalOpen(false)} 
-        onConfirm={handleBuyWa} 
-      />
-
-      {related.length > 0 && (
-        <div style={{ gridColumn: "1 / -1", marginTop: 48, borderTop: "1px solid var(--border)", paddingTop: 40 }}>
-          <h2 style={{ fontSize: 28, marginBottom: 24 }}>Productos relacionados</h2>
-          <div className="products">
-            {related.map(p => (
-              <ProductCard key={p.slug} p={p} />
-            ))}
-          </div>
-        </div>
-      )}
-    </motion.div>
+    </section>
   );
 }

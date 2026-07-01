@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as EnviosRouteImport } from './routes/envios'
+import { Route as CustomLabRouteImport } from './routes/custom-lab'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,6 +33,11 @@ const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
 const EnviosRoute = EnviosRouteImport.update({
   id: '/envios',
   path: '/envios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomLabRoute = CustomLabRouteImport.update({
+  id: '/custom-lab',
+  path: '/custom-lab',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
+  '/custom-lab': typeof CustomLabRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/custom-lab': typeof CustomLabRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
+  '/custom-lab': typeof CustomLabRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contacto'
+    | '/custom-lab'
     | '/envios'
     | '/sobre-nosotros'
     | '/admin/$'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contacto'
+    | '/custom-lab'
     | '/envios'
     | '/sobre-nosotros'
     | '/admin/$'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contacto'
+    | '/custom-lab'
     | '/envios'
     | '/sobre-nosotros'
     | '/admin/$'
@@ -197,6 +209,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   ContactoRoute: typeof ContactoRoute
+  CustomLabRoute: typeof CustomLabRoute
   EnviosRoute: typeof EnviosRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       path: '/envios'
       fullPath: '/envios'
       preLoaderRoute: typeof EnviosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-lab': {
+      id: '/custom-lab'
+      path: '/custom-lab'
+      fullPath: '/custom-lab'
+      preLoaderRoute: typeof CustomLabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   ContactoRoute: ContactoRoute,
+  CustomLabRoute: CustomLabRoute,
   EnviosRoute: EnviosRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,

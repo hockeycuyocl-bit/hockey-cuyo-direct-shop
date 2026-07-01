@@ -1,16 +1,12 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useRef } from "react";
-import { Upload, Sparkles, Bold, Italic, List, Link2, Image as ImageIcon, X } from "lucide-react";
-import { addProduct } from "@/lib/product-storage";
-import { toast } from "sonner";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { useState, useRef, useEffect } from "react";
+import { updateProduct, getProductById, uploadProductImage, deleteAllProductImages } from "@/services/products";
+import { Sparkles, X, Upload, Bold, Italic, List, Link2, Image as ImageIcon } from "lucide-react";
 import { SECTIONS, BRANDS } from "@/data/catalog";
-import { createProduct, uploadProductImage } from "@/services/products";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 import { VariantsDrawer } from "@/components/VariantsDrawer";
 import { CategorySelector } from "@/components/CategorySelector";
-
-export const Route = createFileRoute("/admin/productos/nuevo")({
-  component: NewProduct,
-});
 
 function fileToDataURL(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -21,32 +17,47 @@ function fileToDataURL(file: File): Promise<string> {
   });
 }
 
-function NewProduct() {
-  const navigate = useNavigate();
+export const Route = createFileRoute("/admin/productos/editar/$id")({
+  component: EditarProducto,
+});
 
-  const [tipo, setTipo] = useState<"fisico" | "digital">("fisico");
-  const [stock, setStock] = useState<"infinito" | "limitado">("infinito");
-  const [stockQty, setStockQty] = useState<number>(0);
-  const [precio, setPrecio] = useState<number>(0);
-  const [promo, setPromo] = useState<number>(0);
-  const [costo, setCosto] = useState<number>(0);
-  const margen = precio && costo ? Math.round(((precio - costo) / precio) * 100) : 0;
-
+function EditarProducto() {
+  const { id } = Route.useParams();
+  const router = useRouter();
+  
+  // Basic
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [promoPrice, setPromoPrice] = useState<number>();
+  const [costo, setCosto] = useState<number>();
   const [videoUrl, setVideoUrl] = useState("");
+  const [images, setImages] = useState<{ id: string; url: string; name: string; file?: File }[]>([]);
+  const [dragOver, setDragOver] = useState(false);
+
+  // Logistica/Stock
+  const [tipo, setTipo] = useState<"fisico"|"digital">("fisico");
+  const [stock, setStock] = useState<"infinito"|"limitado">("infinito");
+  const [stockQty, setStockQty] = useState<number>();
+  const [weight, setWeight] = useState<number>();
+  const [depth, setDepth] = useState<number>();
+  const [width, setWidth] = useState<number>();
+  const [height, setHeight] = useState<number>();
+
+  // Identificadores
   const [sku, setSku] = useState("");
   const [barcode, setBarcode] = useState("");
-  const [weight, setWeight] = useState<number>(0.14);
-  const [depth, setDepth] = useState<number>(30);
-  const [width, setWidth] = useState<number>(30);
-  const [height, setHeight] = useState<number>(30);
   const [mpn, setMpn] = useState("");
-  const [ageRange, setAgeRange] = useState("adulto");
-  const [gender, setGender] = useState("sin");
+  
+  // SEO
+  const [ageRange, setAgeRange] = useState("");
+  const [gender, setGender] = useState("");
+
+  // Opciones
   const [freeShipping, setFreeShipping] = useState(false);
   const [visible, setVisible] = useState(true);
   
+  // Custom
   const [categorySlug, setCategorySlug] = useState("");
   const [brandSlug, setBrandSlug] = useState("");
   const [sizes, setSizes] = useState<string[]>([]);
@@ -54,10 +65,8 @@ function NewProduct() {
   const [badge, setBadge] = useState("");
   const [isVariantsDrawerOpen, setIsVariantsDrawerOpen] = useState(false);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<{ id: string; url: string; name: string; file?: File }[]>([]);
-  const [dragOver, setDragOver] = useState(false);
   const [saving, setSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = async (files: FileList | File[] | null) => {
     if (!files) return;
@@ -66,7 +75,7 @@ function NewProduct() {
       id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2,7)}`,
       url: await fileToDataURL(f),
       name: f.name,
-      file: f,
+      file: f
     })));
     setImages(prev => [...prev, ...next]);
   };
@@ -81,48 +90,88 @@ function NewProduct() {
     });
   };
 
+  useEffect(() => {
+    let mounted = true;
+    getProductById(id).then(p => {
+      if (!mounted) return;
+      if (p) {
+        setName(p.name);
+        setDescription(p.description);
+        setPrice(p.price);
+        setPromoPrice(p.promoPrice);
+        setCosto(undefined); // Removed cost
+        setVideoUrl(""); // Removed videoUrl
+        setImages((p.images || []).map((url, i) => ({
+          id: `img-${i}-${Math.random().toString(36).slice(2,7)}`,
+          url,
+          name: `imagen-${i}`
+        })));
+        setTipo(p.stockType === "digital" ? "digital" : "fisico");
+        setStock(p.stockType === "limitado" ? "limitado" : "infinito");
+        setStockQty(p.stockQty);
+        setSku(p.sku || "");
+        setBarcode(""); // Removed barcode
+        setMpn(""); // Removed mpn
+        setAgeRange(""); // Removed ageRange
+        setGender(""); // Removed gender
+        setFreeShipping(p.freeShipping);
+        setVisible(p.visible);
+        setCategorySlug(p.categorySlug || "");
+        setBrandSlug(p.brandSlug || "");
+        setSizes(p.sizes || []);
+        setColors(p.colors || []);
+        setBadge(p.badge || "");
+      } else {
+        toast.error("Producto no encontrado");
+        router.navigate({ to: "/admin/productos" });
+      }
+    });
+    return () => { mounted = false; };
+  }, [id, router]);
+
   const handleSave = async () => {
-    if (!name.trim()) {
-      toast.error("El nombre del producto es obligatorio");
-      return;
-    }
-    if (!precio || precio <= 0) {
-      toast.error("Ingresá un precio de venta válido");
+    if (!name || !price) {
+      toast.error("Completá al menos el nombre y el precio.");
       return;
     }
     setSaving(true);
     try {
-      const product = await createProduct({
-        name: name.trim(),
-        description,
-        price: precio,
-        promoPrice: promo || undefined,
-        sku: sku || undefined,
+      await updateProduct(id, {
+        name, description, price, promoPrice, sku,
+        categorySlug: categorySlug || undefined,
+        brandSlug: brandSlug || undefined,
+        sizes: sizes.length > 0 ? sizes : undefined,
+        colors: colors.length > 0 ? colors : undefined,
+        badge: badge || undefined,
         stockType: stock,
         stockQty: stock === "limitado" ? stockQty : undefined,
-        visible,
-        freeShipping,
-        categorySlug,
-        brandSlug,
-        badge,
-        sizes,
-        colors
+        freeShipping, visible,
       });
-      
-      if (product && images.length > 0) {
-        for (let i = 0; i < images.length; i++) {
-          const img = images[i];
+
+      if (images.length >= 0) {
+        await deleteAllProductImages(id);
+        let i = 0;
+        for (const img of images) {
           if (img.file) {
-            await uploadProductImage(img.file, product.id, i);
+            await uploadProductImage(img.file, id, i);
+          } else {
+            await supabase.from("product_images").insert([{
+              product_id: id,
+              url: img.url,
+              order_index: i
+            }]);
           }
+          i++;
         }
       }
-      
-      toast.success("Producto guardado");
-      navigate({ to: "/admin/productos" });
+
+      toast.success("Producto actualizado");
+      setTimeout(() => {
+        router.navigate({ to: "/admin/productos" });
+      }, 400);
     } catch (err) {
       console.error(err);
-      const msg = err instanceof Error ? err.message : "No se pudo guardar el producto en Supabase";
+      const msg = err instanceof Error ? err.message : "Error al actualizar";
       toast.error(msg);
       setSaving(false);
     }
@@ -132,30 +181,16 @@ function NewProduct() {
     <>
       <div className="admin-page-head">
         <div>
-          <div style={{ fontSize: 12, color: "var(--a-muted)", marginBottom: 4 }}>
-            <Link to="/admin/productos" style={{ color: "inherit" }}>Productos</Link> / Nuevo producto
-          </div>
-          <h1 className="admin-h1">Nuevo producto</h1>
-        </div>
-        <div className="admin-page-actions">
-          <Link to="/admin/productos" className="adm-btn">Cancelar</Link>
-          <button className="adm-btn primary" onClick={handleSave} disabled={saving}>
-            {saving ? "Guardando…" : "Guardar producto"}
-          </button>
+          <h1 className="admin-h1">Editar Producto: {name}</h1>
         </div>
       </div>
-
-      <div className="adm-form-grid">
+      <div className="admin-page-grid">
         <div>
-          {/* A: Identificación */}
+          {/* Main info */}
           <div className="adm-card">
-            <div className="adm-label-row">
-              <h3 className="adm-card-h">Información básica</h3>
-              <button className="adm-ai-btn"><Sparkles size={12}/>Generar con IA</button>
-            </div>
             <div className="adm-field">
-              <label>Nombre</label>
-              <input className="adm-input" placeholder="Ej: Campera de cuero" value={name} onChange={e=>setName(e.target.value)}/>
+              <label>Título</label>
+              <input className="adm-input" value={name} onChange={e=>setName(e.target.value)} />
             </div>
             <div className="adm-field">
               <label>Descripción</label>
@@ -166,7 +201,7 @@ function NewProduct() {
                 <button title="Link"><Link2 size={14}/></button>
                 <button title="Imagen"><ImageIcon size={14}/></button>
               </div>
-              <textarea className="adm-textarea with-toolbar" placeholder="Detalles, talles, cuidados del material…" value={description} onChange={e=>setDescription(e.target.value)}/>
+              <textarea className="adm-textarea with-toolbar" placeholder="Detalles, talles, cuidados del material…" value={description} onChange={e=>setDescription(e.target.value)} />
             </div>
           </div>
 
@@ -196,7 +231,7 @@ function NewProduct() {
                 onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }}
               />
             </div>
-            {images.length > 0 && (
+             {images.length > 0 && (
               <div className="adm-thumbs" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 14 }}>
                 {images.map((img, idx) => (
                   <div key={img.id} className="adm-thumb" style={{ position: "relative", width: 90, height: 90, borderRadius: 8, overflow: "hidden", border: idx === 0 ? "2px solid var(--accent)" : "1px solid var(--a-border)" }}>
@@ -223,115 +258,40 @@ function NewProduct() {
               <span className="hint">Se mostrará como pestaña o reproductor en la tienda.</span>
             </div>
           </div>
-
-          {/* C: Precios */}
+          {/* Prices */}
           <div className="adm-card">
-            <h3 className="adm-card-h">Precios y costos</h3>
+            <h3 className="adm-card-h">Precios</h3>
             <div className="adm-row">
               <div className="adm-field">
-                <label>Precio de venta</label>
-                <input className="adm-input" type="number" placeholder="0.00" value={precio || ""} onChange={e=>setPrecio(+e.target.value)}/>
+                <label>Precio</label>
+                <input className="adm-input" type="number" value={price || ""} onChange={e=>setPrice(+e.target.value)} />
               </div>
               <div className="adm-field">
-                <label>Precio promocional</label>
-                <input className="adm-input" type="number" placeholder="0.00" value={promo || ""} onChange={e=>setPromo(+e.target.value)}/>
-                <span className="hint">Si se completa, se mostrará como oferta.</span>
-              </div>
-            </div>
-            <label className="adm-check" style={{ marginTop: 4 }}>
-              <input type="checkbox" defaultChecked/> Mostrar precio en la tienda
-            </label>
-            <div className="adm-divider"/>
-            <div className="adm-row">
-              <div className="adm-field">
-                <label>Costo</label>
-                <input className="adm-input" type="number" placeholder="0.00" value={costo || ""} onChange={e=>setCosto(+e.target.value)}/>
-                <span className="hint">Uso interno.</span>
-              </div>
-              <div className="adm-field">
-                <label>Margen de ganancia</label>
-                <input className="adm-input" value={margen ? `${margen}%` : "--"} disabled/>
+                <label>Precio de oferta</label>
+                <input className="adm-input" type="number" value={promoPrice || ""} onChange={e=>setPromoPrice(+e.target.value)} />
               </div>
             </div>
           </div>
-
-          {/* D: Logística */}
+          {/* Inventario */}
           <div className="adm-card">
-            <h3 className="adm-card-h">Tipo de producto e inventario</h3>
-            <div className="adm-row">
-              <div>
-                <div className="adm-field" style={{ marginBottom: 6 }}><label>Tipo</label></div>
-                <div className="adm-radio-group">
-                  <label className="adm-radio"><input type="radio" name="tipo" checked={tipo==="fisico"} onChange={()=>setTipo("fisico")}/> Físico</label>
-                  <label className="adm-radio"><input type="radio" name="tipo" checked={tipo==="digital"} onChange={()=>setTipo("digital")}/> Digital / servicio</label>
-                </div>
-              </div>
-              <div>
-                <div className="adm-field" style={{ marginBottom: 6 }}><label>Stock</label></div>
-                <div className="adm-radio-group">
-                  <label className="adm-radio"><input type="radio" name="stock" checked={stock==="infinito"} onChange={()=>setStock("infinito")}/> Infinito</label>
-                  <label className="adm-radio"><input type="radio" name="stock" checked={stock==="limitado"} onChange={()=>setStock("limitado")}/> Limitado</label>
-                </div>
-                {stock === "limitado" && (
-                  <input className="adm-input" type="number" placeholder="Unidades disponibles" style={{ marginTop: 8 }} value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)}/>
-                )}
-              </div>
+            <h3 className="adm-card-h">Inventario</h3>
+            <div className="adm-field">
+              <label>Stock</label>
+              <select className="adm-select" value={stock} onChange={(e: any) => setStock(e.target.value)}>
+                <option value="infinito">Infinito</option>
+                <option value="limitado">Limitado</option>
+              </select>
             </div>
-
-            {tipo === "fisico" && (
-              <>
-                <div className="adm-divider"/>
-                <div className="adm-label-row">
-                  <label style={{ fontSize: 13, fontWeight: 600 }}>Peso y dimensiones</label>
-                  <button className="adm-ai-btn"><Sparkles size={12}/>Generar con IA</button>
-                </div>
-                <div className="adm-row-4">
-                  <div className="adm-field"><label>Peso (kg)</label><input className="adm-input" type="number" value={weight} onChange={e=>setWeight(+e.target.value)}/></div>
-                  <div className="adm-field"><label>Profundidad (cm)</label><input className="adm-input" type="number" value={depth} onChange={e=>setDepth(+e.target.value)}/></div>
-                  <div className="adm-field"><label>Ancho (cm)</label><input className="adm-input" type="number" value={width} onChange={e=>setWidth(+e.target.value)}/></div>
-                  <div className="adm-field"><label>Alto (cm)</label><input className="adm-input" type="number" value={height} onChange={e=>setHeight(+e.target.value)}/></div>
-                </div>
-              </>
+            {stock === "limitado" && (
+              <div className="adm-field">
+                <label>Cantidad</label>
+                <input className="adm-input" type="number" value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)} />
+              </div>
             )}
           </div>
-
-          {/* E: Códigos */}
-          <div className="adm-card">
-            <h3 className="adm-card-h">Códigos de identificación</h3>
-            <div className="adm-row">
-              <div className="adm-field"><label>SKU</label><input className="adm-input" placeholder="HC-0001" value={sku} onChange={e=>setSku(e.target.value)}/></div>
-              <div className="adm-field"><label>Código de barras</label><input className="adm-input" placeholder="EAN/UPC 13 dígitos" value={barcode} onChange={e=>setBarcode(e.target.value)}/></div>
-            </div>
-          </div>
-
-          {/* F: SEO externos */}
-          <div className="adm-card">
-            <h3 className="adm-card-h">Canales externos (Instagram y Google Shopping)</h3>
-            <div className="adm-field"><label>MPN</label><input className="adm-input" placeholder="Número de pieza del fabricante" value={mpn} onChange={e=>setMpn(e.target.value)}/></div>
-            <div className="adm-row">
-              <div className="adm-field">
-                <label>Rango de edad</label>
-                <select className="adm-select" value={ageRange} onChange={e=>setAgeRange(e.target.value)}>
-                  <option value="0-3m">0 a 3 meses</option>
-                  <option value="3-12m">3 a 12 meses</option>
-                  <option value="1-5">1 a 5 años</option>
-                  <option value="5-13">5 a 13 años</option>
-                  <option value="adulto">Adulto</option>
-                </select>
-              </div>
-              <div className="adm-field">
-                <label>Sexo</label>
-                <select className="adm-select" value={gender} onChange={e=>setGender(e.target.value)}>
-                  <option value="fem">Femenino</option>
-                  <option value="mas">Masculino</option>
-                  <option value="sin">Sin género</option>
-                </select>
-              </div>
-            </div>
-          </div>
         </div>
-
-        {/* Side: G */}
+        
+        {/* SIDE */}
         <div>
           <div className="adm-side-card">
             <div className="adm-label-row"><h4>Categoría</h4></div>
@@ -391,25 +351,24 @@ function NewProduct() {
           <div className="adm-side-card">
             <h4>Destacar producto</h4>
             <div className="adm-field">
-              <label>Etiqueta (Badge)</label>
-              <input className="adm-input" placeholder="Ej: Nuevo, Top Ventas" value={badge} onChange={e=>setBadge(e.target.value)}/>
+              <label>Badge</label>
+              <input className="adm-input" value={badge} onChange={e=>setBadge(e.target.value)}/>
             </div>
           </div>
 
           <div className="adm-side-card">
             <h4>Opciones finales</h4>
             <div className="adm-check-group">
-              <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Este producto tiene envío gratis</label>
+              <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Envío gratis</label>
               <label className="adm-check"><input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar en la tienda</label>
             </div>
           </div>
         </div>
       </div>
-
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 20 }}>
         <Link to="/admin/productos" className="adm-btn">Cancelar</Link>
         <button className="adm-btn primary" onClick={handleSave} disabled={saving}>
-          {saving ? "Guardando…" : "Guardar producto"}
+          {saving ? "Guardando..." : "Guardar producto"}
         </button>
       </div>
       <VariantsDrawer 

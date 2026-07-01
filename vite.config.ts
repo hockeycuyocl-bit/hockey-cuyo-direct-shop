@@ -12,4 +12,15 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      proxy: {
+        "/__l5e/assets-v1": {
+          target: "https://lovable-uploads.r2.cloudflarestorage.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/__l5e\/assets-v1/, "/a/v1/b5fcc13e-d3cb-4633-87c3-1e78b8cdc266"),
+        },
+      },
+    },
+  },
 });

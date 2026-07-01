@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteLayout } from "../components/SiteChrome";
+import { CartProvider } from "@/components/CartContext";
 
 function NotFoundComponent() {
   return (
@@ -102,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>
@@ -121,13 +122,15 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isAdmin ? (
-        <Outlet />
-      ) : (
-        <SiteLayout>
+      <CartProvider>
+        {isAdmin ? (
           <Outlet />
-        </SiteLayout>
-      )}
+        ) : (
+          <SiteLayout>
+            <Outlet />
+          </SiteLayout>
+        )}
+      </CartProvider>
     </QueryClientProvider>
   );
 }

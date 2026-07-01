@@ -1,31 +1,35 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Plus, Search, Filter, Trash2, ImageOff } from "lucide-react";
-import { PRODUCTS, formatPrice } from "@/data/catalog";
-import { loadProducts, deleteProduct, type StoredProduct } from "@/lib/product-storage";
+import { Plus, Search, Filter, Trash2, ImageOff, Pencil, Upload } from "lucide-react";
+import { formatPrice } from "@/data/catalog";
+import { getProducts, deleteProduct } from "@/services/products";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/productos/")({
+  loader: async () => await getProducts(),
   component: ProductsList,
 });
 
 function ProductsList() {
-  const [custom, setCustom] = useState<StoredProduct[]>([]);
+  const router = useRouter();
+  const custom = Route.useLoaderData();
   const [query, setQuery] = useState("");
 
-  useEffect(() => { setCustom(loadProducts()); }, []);
-
-  const handleDelete = (id: string, name: string) => {
+  const handleDelete = async (id: string, name: string) => {
     if (!confirm(`¿Eliminar "${name}"?`)) return;
-    deleteProduct(id);
-    setCustom(loadProducts());
-    toast.success("Producto eliminado");
+    const ok = await deleteProduct(id);
+    if (ok) {
+      toast.success("Producto eliminado");
+      router.invalidate();
+    } else {
+      toast.error("Error al eliminar");
+    }
   };
 
   const q = query.trim().toLowerCase();
   const filteredCustom = q ? custom.filter(p => p.name.toLowerCase().includes(q) || (p.sku ?? "").toLowerCase().includes(q)) : custom;
-  const filteredDemo = q ? PRODUCTS.filter(p => p.name.toLowerCase().includes(q)) : PRODUCTS.slice(0, 12);
-  const total = custom.length + PRODUCTS.length;
+  
+  const total = custom.length;
 
   return (
     <>
@@ -35,8 +39,8 @@ function ProductsList() {
           <p className="admin-sub">{total} productos en tu catálogo · {custom.length} creados por vos</p>
         </div>
         <div className="admin-page-actions">
-          <button className="adm-btn"><Filter size={16}/>Filtros</button>
-          <Link to="/admin/productos/nuevo" className="adm-btn primary"><Plus size={16}/>Nuevo producto</Link>
+          <Link to="/admin/productos/importar" className="adm-btn"><Upload size={16}/> Exportar e importar</Link>
+          <Link to="/admin/productos/nuevo" className="adm-btn primary"><Plus size={16}/> Nuevo producto</Link>
         </div>
       </div>
 
@@ -57,7 +61,7 @@ function ProductsList() {
               <th>Stock</th>
               <th>Precio</th>
               <th>Estado</th>
-              <th style={{ width: 60 }}></th>
+              <th style={{ width: 90 }}></th>
             </tr>
           </thead>
           <tbody>
@@ -76,7 +80,7 @@ function ProductsList() {
                     )}
                     <div>
                       <div style={{ fontWeight: 600 }}>{p.name} <span className="adm-pill ok" style={{ marginLeft: 6 }}>nuevo</span></div>
-                      <div style={{ fontSize: 12, color: "var(--a-muted)" }}>{p.productType === "digital" ? "Digital" : "Físico"}</div>
+                      <div style={{ fontSize: 12, color: "var(--a-muted)" }}>Físico</div>
                     </div>
                   </td>
                   <td style={{ fontFamily: "monospace", fontSize: 12 }}>{p.sku || "—"}</td>
@@ -85,32 +89,19 @@ function ProductsList() {
                   <td><b>{formatPrice(p.promoPrice || p.price)}</b></td>
                   <td><span className={`adm-pill ${p.visible ? "ok" : ""}`}>{p.visible ? "Activo" : "Oculto"}</span></td>
                   <td>
-                    <button className="adm-btn" style={{ padding: "4px 8px" }} onClick={() => handleDelete(p.id, p.name)} aria-label="Eliminar">
-                      <Trash2 size={14}/>
-                    </button>
+                    <div style={{ display: "flex", gap: 4 }}>
+                      <Link to={`/admin/productos/editar/${p.id}`} className="adm-btn" style={{ padding: "4px 8px" }}>
+                        <Pencil size={14}/>
+                      </Link>
+                      <button className="adm-btn" style={{ padding: "4px 8px" }} onClick={() => handleDelete(p.id, p.name)} aria-label="Eliminar">
+                        <Trash2 size={14}/>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );
             })}
-            {filteredDemo.map((p, i) => (
-              <tr key={`demo-${i}`}>
-                <td><input type="checkbox"/></td>
-                <td style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <img src={p.img} alt="" style={{ width: 40, height: 40, borderRadius: 6, objectFit: "cover" }}/>
-                  <div>
-                    <div style={{ fontWeight: 600 }}>{p.name}</div>
-                    <div style={{ fontSize: 12, color: "var(--a-muted)" }}>{p.categorySlug}</div>
-                  </div>
-                </td>
-                <td style={{ fontFamily: "monospace", fontSize: 12 }}>HC-{1000 + i}</td>
-                <td style={{ textTransform: "capitalize" }}>{p.brandSlug}</td>
-                <td>{Math.floor(Math.random() * 30) + 1}</td>
-                <td><b>{formatPrice(p.price)}</b></td>
-                <td><span className="adm-pill ok">Activo</span></td>
-                <td></td>
-              </tr>
-            ))}
-            {filteredCustom.length === 0 && filteredDemo.length === 0 && (
+            {filteredCustom.length === 0 && (
               <tr><td colSpan={8} style={{ textAlign: "center", padding: 40, color: "var(--a-muted)" }}>No se encontraron productos</td></tr>
             )}
           </tbody>

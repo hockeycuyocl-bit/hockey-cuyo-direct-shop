@@ -1,12 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { SECTIONS, PRODUCTS, BRANDS, waLink } from "@/data/catalog";
+import { SECTIONS, BRANDS, waLink } from "@/data/catalog";
+import { getProducts } from "@/services/products";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
-import heroVideoAsset from "@/assets/hero-hockey-v2.mp4.asset.json";
-import heroPosterAsset from "@/assets/hero-poster.jpg.asset.json";
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -16,10 +14,29 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Sticks, patines, protecciones y accesorios premium. Reno, Azemad, Roll-Line, Edea y más." },
     ],
   }),
+  loader: async () => await getProducts(true),
   component: Index,
 });
 
-const HERO_VIDEO = heroVideoAsset.url;
+const HERO_VIDEO = "/hero-hockey.mp4";
+const HERO_POSTER = "/hero-poster.jpg";
+
+function HeroVideo() {
+  return (
+    <video
+      className="hero-video"
+      style={{ width: "100%", height: "100vh", objectFit: "cover" }}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      poster={HERO_POSTER}
+    >
+      <source src={HERO_VIDEO} type="video/mp4" />
+    </video>
+  );
+}
 
 function HeroParticles() {
   const particles = useMemo(
@@ -52,14 +69,8 @@ function Hero() {
   return (
     <section className="hero-v2">
       <div className="hero-fallback" />
-      <video
-        className="hero-video"
-        autoPlay muted loop playsInline preload="metadata"
-        poster={heroPosterAsset.url}
-      >
-        <source src={HERO_VIDEO} type="video/mp4" />
-      </video>
-      <div className="hero-overlay" />
+      <HeroVideo />
+      <div className="hero-overlay" style={{ background: "rgba(0,0,0,0.45)" }} />
       <div className="hero-noise" />
       <HeroParticles />
 
@@ -133,7 +144,8 @@ function BrandCard({ name, idx }: { name: string; idx: number }) {
 const FEATURED_BRANDS = ["Reno", "Azemad", "Toor", "Meneghini", "Roll-Line", "STD"];
 
 function Index() {
-  const featured = PRODUCTS.filter(p => p.badge).slice(0, 8);
+  const products = Route.useLoaderData();
+  const allProducts = products.filter(p => p.visible !== false);
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 
   return (
@@ -168,7 +180,29 @@ function Index() {
         ))}
       </div>
 
-      {/* MARCAS */}
+      {/* DESTACADOS (movido arriba de Marcas) */}
+      <div id="productos" className="section-head-v2">
+        <div>
+          <p className="kicker">— Destacados</p>
+          <h2>Top performance</h2>
+        </div>
+        <p className="lead">Los productos más buscados de la temporada. Listos para despachar.</p>
+      </div>
+      <section className="products products-full-grid">
+        {allProducts.map((p, i) => (
+          <motion.div
+            key={p.slug}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
+          >
+            <ProductCard p={p} />
+          </motion.div>
+        ))}
+      </section>
+
+      {/* MARCAS (movido abajo de Destacados) */}
       <section className="brands-section">
         <div className="section-head-v2">
           <div>
@@ -180,28 +214,6 @@ function Index() {
         <div className="brands-grid">
           {FEATURED_BRANDS.map((b, i) => <BrandCard key={b} name={b} idx={i} />)}
         </div>
-      </section>
-
-      {/* DESTACADOS */}
-      <div id="productos" className="section-head-v2">
-        <div>
-          <p className="kicker">— Destacados</p>
-          <h2>Top performance</h2>
-        </div>
-        <p className="lead">Los productos más buscados de la temporada. Listos para despachar.</p>
-      </div>
-      <section className="products">
-        {featured.map((p, i) => (
-          <motion.div
-            key={p.name}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
-          >
-            <ProductCard p={p} />
-          </motion.div>
-        ))}
       </section>
     </>
   );

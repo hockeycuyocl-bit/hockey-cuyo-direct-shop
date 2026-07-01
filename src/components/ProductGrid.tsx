@@ -1,27 +1,37 @@
 import { formatPrice, waLink, type Product } from "@/data/catalog";
 import { WhatsIcon } from "./SiteChrome";
+import { Link } from "@tanstack/react-router";
 
-export function ProductCard({ p }: { p: Product }) {
+export function ProductCard({ p }: { p: any }) {
+  const imageUrl = p.images?.[0] || p.img || "";
+
   return (
     <article className="card">
-      <div className="card-img">
-        {p.badge && <span className="badge">{p.badge}</span>}
-        <img src={p.img} alt={p.name} loading="lazy" />
-      </div>
-      <div className="card-body">
-        <h3 className="card-h3">{p.name}</h3>
-        <p className="card-desc">{p.desc}</p>
-        <div className="features">
-          {p.features.map(f => <span key={f} className="feature">{f}</span>)}
+      <Link to="/producto/$slug" params={{ slug: p.slug }} className="card-link-wrapper" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+        <div className="card-img">
+          {p.badge && <span className="badge">{p.badge}</span>}
+          {imageUrl ? (
+            <img src={imageUrl} alt={p.name} loading="lazy" />
+          ) : (
+            <div style={{ width: '100%', height: '100%', minHeight: '220px', background: '#252525', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: '13px' }}>
+              Sin imagen
+            </div>
+          )}
         </div>
-        <div className="price">{formatPrice(p.price)}</div>
-        <a
-          href={waLink(`¡Hola Hockey Cuyo! Quiero comprar: ${p.name} (${formatPrice(p.price)})`)}
-          target="_blank" rel="noopener noreferrer"
+        <div className="card-body" style={{ minHeight: "auto" }}>
+          <h3 className="card-h3" style={{ marginBottom: 8 }}>{p.name}</h3>
+          <div className="price" style={{ margin: 0 }}>{formatPrice(p.price)}</div>
+        </div>
+      </Link>
+      <div style={{ padding: "0 20px 20px" }}>
+        <Link 
+          to="/producto/$slug" 
+          params={{ slug: p.slug }}
           className="buy-btn"
+          style={{ justifyContent: "center", textDecoration: "none", textAlign: "center", display: "flex" }}
         >
-          <WhatsIcon /> Comprar por WhatsApp
-        </a>
+          Ver producto
+        </Link>
       </div>
     </article>
   );

@@ -3,7 +3,9 @@ import { useState, useEffect, type ReactNode } from "react";
 import {
   SECTIONS, BRANDS, WHATSAPP_NUMBER, CONTACT_EMAIL, ADDRESS, waLink,
 } from "@/data/catalog";
-import logoAsset from "@/assets/logo-hockey-cuyo-v2.png.asset.json";
+const LOGO_URL = "/logo-hockey-cuyo.png";
+import { CartFab, CartDrawer } from "./CartDrawer";
+import { useCart } from "./CartContext";
 
 const GENERAL_MSG = "¡Hola Hockey Cuyo! Quiero hacer una consulta.";
 
@@ -40,26 +42,77 @@ function Dropdown({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function CategoriesMega() {
+  const [activeSection, setActiveSection] = useState<string>(SECTIONS[0]?.slug ?? "");
+  const [activeGroup, setActiveGroup] = useState<string>("");
+
+  const currentSection = SECTIONS.find(s => s.slug === activeSection);
+  const currentGroup = currentSection?.groups.find(g => g.slug === activeGroup);
+
   return (
-    <div className="mega">
-      {SECTIONS.map(section => (
-        <div key={section.slug} className="mega-section">
-          <h4 className="mega-title">{section.name}</h4>
-          <div className="mega-grid">
-            {section.groups.map(g => (
-              <Link
-                key={g.slug}
-                to="/categoria/$slug"
-                params={{ slug: g.slug }}
-                className="mega-item"
-              >
-                <img src={g.image} alt={g.name} loading="lazy" />
-                <span>{g.name}</span>
-              </Link>
-            ))}
-          </div>
+    <div className="mega3" onMouseLeave={() => setActiveGroup("")}>
+      {/* Col 1 – Deportes */}
+      <div className="mega3-col mega3-col-sports">
+        {SECTIONS.map(section => (
+          <button
+            key={section.slug}
+            className={`mega3-sport${activeSection === section.slug ? " active" : ""}`}
+            onMouseEnter={() => { setActiveSection(section.slug); setActiveGroup(""); }}
+            onClick={() => { setActiveSection(section.slug); setActiveGroup(""); }}
+            type="button"
+          >
+            {section.name}
+            <span className="mega3-arrow">›</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Col 2 – Categorías del deporte activo */}
+      {currentSection && (
+        <div className="mega3-col mega3-col-cats">
+          {currentSection.groups.map(group => (
+            <button
+              key={group.slug}
+              className={`mega3-cat${activeGroup === group.slug ? " active" : ""}`}
+              onMouseEnter={() => setActiveGroup(group.slug)}
+              onClick={() => setActiveGroup(g => g === group.slug ? "" : group.slug)}
+              type="button"
+            >
+              {group.name}
+              {group.subcategories.length > 1 && <span className="mega3-arrow">›</span>}
+            </button>
+          ))}
         </div>
-      ))}
+      )}
+
+      {/* Col 3 – Subcategorías */}
+      {currentGroup && currentGroup.subcategories.length > 1 && (
+        <div className="mega3-col mega3-col-subs">
+          <div className="mega3-subs-title">{currentGroup.name}</div>
+          {currentGroup.subcategories.map(sub => (
+            <Link
+              key={sub.slug}
+              to="/categoria/$slug"
+              params={{ slug: sub.slug }}
+              className="mega3-sub"
+            >
+              {sub.name}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* Si el grupo no tiene sub-niveles, mostrar link directo */}
+      {currentGroup && currentGroup.subcategories.length === 1 && (
+        <div className="mega3-col mega3-col-subs">
+          <Link
+            to="/categoria/$slug"
+            params={{ slug: currentGroup.slug }}
+            className="mega3-sub mega3-sub-single"
+          >
+            Ver todos los {currentGroup.name}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
@@ -81,6 +134,9 @@ export function SiteHeader() {
   const [openSection, setOpenSection] = useState<string | null>("hockey");
   const [brandsOpen, setBrandsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  // Cart context
+  const { setIsOpen } = useCart();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -97,7 +153,7 @@ export function SiteHeader() {
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="site-nav">
         <Link to="/" className="brand-link logo-header">
-          <img src={logoAsset.url} alt="Hockey Cuyo" className="logo-img" />
+          <img src={LOGO_URL} alt="Hockey Cuyo" className="logo-img" style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 15px rgba(255,255,255,.25))' }} />
         </Link>
 
         <nav className="nav-desktop">
@@ -113,7 +169,7 @@ export function SiteHeader() {
           <button className="nav-icon-btn" aria-label="Buscar" type="button">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           </button>
-          <button className="nav-icon-btn" aria-label="Carrito" type="button">
+          <button className="nav-icon-btn" aria-label="Carrito" type="button" onClick={() => setIsOpen(true)}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           </button>
           <a href={waLink(GENERAL_MSG)} target="_blank" rel="noopener noreferrer" className="nav-icon-btn wa" aria-label="WhatsApp">
@@ -142,13 +198,26 @@ export function SiteHeader() {
                 <details key={s.slug} open={openSection === s.slug}
                   onToggle={(e) => (e.currentTarget as HTMLDetailsElement).open && setOpenSection(s.slug)}>
                   <summary className="m-sub-title">{s.name}</summary>
-                  <div className="m-grid">
+                  <div style={{ paddingLeft: 12 }}>
                     {s.groups.map(g => (
-                      <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
-                        onClick={() => setMobileOpen(false)} className="m-item">
-                        <img src={g.image} alt={g.name} loading="lazy" />
-                        <span>{g.name}</span>
-                      </Link>
+                      g.subcategories.length > 1 ? (
+                        <details key={g.slug}>
+                          <summary className="m-sub-cat">{g.name}</summary>
+                          <div style={{ paddingLeft: 12 }}>
+                            {g.subcategories.map(sub => (
+                              <Link key={sub.slug} to="/categoria/$slug" params={{ slug: sub.slug }}
+                                onClick={() => setMobileOpen(false)} className="m-sub-item">
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </details>
+                      ) : (
+                        <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
+                          onClick={() => setMobileOpen(false)} className="m-sub-cat-link">
+                          {g.name}
+                        </Link>
+                      )
                     ))}
                   </div>
                 </details>
@@ -181,7 +250,7 @@ export function SiteFooter() {
       <div className="footer-grid">
         <div>
           <div className="brand-link logo-footer" style={{ textDecoration: "none" }}>
-            <img src={logoAsset.url} alt="Hockey Cuyo" className="logo-img" />
+            <img src={LOGO_URL} alt="Hockey Cuyo" className="logo-img" style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 15px rgba(255,255,255,.25))' }} />
           </div>
           <p style={{ color: "#9a9aa6", fontSize: 13, marginTop: 12 }}>
             Equipamiento profesional para hockey sobre patines y patinaje artístico.
@@ -247,6 +316,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <main>{children}</main>
       <SiteFooter />
       <WhatsFab />
+      <CartFab />
+      <CartDrawer />
     </div>
   );
 }
+

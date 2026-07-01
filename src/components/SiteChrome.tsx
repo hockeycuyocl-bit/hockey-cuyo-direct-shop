@@ -3,7 +3,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import {
   SECTIONS, BRANDS, WHATSAPP_NUMBER, CONTACT_EMAIL, ADDRESS, waLink,
 } from "@/data/catalog";
-import logoAsset from "@/assets/logo-hockey-cuyo-v2.png.asset.json";
+const logoAsset = { url: "/logo-hockey-cuyo.png" };
 import { CartProvider, useCart } from "@/lib/cart";
 import { CartDrawer } from "./CartDrawer";
 

@@ -10,6 +10,12 @@ export function ProductCard({ p }: { p: Product }) {
   const [variant, setVariant] = useState<string>(variants[0] ?? "");
   const [qty, setQty] = useState(1);
 
+  // Debug: log de datos del producto para verificar imágenes desde Supabase
+  const imgSrc = (p as any).img || (p as any).images?.[0] || p.img;
+  if (typeof window !== 'undefined') {
+    console.log('[ProductCard]', p.name, { img: (p as any).img, images: (p as any).images, imgSrc });
+  }
+
   const addToCart = () => {
     add(p, { variant: variants.length ? variant : undefined, qty });
   };
@@ -24,7 +30,7 @@ export function ProductCard({ p }: { p: Product }) {
     <article className="card">
       <Link to="/producto/$slug" params={{ slug }} className="card-img card-img-link">
         {p.badge && <span className="badge">{p.badge}</span>}
-        <img src={p.img} alt={p.name} loading="lazy" />
+        <img src={imgSrc} alt={p.name} loading="lazy" />
       </Link>
       <div className="card-body">
         <Link to="/producto/$slug" params={{ slug }} className="card-h3-link">

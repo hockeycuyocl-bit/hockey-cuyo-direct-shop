@@ -20,6 +20,7 @@ export type SupabaseProduct = {
   freeShipping: boolean;
   createdAt: number;
   images: string[];
+  img?: string;
 };
 
 function mapToSupabaseProduct(row: any, images: any[] = []): SupabaseProduct {
@@ -41,7 +42,8 @@ function mapToSupabaseProduct(row: any, images: any[] = []): SupabaseProduct {
     visible: row.visible,
     freeShipping: row.free_shipping,
     createdAt: new Date(row.created_at).getTime(),
-    images: images.sort((a, b) => a.order_index - b.order_index).map(img => img.url)
+    images: images.sort((a, b) => a.order_index - b.order_index).map(img => img.url),
+    img: images.length > 0 ? images.sort((a, b) => a.order_index - b.order_index)[0].url : undefined
   };
 }
 

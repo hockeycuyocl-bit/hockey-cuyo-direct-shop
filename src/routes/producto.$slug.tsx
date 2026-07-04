@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { findProductBySlug, formatPrice, WHATSAPP_NUMBER } from "@/data/catalog";
-import { parseVariants } from "@/lib/cart";
+import { formatPrice, WHATSAPP_NUMBER } from "@/data/catalog";
+import { getProductBySlug } from "@/services/products";
 
 export const Route = createFileRoute("/producto/$slug")({
-  loader: ({ params }) => {
-    const product = findProductBySlug(params.slug);
+  loader: async ({ params }) => {
+    const product = await getProductBySlug(params.slug);
     if (!product) throw notFound();
     return { product };
   },
   head: ({ loaderData }) => ({
     meta: [
       { title: `${loaderData?.product.name ?? "Producto"} — Hockey Cuyo` },
-      { name: "description", content: loaderData?.product.desc ?? "" },
+      { name: "description", content: loaderData?.product.description ?? "" },
       { property: "og:image", content: loaderData?.product.img ?? "" },
     ],
   }),
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/producto/$slug")({
 
 function ProductPage() {
   const { product } = Route.useLoaderData();
-  const variants = parseVariants(product.features || []);
+  const variants = product.sizes && product.sizes.length > 0 ? product.sizes : [];
   const [variant, setVariant] = useState<string>(variants[0] ?? "");
 
   const talleTxt = variants.length && variant ? variant : "—";
@@ -37,19 +37,13 @@ function ProductPage() {
       <div className="pd-grid">
         <div className="pd-img-wrap">
           {product.badge && <span className="badge">{product.badge}</span>}
-          <img src={product.img} alt={product.name} />
+          {product.img && <img src={product.img} alt={product.name} />}
         </div>
 
         <div className="pd-info">
           <h1 className="pd-title">{product.name}</h1>
           <div className="pd-price">{formatPrice(product.price)}</div>
-          <p className="pd-desc">{product.desc}</p>
-
-          {(product.features || []).length > 0 && (
-            <ul className="pd-features">
-              {(product.features || []).map((f: string) => <li key={f}>{f}</li>)}
-            </ul>
-          )}
+          <p className="pd-desc">{product.description}</p>
 
           {variants.length > 0 && (
             <div className="variant-row" style={{ marginTop: 24 }}>

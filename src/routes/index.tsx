@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { SECTIONS, BRANDS, waLink } from "@/data/catalog";
+import { SECTIONS, BRANDS, waLink, PRODUCTS } from "@/data/catalog";
 import { getProducts } from "@/services/products";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
@@ -14,7 +14,15 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Sticks, patines, protecciones y accesorios premium. Reno, Azemad, Roll-Line, Edea y más." },
     ],
   }),
-  loader: async () => await getProducts(true),
+  loader: async () => {
+    const supa = await getProducts(true);
+    return supa.map(p => ({
+      ...p,
+      desc: p.description,
+      features: p.sizes || [],
+      img: p.img || (p.images && p.images[0]) || "",
+    }));
+  },
   component: Index,
 });
 
@@ -144,8 +152,8 @@ function BrandCard({ name, idx }: { name: string; idx: number }) {
 const FEATURED_BRANDS = ["Reno", "Azemad", "Toor", "Meneghini", "Roll-Line", "STD"];
 
 function Index() {
-  const products = Route.useLoaderData();
-  const allProducts = products.filter(p => p.visible !== false);
+  const supaProducts = Route.useLoaderData();
+  const allProducts = [...supaProducts, ...PRODUCTS].filter(p => p.visible !== false);
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 
   return (

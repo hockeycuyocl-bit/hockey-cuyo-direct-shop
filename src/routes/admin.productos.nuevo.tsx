@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { SECTIONS, BRANDS } from "@/data/catalog";
 import { createProduct, uploadProductImage } from "@/services/products";
 import { VariantsDrawer } from "@/components/VariantsDrawer";
-import { CategorySelector } from "@/components/CategorySelector";
 
 export const Route = createFileRoute("/admin/productos/nuevo")({
   component: NewProduct,
@@ -335,7 +334,10 @@ function NewProduct() {
         <div>
           <div className="adm-side-card">
             <div className="adm-label-row"><h4>Categoría</h4></div>
-            <CategorySelector value={categorySlug} onChange={setCategorySlug} />
+            <select className="adm-select" value={categorySlug} onChange={e=>setCategorySlug(e.target.value)} style={{ width: "100%", marginTop: 8 }}>
+              <option value="">Seleccionar...</option>
+              {SECTIONS.flatMap(s => s.groups).map(g => <option key={g.slug} value={g.slug}>{g.name}</option>)}
+            </select>
           </div>
 
           <div className="adm-side-card">

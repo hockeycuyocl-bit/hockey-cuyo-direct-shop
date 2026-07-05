@@ -3,14 +3,26 @@ import {
   findGroup, findSubcategory, getProductsByCategory, SECTIONS,
 } from "@/data/catalog";
 import { ProductGrid } from "@/components/ProductGrid";
+import { getProducts } from "@/services/products";
 
 export const Route = createFileRoute("/categoria/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const group = findGroup(params.slug);
     const sub = !group ? findSubcategory(params.slug) : undefined;
     if (!group && !sub) throw notFound();
     const parentSection = SECTIONS.find(s => s.groups.some(g => g.slug === params.slug || g.subcategories.some(x => x.slug === params.slug)));
-    return { group, sub, parentSection };
+    
+    const allSupaProducts = await getProducts(true);
+    const supaProducts = allSupaProducts
+      .filter(p => p.categorySlug === params.slug)
+      .map(p => ({
+        ...p,
+        desc: p.description,
+        features: p.sizes || [],
+        img: p.img || (p.images && p.images[0]) || "",
+      }));
+
+    return { group, sub, parentSection, supaProducts };
   },
   head: ({ loaderData }) => {
     const name = loaderData?.group?.name || loaderData?.sub?.name || "Categoría";
@@ -26,8 +38,9 @@ export const Route = createFileRoute("/categoria/$slug")({
 
 function CategoryPage() {
   const { slug } = Route.useParams();
-  const { group, sub, parentSection } = Route.useLoaderData();
-  const products = getProductsByCategory(slug);
+  const { group, sub, parentSection, supaProducts } = Route.useLoaderData();
+  const staticProducts = getProductsByCategory(slug);
+  const products = [...supaProducts, ...staticProducts] as any[];
   const meta = group ?? sub!;
 
   return (

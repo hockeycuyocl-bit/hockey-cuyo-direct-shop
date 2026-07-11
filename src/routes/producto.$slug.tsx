@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { formatPrice, WHATSAPP_NUMBER } from "@/data/catalog";
+import { formatPrice, getCategoryMeta } from "@/data/catalog";
 import { getProductBySlug } from "@/services/products";
+import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/producto/$slug")({
   loader: async ({ params }) => {
@@ -21,55 +22,151 @@ export const Route = createFileRoute("/producto/$slug")({
 
 function ProductPage() {
   const { product } = Route.useLoaderData();
-  const variants = product.sizes && product.sizes.length > 0 ? product.sizes : [];
-  const [variant, setVariant] = useState<string>(variants[0] ?? "");
+  const { add } = useCart();
+  const [qty, setQty] = useState(1);
 
-  const talleTxt = variants.length && variant ? variant : "—";
-  const msg = `¡Hola Hockey Cuyo! Me interesa: ${product.name}, Talle: ${talleTxt}, Precio: ${formatPrice(product.price)}`;
-  const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  // Obtener data de la categoría para el breadcrumb y meta
+  const categoryMeta = product.categorySlug ? getCategoryMeta(product.categorySlug) : undefined;
+  const categoryName = categoryMeta?.name || "Categoría general";
+
+  // Lógica de Stock
+  const isInfinito = product.stockType === "infinito";
+  const isLimitado = product.stockType === "limitado";
+  const stockQty = product.stockQty || 0;
+  const hasStock = isInfinito || (isLimitado && stockQty > 0);
+  const maxQty = isLimitado ? stockQty : 999;
+
+  const handleMinus = () => setQty((q) => Math.max(1, q - 1));
+  const handlePlus = () => setQty((q) => Math.min(maxQty, q + 1));
+
+  const handleAddCart = () => {
+    if (hasStock) {
+      add(product, { qty });
+    }
+  };
 
   return (
-    <section className="product-detail">
-      <div className="breadcrumb">
-        <Link to="/">Inicio</Link> / <span style={{ color: "#fff" }}>{product.name}</span>
+    <section className="product-detail" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>
+
+      {/* 1. BREADCRUMB */}
+      <div className="breadcrumb" style={{ marginBottom: 32, fontSize: 14, color: "var(--a-muted)" }}>
+        <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Inicio</Link>
+        <span style={{ margin: "0 8px" }}>/</span>
+
+        {product.categorySlug ? (
+          <Link to="/categoria/$slug" params={{ slug: product.categorySlug }} style={{ color: "inherit", textDecoration: "none" }}>
+            {categoryName}
+          </Link>
+        ) : (
+          <span>{categoryName}</span>
+        )}
+
+        <span style={{ margin: "0 8px" }}>/</span>
+        <span style={{ color: "var(--text)", fontWeight: 500 }}>{product.name}</span>
       </div>
 
-      <div className="pd-grid">
-        <div className="pd-img-wrap">
-          {product.badge && <span className="badge">{product.badge}</span>}
-          {product.img && <img src={product.img} alt={product.name} />}
-        </div>
+      {/* 2. BLOQUE PRINCIPAL (2 COLUMNAS) */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 48, marginBottom: 48 }}>
 
-        <div className="pd-info">
-          <h1 className="pd-title">{product.name}</h1>
-          <div className="pd-price">{formatPrice(product.price)}</div>
-          <p className="pd-desc">{product.description}</p>
-
-          {variants.length > 0 && (
-            <div className="variant-row" style={{ marginTop: 24 }}>
-              <label className="variant-label">Talle / Variante</label>
-              <select
-                className="variant-select"
-                value={variant}
-                onChange={(e) => setVariant(e.target.value)}
-              >
-                {variants.map(v => <option key={v} value={v}>{v}</option>)}
-              </select>
-            </div>
+        {/* Columna Izquierda: Imagen */}
+        <div style={{
+          backgroundColor: "#ffffff",
+          borderRadius: 16,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 32,
+          aspectRatio: "1 / 1"
+        }}>
+          {product.img && (
+            <img
+              src={product.img}
+              alt={product.name}
+              style={{
+                width: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+                transition: "transform 0.4s ease"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.08)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            />
           )}
+        </div>
 
-          <a
-            href={waHref}
-            target="_blank" rel="noopener noreferrer"
-            className="pd-wa-btn"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
-            </svg>
-            Consultar por WhatsApp
-          </a>
+        {/* Columna Derecha: Info y Compra */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 20, paddingTop: 16 }}>
+          <h1 style={{ textTransform: "uppercase", fontSize: 36, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>
+            {product.name}
+          </h1>
+
+          <div style={{ fontSize: 32, fontWeight: 700 }}>
+            {formatPrice(product.price)}
+          </div>
+
+          <div style={{ fontSize: 15 }}>
+            {isInfinito && <span style={{ color: "#22c55e", fontWeight: 600 }}>Disponible</span>}
+            {isLimitado && stockQty > 0 && <span style={{ color: "#22c55e", fontWeight: 600 }}>{stockQty} disponibles</span>}
+            {isLimitado && stockQty <= 0 && <span style={{ color: "#ef4444", fontWeight: 600 }}>Sin stock</span>}
+          </div>
+
+          <div style={{ display: "flex", alignItems: "stretch", gap: 16, marginTop: 16 }}>
+            {/* Selector de cantidad */}
+            <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", backgroundColor: "var(--bg-2)" }}>
+              <button
+                type="button"
+                onClick={handleMinus}
+                disabled={!hasStock}
+                style={{ padding: "12px 18px", background: "transparent", border: "none", color: "var(--text)", cursor: hasStock ? "pointer" : "not-allowed", fontSize: 20 }}
+              >−</button>
+              <span style={{ padding: "0 12px", fontWeight: 600, minWidth: 40, textAlign: "center", fontSize: 16 }}>{qty}</span>
+              <button
+                type="button"
+                onClick={handlePlus}
+                disabled={!hasStock || qty >= maxQty}
+                style={{ padding: "12px 18px", background: "transparent", border: "none", color: "var(--text)", cursor: (hasStock && qty < maxQty) ? "pointer" : "not-allowed", fontSize: 20 }}
+              >+</button>
+            </div>
+
+            {/* Botón Añadir al carrito */}
+            <button
+              type="button"
+              onClick={handleAddCart}
+              disabled={!hasStock}
+              style={{
+                flex: 1,
+                padding: "16px 24px",
+                backgroundColor: hasStock ? "#f97316" : "#404040",
+                color: "#ffffff",
+                border: "none",
+                borderRadius: 8,
+                fontWeight: 700,
+                fontSize: 16,
+                cursor: hasStock ? "pointer" : "not-allowed",
+                textTransform: "uppercase",
+                transition: "background-color 0.2s"
+              }}
+            >
+              Añadir al carrito
+            </button>
+          </div>
+
+          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 8, fontSize: 13, color: "var(--a-muted)" }}>
+            {product.sku && <div><strong>SKU:</strong> {product.sku}</div>}
+            <div><strong>Categoría:</strong> {categoryName}</div>
+          </div>
         </div>
       </div>
+
+      {/* 3. DESCRIPCIÓN (Párrafo simple) */}
+      <div style={{ borderTop: "1px solid var(--border)", paddingTop: 32 }}>
+        <h2 style={{ fontSize: 20, marginBottom: 16, fontWeight: 700 }}>Descripción</h2>
+        <p style={{ lineHeight: 1.7, color: "var(--a-muted)", whiteSpace: "pre-wrap", fontSize: 15 }}>
+          {product.description}
+        </p>
+      </div>
+
     </section>
   );
 }

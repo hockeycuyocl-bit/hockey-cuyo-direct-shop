@@ -24,10 +24,20 @@ function ProductPage() {
   const { product } = Route.useLoaderData();
   const { add } = useCart();
   const [qty, setQty] = useState(1);
+  const [imagenActiva, setImagenActiva] = useState(0);
+  const [activeTab, setActiveTab] = useState<"descripcion" | "valoraciones">("descripcion");
+  
+  // Nuevos estados para variantes (Cambio 2)
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
 
   // Obtener data de la categoría para el breadcrumb y meta
   const categoryMeta = product.categorySlug ? getCategoryMeta(product.categorySlug) : undefined;
   const categoryName = categoryMeta?.name || "Categoría general";
+
+  // Imagen principal: usa el array si existe, si no cae al campo img
+  const imagenesArr = product.images && product.images.length > 0 ? product.images : (product.img ? [product.img] : []);
+  const imagenPrincipal = imagenesArr[imagenActiva] ?? null;
 
   // Lógica de Stock
   const isInfinito = product.stockType === "infinito";
@@ -39,22 +49,40 @@ function ProductPage() {
   const handleMinus = () => setQty((q) => Math.max(1, q - 1));
   const handlePlus = () => setQty((q) => Math.min(maxQty, q + 1));
 
+  // Verificar si hay atributos cargados pero no seleccionados
+  const hasSizes = product.sizes && product.sizes.length > 0;
+  const hasColors = product.colors && product.colors.length > 0;
+  const isMissingSelection = (hasSizes && !selectedSize) || (hasColors && !selectedColor);
+
   const handleAddCart = () => {
-    if (hasStock) {
-      add(product, { qty });
+    if (hasStock && !isMissingSelection) {
+      // Construir la variante usando el formato adecuado
+      let variantName = "";
+      if (selectedSize && selectedColor) {
+        variantName = `${selectedSize} / ${selectedColor}`;
+      } else if (selectedSize) {
+        variantName = selectedSize;
+      } else if (selectedColor) {
+        variantName = selectedColor;
+      }
+
+      add(product, { 
+        qty, 
+        variant: variantName || undefined 
+      });
     }
   };
 
   return (
-    <section className="product-detail" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>
+    <section className="product-detail">
 
       {/* 1. BREADCRUMB */}
-      <div className="breadcrumb" style={{ marginBottom: 32, fontSize: 14, color: "var(--a-muted)" }}>
-        <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Inicio</Link>
+      <div className="breadcrumb">
+        <Link to="/">Inicio</Link>
         <span style={{ margin: "0 8px" }}>/</span>
 
         {product.categorySlug ? (
-          <Link to="/categoria/$slug" params={{ slug: product.categorySlug }} style={{ color: "inherit", textDecoration: "none" }}>
+          <Link to="/categoria/$slug" params={{ slug: product.categorySlug }}>
             {categoryName}
           </Link>
         ) : (
@@ -68,30 +96,64 @@ function ProductPage() {
       {/* 2. BLOQUE PRINCIPAL (2 COLUMNAS) */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 48, marginBottom: 48 }}>
 
-        {/* Columna Izquierda: Imagen */}
-        <div style={{
-          backgroundColor: "#ffffff",
-          borderRadius: 16,
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 32,
-          aspectRatio: "1 / 1"
-        }}>
-          {product.img && (
-            <img
-              src={product.img}
-              alt={product.name}
-              style={{
-                width: "100%",
-                maxHeight: "100%",
-                objectFit: "contain",
-                transition: "transform 0.4s ease"
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.08)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-            />
+        {/* Columna Izquierda: Imagen + Miniaturas */}
+        <div>
+          {/* Imagen principal (Padding reducido a 12px - Cambio 1) */}
+          <div style={{
+            backgroundColor: "#ffffff",
+            borderRadius: 16,
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 12,
+            height: "640px",
+            minWidth: "320px",
+            width: "fit-content",
+            margin: "0 auto"
+          }}>
+            {imagenPrincipal && (
+              <img
+                src={imagenPrincipal}
+                alt={product.name}
+                style={{
+                  height: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain"
+                }}
+              />
+            )}
+          </div>
+
+          {/* Miniaturas: solo si hay más de 1 imagen */}
+          {imagenesArr.length > 1 && (
+            <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+              {imagenesArr.map((url, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setImagenActiva(i)}
+                  style={{
+                    padding: 0,
+                    border: i === imagenActiva ? "2px solid #f97316" : "2px solid transparent",
+                    borderRadius: 8,
+                    cursor: "pointer",
+                    background: "#ffffff",
+                    width: 70,
+                    height: 70,
+                    overflow: "hidden",
+                    flexShrink: 0,
+                    transition: "border-color 0.2s"
+                  }}
+                >
+                  <img
+                    src={url}
+                    alt={`Vista ${i + 1}`}
+                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                  />
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
@@ -111,8 +173,72 @@ function ProductPage() {
             {isLimitado && stockQty <= 0 && <span style={{ color: "#ef4444", fontWeight: 600 }}>Sin stock</span>}
           </div>
 
-          <div style={{ display: "flex", alignItems: "stretch", gap: 16, marginTop: 16 }}>
-            {/* Selector de cantidad */}
+          {/* Selector de variantes (Cambio 2) */}
+          {(hasSizes || hasColors) && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", padding: "16px 0" }}>
+              {/* Selector de Talles */}
+              {hasSizes && (
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>Talle</div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {product.sizes?.map((size) => (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => setSelectedSize(size)}
+                        style={{
+                          minWidth: 44,
+                          height: 40,
+                          padding: "0 12px",
+                          borderRadius: 8,
+                          border: size === selectedSize ? "2px solid #f97316" : "1px solid var(--border)",
+                          background: size === selectedSize ? "rgba(249, 115, 22, 0.1)" : "var(--bg-2)",
+                          color: size === selectedSize ? "#f97316" : "var(--text)",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          transition: "all 0.2s"
+                        }}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Selector de Colores */}
+              {hasColors && (
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>Color</div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {product.colors?.map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() => setSelectedColor(color)}
+                        style={{
+                          height: 40,
+                          padding: "0 16px",
+                          borderRadius: 8,
+                          border: color === selectedColor ? "2px solid #f97316" : "1px solid var(--border)",
+                          background: color === selectedColor ? "rgba(249, 115, 22, 0.1)" : "var(--bg-2)",
+                          color: color === selectedColor ? "#f97316" : "var(--text)",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          transition: "all 0.2s"
+                        }}
+                      >
+                        {color}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Cantidad + Botón de Carrito */}
+          <div style={{ display: "flex", alignItems: "stretch", gap: 16, marginTop: 4 }}>
             <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", backgroundColor: "var(--bg-2)" }}>
               <button
                 type="button"
@@ -129,26 +255,25 @@ function ProductPage() {
               >+</button>
             </div>
 
-            {/* Botón Añadir al carrito */}
             <button
               type="button"
               onClick={handleAddCart}
-              disabled={!hasStock}
+              disabled={!hasStock || isMissingSelection}
               style={{
                 flex: 1,
                 padding: "16px 24px",
-                backgroundColor: hasStock ? "#f97316" : "#404040",
+                backgroundColor: (hasStock && !isMissingSelection) ? "#f97316" : "#404040",
                 color: "#ffffff",
                 border: "none",
                 borderRadius: 8,
                 fontWeight: 700,
                 fontSize: 16,
-                cursor: hasStock ? "pointer" : "not-allowed",
+                cursor: (hasStock && !isMissingSelection) ? "pointer" : "not-allowed",
                 textTransform: "uppercase",
                 transition: "background-color 0.2s"
               }}
             >
-              Añadir al carrito
+              {isMissingSelection ? "Seleccioná variantes" : "Añadir al carrito"}
             </button>
           </div>
 
@@ -159,12 +284,60 @@ function ProductPage() {
         </div>
       </div>
 
-      {/* 3. DESCRIPCIÓN (Párrafo simple) */}
-      <div style={{ borderTop: "1px solid var(--border)", paddingTop: 32 }}>
-        <h2 style={{ fontSize: 20, marginBottom: 16, fontWeight: 700 }}>Descripción</h2>
-        <p style={{ lineHeight: 1.7, color: "var(--a-muted)", whiteSpace: "pre-wrap", fontSize: 15 }}>
-          {product.description}
-        </p>
+      {/* 3. SISTEMA DE PESTAÑAS */}
+      <div style={{ borderTop: "1px solid var(--border)", paddingTop: 24 }}>
+        {/* Encabezados de pestañas */}
+        <div style={{ display: "flex", gap: 32, borderBottom: "1px solid var(--border)", marginBottom: 24 }}>
+          <button
+            type="button"
+            onClick={() => setActiveTab("descripcion")}
+            style={{
+              padding: "12px 0",
+              background: "none",
+              border: "none",
+              borderBottom: activeTab === "descripcion" ? "2px solid #f97316" : "2px solid transparent",
+              color: activeTab === "descripcion" ? "var(--text)" : "var(--a-muted)",
+              fontWeight: 700,
+              fontSize: 16,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              marginBottom: -1
+            }}
+          >
+            Descripción
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("valoraciones")}
+            style={{
+              padding: "12px 0",
+              background: "none",
+              border: "none",
+              borderBottom: activeTab === "valoraciones" ? "2px solid #f97316" : "2px solid transparent",
+              color: activeTab === "valoraciones" ? "var(--text)" : "var(--a-muted)",
+              fontWeight: 700,
+              fontSize: 16,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              marginBottom: -1
+            }}
+          >
+            Valoraciones (0)
+          </button>
+        </div>
+
+        {/* Contenido de la pestaña activa */}
+        <div>
+          {activeTab === "descripcion" ? (
+            <p style={{ lineHeight: 1.7, color: "var(--a-muted)", whiteSpace: "pre-wrap", fontSize: 15 }}>
+              {product.description}
+            </p>
+          ) : (
+            <div style={{ padding: "16px 0", color: "var(--a-muted)", fontStyle: "italic", fontSize: 15 }}>
+              Todavía no hay valoraciones para este producto.
+            </div>
+          )}
+        </div>
       </div>
 
     </section>

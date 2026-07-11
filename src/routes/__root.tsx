@@ -13,7 +13,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteLayout } from "../components/SiteChrome";
-import { CartProvider } from "@/components/CartContext";
 
 function NotFoundComponent() {
   return (
@@ -122,15 +121,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        {isAdmin ? (
+      {isAdmin ? (
+        <Outlet />
+      ) : (
+        <SiteLayout>
           <Outlet />
-        ) : (
-          <SiteLayout>
-            <Outlet />
-          </SiteLayout>
-        )}
-      </CartProvider>
+        </SiteLayout>
+      )}
     </QueryClientProvider>
   );
 }

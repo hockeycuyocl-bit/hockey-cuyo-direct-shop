@@ -511,7 +511,7 @@ details[open] > summary.m-link::after { content: "▴"; }
 }
 
 /* breadcrumb */
-.breadcrumb { color: var(--muted); font-size: 12px; margin-bottom: 14px; letter-spacing: 1px; text-transform: uppercase; }
+.breadcrumb { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
 .breadcrumb a { color: var(--muted); text-decoration: none; }
 .breadcrumb a:hover { color: var(--accent); }
 

@@ -98,19 +98,12 @@ function ProductPage() {
 
         {/* Columna Izquierda: Imagen + Miniaturas */}
         <div>
-          {/* Imagen principal (Padding reducido a 12px - Cambio 1) */}
           <div style={{
-            backgroundColor: "#ffffff",
-            borderRadius: 16,
-            overflow: "hidden",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 12,
             height: "640px",
-            minWidth: "320px",
-            width: "fit-content",
-            margin: "0 auto"
+            width: "100%"
           }}>
             {imagenPrincipal && (
               <img

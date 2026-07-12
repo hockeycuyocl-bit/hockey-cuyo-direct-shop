@@ -52,26 +52,85 @@ function Dropdown({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function CategoriesMega() {
+  const [activeSection, setActiveSection] = useState(SECTIONS[0].slug);
+  const [activeGroup, setActiveGroup] = useState(SECTIONS[0].groups[0].slug);
+
+  const currentSection = SECTIONS.find(s => s.slug === activeSection) ?? SECTIONS[0];
+  const currentGroup = currentSection.groups.find(g => g.slug === activeGroup) ?? currentSection.groups[0];
+
+  // Helper: si el grupo tiene 1 sola subcategoría y es idéntica a su slug, es un link final
+  const isDirectGroup = (g: typeof currentSection.groups[0]) => 
+    g.subcategories.length === 1 && g.subcategories[0].slug === g.slug;
+
   return (
     <div className="mega">
-      {SECTIONS.map(section => (
-        <div key={section.slug} className="mega-section">
-          <h4 className="mega-title">{section.name}</h4>
-          <div className="mega-grid">
-            {section.groups.map(g => (
+      
+      {/* Columna 1: Secciones */}
+      <div className="mega-col mega-sections">
+        {SECTIONS.map(section => (
+          <div
+            key={section.slug}
+            className={`mega-row${activeSection === section.slug ? " active" : ""}`}
+            onMouseEnter={() => {
+              setActiveSection(section.slug);
+              // Al cambiar de sección, seleccionar el primer grupo de la nueva sección por defecto
+              const nextSection = SECTIONS.find(s => s.slug === section.slug);
+              if (nextSection && nextSection.groups.length > 0) {
+                setActiveGroup(nextSection.groups[0].slug);
+              }
+            }}
+          >
+            <span>{section.name}</span>
+            <span style={{ fontSize: 10, opacity: 0.6 }}>›</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Columna 2: Grupos de la sección activa */}
+      <div className="mega-col mega-groups">
+        {currentSection.groups.map(g => {
+          const direct = isDirectGroup(g);
+          
+          if (direct) {
+            return (
               <Link
                 key={g.slug}
                 to="/categoria/$slug"
                 params={{ slug: g.slug }}
-                className="mega-item"
+                className="mega-row"
               >
-                <img src={g.image} alt={g.name} loading="lazy" />
                 <span>{g.name}</span>
               </Link>
-            ))}
-          </div>
-        </div>
-      ))}
+            );
+          }
+
+          return (
+            <div
+              key={g.slug}
+              className={`mega-row${activeGroup === g.slug ? " active" : ""}`}
+              onMouseEnter={() => setActiveGroup(g.slug)}
+            >
+              <span>{g.name}</span>
+              <span style={{ fontSize: 10, opacity: 0.6 }}>›</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Columna 3: Subcategorías del grupo activo (solo si el grupo no es directo) */}
+      <div className="mega-col mega-subcats">
+        {!isDirectGroup(currentGroup) && currentGroup.subcategories.map(sub => (
+          <Link
+            key={sub.slug}
+            to="/categoria/$slug"
+            params={{ slug: sub.slug }}
+            className="mega-row"
+          >
+            {sub.name}
+          </Link>
+        ))}
+      </div>
+
     </div>
   );
 }

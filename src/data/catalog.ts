@@ -11,16 +11,19 @@ export const formatPrice = (n: number | string) => "$" + Number(n).toLocaleStrin
 
 // Imágenes genéricas por slug (Unsplash placeholders temáticos)
 const IMG = {
-  stick: "https://images.unsplash.com/photo-1580748141549-71748dbe0bdc?auto=format&fit=crop&w=800&q=80",
-  patin: "https://images.unsplash.com/photo-1606889464198-fcb18894cf50?auto=format&fit=crop&w=800&q=80",
-  bolso: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
-  protec: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800&q=80",
-  casco: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80",
+  stick: "/categorias/stick.png",
+  patin: "/categorias/patines-hockey.png",
+  bolso: "/categorias/bolsos.png",
+  protec: "/categorias/protecciones-jugadores.png",
+  casco: "/categorias/cascos.png",
   guante: "https://images.unsplash.com/photo-1607627000458-210e8d2bdb1d?auto=format&fit=crop&w=800&q=80",
   rueda: "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?auto=format&fit=crop&w=800&q=80",
   pelota: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=800&q=80",
   artistico: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80",
-  accesorio: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
+  accesorio: "/categorias/accesorios.png",
+  protecciones_portero: "/categorias/protecciones-arquero.png",
+  accesorios_portero: "/categorias/accesorios-porteros.png",
+  accesorios_cat: "/categorias/accesorios.png",
 };
 
 export type Subcategory = {
@@ -81,7 +84,7 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        slug: "protecciones-portero", name: "Protecciones Portero", image: IMG.guante,
+        slug: "protecciones-portero", name: "Protecciones Portero", image: IMG.protecciones_portero,
         description: "Equipamiento básico de portero.",
         subcategories: [
           { slug: "guantes-portero", name: "Guantes Portero", image: IMG.guante },
@@ -89,7 +92,7 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        slug: "accesorios-portero", name: "Accesorios Portero", image: IMG.protec,
+        slug: "accesorios-portero", name: "Accesorios Portero", image: IMG.accesorios_portero,
         description: "Accesorios y protecciones complementarias del arquero.",
         subcategories: [
           { slug: "collarin", name: "Collarín", image: IMG.protec },
@@ -109,7 +112,7 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        slug: "accesorios", name: "Accesorios", image: IMG.accesorio,
+        slug: "accesorios", name: "Accesorios", image: IMG.accesorios_cat,
         description: "Accesorios, indumentaria y complementos.",
         subcategories: [
           { slug: "accesorios-hockey", name: "Accesorios de Hockey", image: IMG.accesorio },

@@ -175,7 +175,6 @@ export function SiteHeader() {
           <Link to="/" className="nav-link" activeOptions={{ exact: true }}>Inicio</Link>
           <Dropdown label="Categorías"><CategoriesMega /></Dropdown>
           <Dropdown label="Marcas"><BrandsDropdown /></Dropdown>
-          <Link to="/custom-lab" className="nav-link" style={{ color: "var(--accent)", fontWeight: 700 }}>Custom Lab</Link>
           <Link to="/sobre-nosotros" className="nav-link">Sobre Nosotros</Link>
           <Link to="/contacto" className="nav-link">Contacto</Link>
           <Link to="/envios" className="nav-link">Envíos</Link>

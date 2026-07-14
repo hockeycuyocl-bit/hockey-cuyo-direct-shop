@@ -50,7 +50,64 @@ function detectLevel(config: Config): Level | null {
   return (Object.entries(score).sort((a, b) => b[1] - a[1])[0][0]) as Level;
 }
 
+// Este es el placeholder temporal que se va a mostrar ahora en /custom-lab
 function CustomLabPage() {
+  return (
+    <div style={{
+      minHeight: "65vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      padding: "24px",
+      maxWidth: "600px",
+      margin: "0 auto"
+    }}>
+      <h1 style={{ 
+        fontSize: "36px", 
+        marginBottom: "16px", 
+        fontWeight: 800,
+        background: "var(--grad-primary)", 
+        WebkitBackgroundClip: "text", 
+        backgroundClip: "text", 
+        color: "transparent" 
+      }}>
+        Custom Lab
+      </h1>
+      <p style={{ 
+        fontSize: "18px", 
+        color: "var(--muted)", 
+        marginBottom: "36px", 
+        lineHeight: 1.6 
+      }}>
+        Muy pronto vas a poder armar tu patín a medida acá. <br/>
+        Mientras tanto, escribinos por WhatsApp y te asesoramos personalmente.
+      </p>
+      <a 
+        href={waLink("¡Hola! Quería consultar sobre el armado de un patín a medida.")}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          background: "var(--wa)",
+          color: "#00220e",
+          padding: "16px 32px",
+          borderRadius: "12px",
+          textDecoration: "none",
+          fontWeight: 700,
+          fontSize: "15px",
+          transition: "transform 0.2s",
+          boxShadow: "0 10px 30px -10px rgba(37,211,102,.5)"
+        }}
+      >
+        Consultar por WhatsApp
+      </a>
+    </div>
+  );
+}
+
+// Renombramos el original para que no se borre el código y se pueda reactivar fácil
+function CustomLabPage_Desactivado() {
   const [config, setConfig] = useState<Config>(() => {
     const preset = PRESETS.find(p => p.id === "competicion")!;
     return { ...preset.setup };

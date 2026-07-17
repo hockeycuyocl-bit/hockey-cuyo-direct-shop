@@ -16,7 +16,7 @@ export function ProductCard({ p }: { p: Product }) {
     add(p, { qty: 1 });
   };
 
-  const slug = productSlug(p.name);
+  const slug = (p as any).slug ?? productSlug(p.name);
   
   return (
     <article className="card">

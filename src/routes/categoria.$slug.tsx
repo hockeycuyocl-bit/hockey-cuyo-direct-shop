@@ -1,9 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import {
-  findGroup, findSubcategory, getProductsByCategory, SECTIONS,
+  findGroup, findSubcategory, SECTIONS,
 } from "@/data/catalog";
 import { ProductGrid } from "@/components/ProductGrid";
-import { getProducts } from "@/services/products";
+import { getProductsByCategory } from "@/services/products";
 
 export const Route = createFileRoute("/categoria/$slug")({
   loader: async ({ params }) => {
@@ -12,17 +12,51 @@ export const Route = createFileRoute("/categoria/$slug")({
     if (!group && !sub) throw notFound();
     const parentSection = SECTIONS.find(s => s.groups.some(g => g.slug === params.slug || g.subcategories.some(x => x.slug === params.slug)));
     
-    const allSupaProducts = await getProducts(true);
-    const supaProducts = allSupaProducts
-      .filter(p => p.categorySlug === params.slug)
-      .map(p => ({
+    let products: any[] = [];
+    let productsBySubcategory: Array<{ subcategoryName: string; subcategorySlug: string; products: any[] }> | null = null;
+
+    if (group && group.subcategories.length > 0) {
+      // Es un grupo con subcategorías: procesamos cada una por separado
+      const results = await Promise.all(
+        group.subcategories.map(async (s) => {
+          const raw = await getProductsByCategory(s.slug);
+          return {
+            subcategoryName: s.name,
+            subcategorySlug: s.slug,
+            products: raw.map(p => ({
+              ...p,
+              desc: p.description,
+              features: p.sizes || [],
+              img: p.img || (p.images && p.images[0]) || "",
+            }))
+          };
+        })
+      );
+      
+      // Ordenamos para que las subcategorías con "completo" vayan primero
+      results.sort((a, b) => {
+        const aCompleto = a.subcategorySlug.includes("completo");
+        const bCompleto = b.subcategorySlug.includes("completo");
+        if (aCompleto && !bCompleto) return -1;
+        if (!aCompleto && bCompleto) return 1;
+        return 0; // El resto mantiene el orden de group.subcategories
+      });
+
+      productsBySubcategory = results;
+      // Por compatibilidad, mantenemos el array plano en 'products'
+      products = results.map(r => r.products).flat();
+    } else {
+      // Si es una subcategoría suelta (o un grupo sin subcategorías)
+      const rawProducts = await getProductsByCategory(params.slug);
+      products = rawProducts.map(p => ({
         ...p,
         desc: p.description,
         features: p.sizes || [],
         img: p.img || (p.images && p.images[0]) || "",
       }));
+    }
 
-    return { group, sub, parentSection, supaProducts };
+    return { group, sub, parentSection, products, productsBySubcategory };
   },
   head: ({ loaderData }) => {
     const name = loaderData?.group?.name || loaderData?.sub?.name || "Categoría";
@@ -37,10 +71,7 @@ export const Route = createFileRoute("/categoria/$slug")({
 });
 
 function CategoryPage() {
-  const { slug } = Route.useParams();
-  const { group, sub, parentSection, supaProducts } = Route.useLoaderData();
-  const staticProducts = getProductsByCategory(slug);
-  const products = [...supaProducts, ...staticProducts] as any[];
+  const { group, sub, parentSection, products, productsBySubcategory } = Route.useLoaderData();
   const meta = group ?? sub!;
 
   return (
@@ -56,23 +87,24 @@ function CategoryPage() {
         {meta.description && <p>{meta.description}</p>}
       </section>
 
-
-      {group && group.subcategories.length > 1 && (
+      {productsBySubcategory ? (
+        productsBySubcategory.map((subcat) => {
+          if (subcat.products.length === 0) return null;
+          return (
+            <div key={subcat.subcategorySlug} style={{ marginBottom: "48px" }}>
+              <div className="section-head">
+                <h2>{subcat.subcategoryName}</h2>
+              </div>
+              <ProductGrid items={subcat.products} />
+            </div>
+          );
+        })
+      ) : (
         <>
-          <div className="section-head"><h2>Subcategorías</h2></div>
-          <div className="cat-grid">
-            {group.subcategories.map((s: { slug: string; name: string; image: string }) => (
-              <Link key={s.slug} to="/categoria/$slug" params={{ slug: s.slug }} className="cat-card">
-                <img src={s.image} alt={s.name} loading="lazy" />
-                <div className="cat-card-label">{s.name}</div>
-              </Link>
-            ))}
-          </div>
+          <div className="section-head"><h2>Productos</h2></div>
+          <ProductGrid items={products} />
         </>
       )}
-
-      <div className="section-head"><h2>Productos</h2></div>
-      <ProductGrid items={products} />
     </>
   );
 }

@@ -260,15 +260,31 @@ function EditarProducto() {
           </div>
           {/* Prices */}
           <div className="adm-card">
-            <h3 className="adm-card-h">Precios</h3>
+            <h3 className="adm-card-h">Precios y costos</h3>
             <div className="adm-row">
               <div className="adm-field">
-                <label>Precio</label>
-                <input className="adm-input" type="number" value={price || ""} onChange={e=>setPrice(+e.target.value)} />
+                <label>Precio de venta</label>
+                <input className="adm-input" type="number" placeholder="0.00" value={price || ""} onChange={e=>setPrice(+e.target.value)}/>
               </div>
               <div className="adm-field">
-                <label>Precio de oferta</label>
-                <input className="adm-input" type="number" value={promoPrice || ""} onChange={e=>setPromoPrice(+e.target.value)} />
+                <label>Precio promocional</label>
+                <input className="adm-input" type="number" placeholder="0.00" value={promoPrice || ""} onChange={e=>setPromoPrice(+e.target.value)}/>
+                <span className="hint">Si se completa, se mostrará como oferta.</span>
+              </div>
+            </div>
+            <label className="adm-check" style={{ marginTop: 4 }}>
+              <input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar precio en la tienda
+            </label>
+            <div className="adm-divider"/>
+            <div className="adm-row">
+              <div className="adm-field">
+                <label>Costo</label>
+                <input className="adm-input" type="number" placeholder="0.00" value={costo || ""} onChange={e=>setCosto(+e.target.value)}/>
+                <span className="hint">Uso interno.</span>
+              </div>
+              <div className="adm-field">
+                <label>Margen de ganancia</label>
+                <input className="adm-input" value={promoPrice && costo ? `${Math.round(((promoPrice - costo) / promoPrice) * 100)}%` : price && costo ? `${Math.round(((price - costo) / price) * 100)}%` : "--"} disabled/>
               </div>
             </div>
           </div>

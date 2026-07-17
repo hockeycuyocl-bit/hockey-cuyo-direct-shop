@@ -30,6 +30,7 @@ const BASIC_COLORS = [
 ];
 
 const SIZE_GROUPS = [
+  { name: "Hockey", sizes: ["Seleccionar todos", "Infantil", "Junior", "Senior"] },
   { name: "Adultos", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
   { name: "Niños", sizes: ["2", "4", "6", "8", "10", "12", "14"] },
   { name: "Calzados", sizes: ["34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"] },

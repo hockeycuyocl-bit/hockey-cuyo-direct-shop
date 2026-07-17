@@ -168,6 +168,7 @@ export const BRANDS: Brand[] = [
 
 export type Product = {
   name: string;
+  slug?: string;
   categorySlug: string;
   brandSlug: string;
   badge?: string;

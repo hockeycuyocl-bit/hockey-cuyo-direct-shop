@@ -470,13 +470,63 @@ details[open] > summary.m-link::after { content: "▴"; }
 .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -8px rgba(37,211,102,.55); filter: brightness(1.05); }
 
 @media (max-width: 640px) {
-  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px 16px 40px; }
+  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 12px 10px 40px; }
   .card { border-radius: 16px; }
   .card-body { padding: 12px; gap: 4px; }
   .card-h3 { font-size: 13px; }
   .price { font-size: 18px; margin-top: 4px; }
   .add-btn { font-size: 11px; padding: 8px 10px; }
   .add-btn svg { width: 14px; height: 14px; }
+}
+
+@media (max-width: 480px) {
+  /* 1. Paso a 1 columna en pantallas chicas para mayor comodidad de lectura y touch */
+  .products { grid-template-columns: 1fr; gap: 18px; padding: 16px; }
+  .card { border-radius: 12px; }
+  .card-body { padding: 16px; gap: 8px; }
+  .card-h3 { font-size: 15px; }
+  .price { font-size: 20px; }
+  .add-btn { font-size: 13px; padding: 10px 14px; }
+}
+
+/* ===== OPTIMIZACIÓN MOBILE DETALLE DE PRODUCTO (Nike/Apple style) ===== */
+@media (max-width: 640px) {
+  /* Remoción de paddings laterales para habilitar full-bleed en la imagen */
+  .product-detail {
+    padding: 80px 0 40px !important;
+  }
+  
+  /* Devolver padding lateral a los bloques de texto */
+  .product-detail .breadcrumb {
+    padding: 0 16px !important;
+  }
+  .product-detail > div:nth-child(2) > div:last-child {
+    padding: 0 16px !important;
+  }
+  .product-detail > div:nth-child(3) {
+    padding: 0 16px !important;
+  }
+  .product-detail > div:nth-child(4) {
+    padding: 0 16px !important;
+  }
+
+  /* Contenedor de la Imagen principal (anula los estilos inline) */
+  .product-detail > div:nth-child(2) > div:first-child > div:first-child {
+    height: auto !important;
+    aspect-ratio: 4/3 !important;
+    background: #ffffff !important;
+    border-radius: 0 !important;
+    border-top: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+  .product-detail > div:nth-child(2) > div:first-child > div:first-child img {
+    object-fit: contain !important;
+  }
+  .product-detail > div:nth-child(2) > div:first-child > div:nth-child(2) {
+    padding: 0 16px !important;
+  }
 }
 
 .empty-state { max-width: 600px; margin: 60px auto; text-align: center; color: var(--muted); padding: 0 20px; }

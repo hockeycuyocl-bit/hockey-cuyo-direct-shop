@@ -1,14 +1,45 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { formatPrice, getCategoryMeta } from "@/data/catalog";
-import { getProductBySlug } from "@/services/products";
+import { formatPrice, getCategoryMeta, type Product } from "@/data/catalog";
+import { getProductBySlug, getProductsByCategory, getProducts, type SupabaseProduct } from "@/services/products";
 import { useCart } from "@/lib/cart";
+import { ProductCard } from "@/components/ProductGrid";
+
+function adaptToProduct(sp: SupabaseProduct): Product {
+  return {
+    name: sp.name,
+    slug: sp.slug,
+    categorySlug: sp.categorySlug || "",
+    brandSlug: sp.brandSlug || "",
+    badge: sp.badge,
+    price: sp.price,
+    promoPrice: sp.promoPrice,
+    desc: sp.description,
+    features: [],
+    img: sp.img || (sp.images && sp.images[0]) || ""
+  };
+}
 
 export const Route = createFileRoute("/producto/$slug")({
   loader: async ({ params }) => {
     const product = await getProductBySlug(params.slug);
     if (!product) throw notFound();
-    return { product };
+
+    let allRelated: SupabaseProduct[] = [];
+    if (product.categorySlug) {
+      allRelated = await getProductsByCategory(product.categorySlug);
+    }
+    
+    if (allRelated.length <= 1) {
+      allRelated = await getProducts(true);
+    }
+
+    const relatedProducts = allRelated
+      .filter(p => p.id !== product.id)
+      .sort((a, b) => b.price - a.price)
+      .slice(0, 5);
+
+    return { product, relatedProducts };
   },
   head: ({ loaderData }) => ({
     meta: [
@@ -21,7 +52,7 @@ export const Route = createFileRoute("/producto/$slug")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { product, relatedProducts } = Route.useLoaderData();
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [imagenActiva, setImagenActiva] = useState(0);
@@ -157,7 +188,16 @@ function ProductPage() {
           </h1>
 
           <div style={{ fontSize: 32, fontWeight: 700 }}>
-            {formatPrice(product.price)}
+            {product.promoPrice && product.promoPrice > 0 ? (
+              <>
+                <span style={{ textDecoration: "line-through", opacity: 0.5, fontSize: "0.7em", marginRight: 12 }}>
+                  {formatPrice(product.price)}
+                </span>
+                <span style={{ color: "var(--accent)" }}>{formatPrice(product.promoPrice)}</span>
+              </>
+            ) : (
+              formatPrice(product.price)
+            )}
           </div>
 
           <div style={{ fontSize: 15 }}>
@@ -332,6 +372,20 @@ function ProductPage() {
           )}
         </div>
       </div>
+
+      {/* 4. PRODUCTOS RELACIONADOS */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <div style={{ borderTop: "1px solid var(--border)", paddingTop: 40, marginTop: 40 }}>
+          <h3 style={{ fontSize: 24, fontWeight: 800, textTransform: "uppercase", marginBottom: 24, letterSpacing: "-0.02em" }}>
+            Productos relacionados
+          </h3>
+          <section className="products products-full-grid" style={{ padding: 0 }}>
+            {relatedProducts.map((p) => (
+              <ProductCard key={p.slug} p={adaptToProduct(p)} />
+            ))}
+          </section>
+        </div>
+      )}
 
     </section>
   );

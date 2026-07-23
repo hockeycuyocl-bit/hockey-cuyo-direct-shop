@@ -131,26 +131,87 @@ export const SECTIONS: Section[] = [
     slug: "patinaje",
     name: "Patinaje Artístico",
     groups: [
-      { slug: "botas-artistico", name: "Botas", image: IMG.artistico,
-        subcategories: [{ slug: "botas-artistico", name: "Botas", image: IMG.artistico }] },
-      { slug: "planchas-artistico", name: "Planchas", image: IMG.artistico,
-        subcategories: [{ slug: "planchas-artistico", name: "Planchas", image: IMG.artistico }] },
+      {
+        slug: "patines-recreativos", name: "Patines Recreativos", image: IMG.artistico,
+        subcategories: [
+          { slug: "riedell-recreativo", name: "Riedell", image: IMG.artistico },
+          { slug: "rio-roller", name: "Rio Roller", image: IMG.artistico },
+        ]
+      },
+      {
+        slug: "patines-completos-artistico", name: "Patines Artísticos Completos", image: IMG.artistico,
+        subcategories: [
+          { slug: "semiprofesionales", name: "Semiprofesionales", image: IMG.artistico },
+          { slug: "escuela-patines", name: "Escuela", image: IMG.artistico },
+          { slug: "competitivos", name: "Competitivos", image: IMG.artistico },
+          { slug: "profesionales-patines", name: "Profesionales", image: IMG.artistico },
+          { slug: "patines-danza", name: "Danza", image: IMG.artistico },
+          { slug: "patines-figura", name: "Figura", image: IMG.artistico },
+        ]
+      },
+      {
+        slug: "planchas-artistico", name: "Planchas", image: IMG.artistico,
+        subcategories: [
+          { slug: "planchas-libre", name: "Planchas de Libre", image: IMG.artistico },
+          { slug: "planchas-danza-artistico", name: "Planchas de Danza", image: IMG.artistico },
+          { slug: "planchas-figura", name: "Planchas de Figura", image: IMG.artistico },
+        ]
+      },
+      {
+        slug: "botas-artistico", name: "Botas", image: IMG.artistico,
+        subcategories: [
+          { slug: "risport", name: "Risport", image: IMG.artistico },
+          { slug: "edea-botas", name: "Edea", image: IMG.artistico },
+          { slug: "rollervar-botas", name: "Rollervar", image: IMG.artistico },
+        ]
+      },
       {
         slug: "ruedas-artistico", name: "Ruedas", image: IMG.rueda,
-        description: "Ruedas según disciplina.",
         subcategories: [
-          { slug: "ruedas-danza", name: "Ruedas Danza", image: IMG.rueda },
-          { slug: "ruedas-libre", name: "Ruedas Libre", image: IMG.rueda },
-          { slug: "ruedas-figura", name: "Ruedas Figura", image: IMG.rueda },
-        ],
+          { slug: "ruedas-danza", name: "Danza", image: IMG.rueda },
+          { slug: "ruedas-libre", name: "Libre", image: IMG.rueda },
+          { slug: "ruedas-figura", name: "Figura", image: IMG.rueda },
+          { slug: "ruedas-calle", name: "Calle", image: IMG.rueda },
+        ]
       },
-      { slug: "frenos-artistico", name: "Frenos", image: IMG.artistico,
-        subcategories: [{ slug: "frenos-artistico", name: "Frenos", image: IMG.artistico }] },
-      { slug: "rodamientos-artistico", name: "Rodamientos", image: IMG.rueda,
-        subcategories: [{ slug: "rodamientos-artistico", name: "Rodamientos", image: IMG.rueda }] },
-      { slug: "patines-completos-artistico", name: "Patines Completos", image: IMG.artistico,
-        subcategories: [{ slug: "patines-completos-artistico", name: "Patines Completos", image: IMG.artistico }] },
-    ],
+      {
+        slug: "frenos-artistico", name: "Frenos", image: IMG.artistico,
+        subcategories: [{ slug: "frenos-artistico", name: "Frenos", image: IMG.artistico }]
+      },
+      {
+        slug: "rodamientos-artistico", name: "Rodamientos", image: IMG.rueda,
+        subcategories: [{ slug: "rodamientos-artistico", name: "Rodamientos", image: IMG.rueda }]
+      },
+      {
+        slug: "bolsos-artistico", name: "Bolsos", image: IMG.bolso,
+        subcategories: [
+          { slug: "bystry", name: "Bystry", image: IMG.bolso },
+          { slug: "roll-line-bolsos", name: "Roll Line", image: IMG.bolso },
+          { slug: "edea-bolsos", name: "Edea", image: IMG.bolso },
+          { slug: "rollervar-bolsos", name: "Rollervar", image: IMG.bolso },
+          { slug: "risport-bolsos", name: "Risport", image: IMG.bolso },
+        ]
+      },
+      {
+        slug: "accesorios-artistico", name: "Accesorios", image: IMG.artistico,
+        subcategories: [
+          { slug: "spinner", name: "Spinner", image: IMG.artistico },
+          { slug: "cordones-artistico", name: "Cordones", image: IMG.artistico },
+          { slug: "plantillas", name: "Plantillas", image: IMG.artistico },
+          { slug: "aceites-set", name: "Aceites y Set", image: IMG.artistico },
+          { slug: "extractor-artistico", name: "Extractor", image: IMG.artistico },
+          { slug: "gomas-artistico", name: "Gomas", image: IMG.artistico },
+          { slug: "herramientas-artistico", name: "Herramientas", image: IMG.artistico },
+          { slug: "pantys", name: "Pantys", image: IMG.artistico },
+          { slug: "repuestos-artistico", name: "Repuestos", image: IMG.artistico },
+          { slug: "llaveros", name: "Llaveros", image: IMG.artistico },
+        ]
+      },
+      {
+        slug: "entrenamiento-artistico", name: "Entrenamiento", image: IMG.artistico,
+        subcategories: [{ slug: "entrenamiento-artistico", name: "Entrenamiento", image: IMG.artistico }]
+      }
+    ]
   },
 ];
 

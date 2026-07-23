@@ -140,8 +140,8 @@ function BrandCard({ name, slug, logo, idx }: { name: string; slug: string; logo
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: idx * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
     >
-      <Link to="/marca/$slug" params={{ slug }} className="brand-card">
-        <img src={logo} alt={name} style={{ width: "80%", maxHeight: 120, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+      <Link to="/marca/$slug" params={{ slug }} className="brand-card" style={{ background: "#fff", borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+        <img src={logo} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
         <span className="b-arrow">↗</span>
       </Link>
     </motion.div>

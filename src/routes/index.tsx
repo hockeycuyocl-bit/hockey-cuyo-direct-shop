@@ -132,7 +132,7 @@ function Hero() {
   );
 }
 
-function BrandCard({ name, idx }: { name: string; idx: number }) {
+function BrandCard({ name, slug, logo, idx }: { name: string; slug: string; logo: string; idx: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -140,16 +140,22 @@ function BrandCard({ name, idx }: { name: string; idx: number }) {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: idx * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
     >
-      <Link to="/marca/$slug" params={{ slug: name.toLowerCase().replace(/[^a-z0-9]+/g, "-") }} className="brand-card">
-        <span className="b-tag">Brand</span>
-        <span className="b-name">{name}</span>
+      <Link to="/marca/$slug" params={{ slug }} className="brand-card">
+        <img src={logo} alt={name} style={{ width: "80%", maxHeight: 120, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
         <span className="b-arrow">↗</span>
       </Link>
     </motion.div>
   );
 }
 
-const FEATURED_BRANDS = ["Reno", "Azemad", "Toor", "Meneghini", "Roll-Line", "STD"];
+const FEATURED_BRANDS = [
+  { name: "Reno", slug: "reno", logo: "/marcas/reno.png" },
+  { name: "Azemad", slug: "azemad", logo: "/marcas/azemad.png" },
+  { name: "Toor", slug: "toor", logo: "/marcas/toor.png" },
+  { name: "Roll-Line", slug: "roll-line", logo: "/marcas/roll-line.png" },
+  { name: "Edea", slug: "edea", logo: "/marcas/edea.png" },
+  { name: "Risport", slug: "risport", logo: "/marcas/risport.png" },
+];
 
 function Index() {
   const supaProducts = Route.useLoaderData();
@@ -220,7 +226,7 @@ function Index() {
           <p className="lead">Trabajamos con las mejores firmas del mundo. Originales, con garantía y stock real.</p>
         </div>
         <div className="brands-grid">
-          {FEATURED_BRANDS.map((b, i) => <BrandCard key={b} name={b} idx={i} />)}
+          {FEATURED_BRANDS.map((b, i) => <BrandCard key={b.name} name={b.name} slug={b.slug} logo={b.logo} idx={i} />)}
         </div>
       </section>
     </>

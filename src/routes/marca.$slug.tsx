@@ -1,12 +1,20 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { BRANDS, getProductsByBrand } from "@/data/catalog";
+import { BRANDS } from "@/data/catalog";
+import { getProductsByBrand } from "@/services/products";
 import { ProductGrid } from "@/components/ProductGrid";
 
 export const Route = createFileRoute("/marca/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const brand = BRANDS.find(b => b.slug === params.slug);
     if (!brand) throw notFound();
-    return { brand };
+    const supa = await getProductsByBrand(brand.slug);
+    const products = supa.map(p => ({
+      ...p,
+      desc: p.description,
+      features: p.sizes || [],
+      img: p.img || (p.images && p.images[0]) || "",
+    }));
+    return { brand, products };
   },
   head: ({ loaderData }) => ({
     meta: [
@@ -18,8 +26,7 @@ export const Route = createFileRoute("/marca/$slug")({
 });
 
 function BrandPage() {
-  const { brand } = Route.useLoaderData();
-  const products = getProductsByBrand(brand.slug);
+  const { brand, products } = Route.useLoaderData();
   return (
     <>
       <section className="page-hero">
@@ -35,4 +42,5 @@ function BrandPage() {
     </>
   );
 }
+
 

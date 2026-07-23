@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useState, useRef, useMemo } from "react";
-import { PRODUCTS, SECTIONS } from "@/data/catalog";
+import { SECTIONS } from "@/data/catalog";
 import { getProducts, createProduct } from "@/services/products";
 import { Upload, FileSpreadsheet, CheckCircle2, ArrowLeft, Download, Filter, X } from "lucide-react";
 import { toast } from "sonner";

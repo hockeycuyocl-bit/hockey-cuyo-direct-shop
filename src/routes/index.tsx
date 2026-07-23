@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { SECTIONS, BRANDS, waLink, PRODUCTS } from "@/data/catalog";
+import { SECTIONS, BRANDS, waLink } from "@/data/catalog";
 import { getProducts } from "@/services/products";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
@@ -153,7 +153,7 @@ const FEATURED_BRANDS = ["Reno", "Azemad", "Toor", "Meneghini", "Roll-Line", "ST
 
 function Index() {
   const supaProducts = Route.useLoaderData();
-  const allProducts = [...supaProducts, ...PRODUCTS].filter(p => p.visible !== false);
+  const allProducts = supaProducts.filter(p => p.visible !== false);
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 
   return (

@@ -86,35 +86,12 @@ export function updateProduct(id: string, data: Partial<Omit<StoredProduct, "id"
 }
 
 
-import { PRODUCTS } from "@/data/catalog";
+
 
 export function getProductById(id: string): StoredProduct | undefined {
   const custom = loadProducts().find(p => p.id === id);
   if (custom) return custom;
   
-  const staticProduct = PRODUCTS.find(p => p.slug === id);
-  if (staticProduct) {
-    return {
-      id: staticProduct.slug,
-      slug: staticProduct.slug,
-      name: staticProduct.name,
-      description: staticProduct.desc,
-      price: staticProduct.price,
-      promoPrice: staticProduct.promoPrice,
-      categorySlug: staticProduct.categorySlug,
-      brandSlug: staticProduct.brandSlug,
-      stockType: "limitado",
-      stockQty: 20,
-      productType: "fisico",
-      images: [staticProduct.img, ...(staticProduct.images || [])],
-      freeShipping: false,
-      visible: true,
-      createdAt: Date.now(),
-      sizes: staticProduct.sizes,
-      colors: staticProduct.colors,
-      badge: staticProduct.badge,
-    };
-  }
   return undefined;
 }
 

@@ -56,6 +56,7 @@ function EditarProducto() {
   // Opciones
   const [freeShipping, setFreeShipping] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [featured, setFeatured] = useState(false);
   
   // Custom
   const [categorySlug, setCategorySlug] = useState("");
@@ -116,6 +117,7 @@ function EditarProducto() {
         setGender(""); // Removed gender
         setFreeShipping(p.freeShipping);
         setVisible(p.visible);
+        setFeatured(p.featured);
         setCategorySlug(p.categorySlug || "");
         setBrandSlug(p.brandSlug || "");
         setSizes(p.sizes || []);
@@ -145,7 +147,7 @@ function EditarProducto() {
         badge: badge || undefined,
         stockType: stock,
         stockQty: stock === "limitado" ? stockQty : undefined,
-        freeShipping, visible,
+        freeShipping, visible, featured,
       });
 
       if (images.length >= 0) {
@@ -377,6 +379,7 @@ function EditarProducto() {
             <div className="adm-check-group">
               <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Envío gratis</label>
               <label className="adm-check"><input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar en la tienda</label>
+              <label className="adm-check"><input type="checkbox" checked={featured} onChange={e=>setFeatured(e.target.checked)}/> Destacado (aparece en "Top Performance" de la home)</label>
             </div>
           </div>
         </div>

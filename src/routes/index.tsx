@@ -159,7 +159,9 @@ const FEATURED_BRANDS = [
 
 function Index() {
   const supaProducts = Route.useLoaderData();
-  const allProducts = supaProducts.filter(p => p.visible !== false);
+  const visibleProducts = supaProducts.filter(p => p.visible !== false);
+  const featuredProducts = visibleProducts.filter(p => p.featured).slice(0, 12);
+  const regularProducts = visibleProducts.filter(p => !p.featured);
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 
   return (
@@ -194,16 +196,42 @@ function Index() {
         ))}
       </div>
 
-      {/* DESTACADOS (movido arriba de Marcas) */}
-      <div id="productos" className="section-head-v2">
+      {/* TOP PERFORMANCE (solo destacados, máx 12) */}
+      {featuredProducts.length > 0 && (
+        <>
+          <div id="productos" className="section-head-v2">
+            <div>
+              <p className="kicker">— Destacados</p>
+              <h2>Top performance</h2>
+            </div>
+            <p className="lead">Los productos más buscados de la temporada. Listos para despachar.</p>
+          </div>
+          <section className="products products-full-grid">
+            {featuredProducts.map((p, i) => (
+              <motion.div
+                key={p.slug}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
+              >
+                <ProductCard p={p} />
+              </motion.div>
+            ))}
+          </section>
+        </>
+      )}
+
+      {/* PRODUCTOS (el resto del catálogo) */}
+      <div id={featuredProducts.length === 0 ? "productos" : undefined} className="section-head-v2">
         <div>
-          <p className="kicker">— Destacados</p>
-          <h2>Top performance</h2>
+          <p className="kicker">— Catálogo</p>
+          <h2>Productos</h2>
         </div>
-        <p className="lead">Los productos más buscados de la temporada. Listos para despachar.</p>
+        <p className="lead">Todo nuestro equipamiento disponible.</p>
       </div>
       <section className="products products-full-grid">
-        {allProducts.map((p, i) => (
+        {regularProducts.map((p, i) => (
           <motion.div
             key={p.slug}
             initial={{ opacity: 0, y: 40 }}

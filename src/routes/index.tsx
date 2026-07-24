@@ -160,7 +160,10 @@ const FEATURED_BRANDS = [
 function Index() {
   const supaProducts = Route.useLoaderData();
   const visibleProducts = supaProducts.filter(p => p.visible !== false);
-  const featuredProducts = visibleProducts.filter(p => p.featured).slice(0, 12);
+  const featuredProducts = visibleProducts
+    .filter(p => p.featured)
+    .sort((a, b) => (a.featuredOrder ?? 999) - (b.featuredOrder ?? 999))
+    .slice(0, 12);
   const regularProducts = visibleProducts.filter(p => !p.featured);
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 

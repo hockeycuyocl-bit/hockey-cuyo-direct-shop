@@ -45,6 +45,7 @@ function NewProduct() {
   const [gender, setGender] = useState("sin");
   const [freeShipping, setFreeShipping] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [featured, setFeatured] = useState(false);
   
   const [categorySlug, setCategorySlug] = useState("");
   const [brandSlug, setBrandSlug] = useState("");
@@ -101,6 +102,7 @@ function NewProduct() {
         stockQty: stock === "limitado" ? stockQty : undefined,
         visible,
         freeShipping,
+        featured,
         categorySlug,
         brandSlug,
         badge,
@@ -400,6 +402,7 @@ function NewProduct() {
             <div className="adm-check-group">
               <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Este producto tiene envío gratis</label>
               <label className="adm-check"><input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar en la tienda</label>
+              <label className="adm-check"><input type="checkbox" checked={featured} onChange={e=>setFeatured(e.target.checked)}/> Destacado (aparece en "Top Performance" de la home)</label>
             </div>
           </div>
         </div>

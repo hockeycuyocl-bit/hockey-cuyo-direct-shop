@@ -219,11 +219,17 @@ export type Brand = { slug: string; name: string };
 export const BRANDS: Brand[] = [
   { slug: "azemad", name: "Azemad" },
   { slug: "bauer", name: "Bauer" },
+  { slug: "bystry", name: "Bystry" },
+  { slug: "density", name: "Density" },
   { slug: "edea", name: "Edea" },
+  { slug: "footgel", name: "Footgel" },
   { slug: "jet", name: "Jet" },
+  { slug: "komplex", name: "Komplex" },
   { slug: "reno", name: "Reno" },
+  { slug: "riedell", name: "Riedell" },
   { slug: "risport", name: "Risport" },
   { slug: "roll-line", name: "Roll-Line" },
+  { slug: "rollervar", name: "Rollervar" },
   { slug: "skater", name: "Skater" },
   { slug: "toor", name: "Toor" },
 ];

@@ -1,0 +1,1970 @@
+[
+  {
+    "id": "f50fc7e7-763e-4609-9950-bbebd56e09a9",
+    "name": "GUANTES TOOR FORCE II NEGRO/BLANCO",
+    "price": 1250000,
+    "promo_price": 900000
+  },
+  {
+    "id": "6d6b9d62-8716-46e5-af5e-ab06161a2d6e",
+    "name": "STICK AZEMAD MINI HOCKEY",
+    "price": 352769,
+    "promo_price": 160000
+  },
+  {
+    "id": "c2ad8dff-bfe2-4d81-99b8-22cf8ad90410",
+    "name": "SLIPS AZEMAD NEGROS",
+    "price": 40800,
+    "promo_price": 33999
+  },
+  {
+    "id": "3f3a3a77-f9de-40b3-bac8-7bde18fa5444",
+    "name": "PERNERAS TOOR FORCE I NEGRO/BLANCO",
+    "price": 1200000,
+    "promo_price": 850000
+  },
+  {
+    "id": "49ed0fb9-edce-4d0d-bfc3-7ef3e091e8f3",
+    "name": "GUANTES RENO SUPREME DARK",
+    "price": 1250000,
+    "promo_price": 900000
+  },
+  {
+    "id": "837ff451-71e7-4124-9161-2ace754d3cce",
+    "name": "STICK AZEMAD BEGINNER",
+    "price": 393185,
+    "promo_price": 160000
+  },
+  {
+    "id": "6ded5f76-5b24-4390-aeeb-4421e79cda8e",
+    "name": "STICK AZEMAD STRONG",
+    "price": 545435,
+    "promo_price": 230000
+  },
+  {
+    "id": "cb0d3d24-ea56-460d-aecd-ae535aff3f61",
+    "name": "STICK AZEMAD JUMBO",
+    "price": 429735,
+    "promo_price": 240000
+  },
+  {
+    "id": "b4d000ca-b2b6-4f40-9597-b13cd2717d0d",
+    "name": "STICK AZEMAD GT10 XL",
+    "price": 533648,
+    "promo_price": 300000
+  },
+  {
+    "id": "2825aa32-a490-4ceb-a707-9a7a181de3c3",
+    "name": "STICK AZEMAD GT 10",
+    "price": 490377,
+    "promo_price": 290000
+  },
+  {
+    "id": "efa5d607-c0d9-4328-bec5-0b900507bad3",
+    "name": "STICK AZEMAD SUPER",
+    "price": 499749,
+    "promo_price": 200000
+  },
+  {
+    "id": "b1ecda81-89c7-4cc5-a5d3-a1e5820c0fd0",
+    "name": "STICK AZEMAD COMPACT SUPER",
+    "price": 608475,
+    "promo_price": 240000
+  },
+  {
+    "id": "db074918-74e4-46db-ad54-bb12161ba297",
+    "name": "STICK AZEMAD COMPACT PLUS",
+    "price": 438256,
+    "promo_price": 215000
+  },
+  {
+    "id": "3bb9cf90-73f7-4ce8-9f4b-ce834e24a08e",
+    "name": "STICK AZEMAD AZEX SPECIAL",
+    "price": 614076,
+    "promo_price": 230000
+  },
+  {
+    "id": "950b065c-ac49-4bb2-a4be-19906a860731",
+    "name": "STICK AZEMAD AZ 100 STRONG",
+    "price": 491766,
+    "promo_price": 250000
+  },
+  {
+    "id": "54a1d9a7-4014-4d03-abfa-a6e64af19d86",
+    "name": "STICK AZEMAD COMPACT JUMBO",
+    "price": 505614,
+    "promo_price": 250000
+  },
+  {
+    "id": "5d4f6ee2-4f81-4945-b148-be3ebbf1e88d",
+    "name": "PLANCHA ROLL LINE EVO",
+    "price": 2030000,
+    "promo_price": 1680000
+  },
+  {
+    "id": "d23a4ec1-f7bb-4002-845e-3697e08b89a9",
+    "name": "BOLSO RENO TROLLEY GIPSY",
+    "price": 589434,
+    "promo_price": 240000
+  },
+  {
+    "id": "6073ffec-cdbd-402a-83e2-86b9ee1c8308",
+    "name": "RODAMIENTOS JET ABEC 7",
+    "price": 389597,
+    "promo_price": 100000
+  },
+  {
+    "id": "c7bd5137-1fed-4c71-9961-139889de4fcc",
+    "name": "RUEDAS TOOR DYNAMIC 92A",
+    "price": 601886,
+    "promo_price": 240000
+  },
+  {
+    "id": "5093526b-0867-4bc0-ba02-7d45f6d7ad1e",
+    "name": "RUEDAS AZEMAD DRIVE 92A",
+    "price": 561385,
+    "promo_price": 230000
+  },
+  {
+    "id": "30288f53-8d61-4a05-b1b6-e285d8745c40",
+    "name": "PORTA STICK AZEMAD COLORES",
+    "price": 383593,
+    "promo_price": 70000
+  },
+  {
+    "id": "880ea0f0-8709-4ab8-8bb6-775eff492bee",
+    "name": "BOLSO RENO TROLLEY ARQUERO",
+    "price": 692160,
+    "promo_price": 300000
+  },
+  {
+    "id": "131bea28-dd79-4b16-90e7-0b768436bd6a",
+    "name": "GUANTES TOOR FORCE NEGRO",
+    "price": 1200000,
+    "promo_price": 850000
+  },
+  {
+    "id": "0c1a282a-4ddf-48c8-9782-660db8bdbf86",
+    "name": "Repuestos en Linea",
+    "price": 11000,
+    "promo_price": null
+  },
+  {
+    "id": "7b8babc1-8513-4b86-99e6-d90b71aa528e",
+    "name": "Repuestos Plancha EVO",
+    "price": 16000,
+    "promo_price": null
+  },
+  {
+    "id": "344f45c4-d035-47e0-950c-ef61472759dc",
+    "name": "Repuestos Plancha Mistral",
+    "price": 16000,
+    "promo_price": null
+  },
+  {
+    "id": "42c40c38-7c37-4fd5-b603-1ffa8259a790",
+    "name": "Repuestos Plancha Variant M",
+    "price": 16000,
+    "promo_price": null
+  },
+  {
+    "id": "61c0827e-d0f7-4dbc-96a1-21903fb9a2c8",
+    "name": "Track Komplex",
+    "price": 46000,
+    "promo_price": null
+  },
+  {
+    "id": "b5d69b74-a77c-4a33-8116-017f501e5807",
+    "name": "Motivo 1",
+    "price": 1320000,
+    "promo_price": 1200000
+  },
+  {
+    "id": "9dab351a-ad2f-4af9-ad65-8f35138c3ab7",
+    "name": "MOCHILA RENO PASEO",
+    "price": 415724,
+    "promo_price": 100000
+  },
+  {
+    "id": "43eadbc2-7df9-4cf7-8618-b205fed19bcf",
+    "name": "MEDIAS COLORES JET",
+    "price": 35360,
+    "promo_price": 29499
+  },
+  {
+    "id": "bcd58030-3b66-4d4a-a9af-10e044bd2321",
+    "name": "RODAMIENTOS JET ABEC 3",
+    "price": 322825,
+    "promo_price": 90000
+  },
+  {
+    "id": "c8118656-a885-49bf-90d1-86eb098fd1ab",
+    "name": "RUEDAS TOOR DYNAMIC 94A",
+    "price": 541446,
+    "promo_price": 240000
+  },
+  {
+    "id": "e0465a61-0e99-48cc-8060-d9e0960f6588",
+    "name": "RUEDAS JET 92A",
+    "price": 512550,
+    "promo_price": 230000
+  },
+  {
+    "id": "ccdea0a8-da5e-4547-884d-39923479fb09",
+    "name": "RUEDAS JET SPEED 93A",
+    "price": 579448,
+    "promo_price": 230000
+  },
+  {
+    "id": "279f04ee-0ff5-4638-a5ba-53701532412d",
+    "name": "RUEDAS TOOR DYNAMIC 90A",
+    "price": 558493,
+    "promo_price": 240000
+  },
+  {
+    "id": "bc793b8e-b100-4d33-9808-64e0c7f6cda8",
+    "name": "RUEDAS AZEMAD TUNNEL 94A",
+    "price": 512017,
+    "promo_price": 230000
+  },
+  {
+    "id": "306f2f7b-92ae-4d57-ba75-54a0110db029",
+    "name": "STICK AZEMAD AZEX STRONG",
+    "price": 607244,
+    "promo_price": 230000
+  },
+  {
+    "id": "b8e351a9-5c17-463e-990f-83d6fc54cfe3",
+    "name": "STICK AZEMAD NO CORE",
+    "price": 483476,
+    "promo_price": 295000
+  },
+  {
+    "id": "8a3093a3-b43b-4a13-84e2-eecedf98bdfa",
+    "name": "STICK AZEMAD AZ 100 PLUS",
+    "price": 410863,
+    "promo_price": 250000
+  },
+  {
+    "id": "688e834e-fd3c-4248-b2ec-96c4635dd420",
+    "name": "STICK AZEMAD AZEX PLUS",
+    "price": 519237,
+    "promo_price": 240000
+  },
+  {
+    "id": "909239c7-6f9f-44d0-9c36-f66c337269ba",
+    "name": "STICK AZEMAD AZEX ELITE",
+    "price": 491654,
+    "promo_price": 240000
+  },
+  {
+    "id": "3280fdc6-5a78-44ef-b1f5-e73101492cd0",
+    "name": "STICK JET SPECIAL",
+    "price": 396675,
+    "promo_price": 230000
+  },
+  {
+    "id": "b8974eb9-ef47-45c4-9fed-e0c2e41d17e8",
+    "name": "BOLSO AZEMAD TROLLEY VAULT XL",
+    "price": 690500,
+    "promo_price": 570000
+  },
+  {
+    "id": "7026e060-e8ce-48c6-b173-0b11ea3a9da2",
+    "name": "Truck Evo & Matrix Back Left steel",
+    "price": 179000,
+    "promo_price": 169000
+  },
+  {
+    "id": "88ac9bc2-2b8e-44f7-ab77-c00fa3cd897c",
+    "name": "GUANTES AZEMAD ECLIPSE ROJO",
+    "price": 436179,
+    "promo_price": 160000
+  },
+  {
+    "id": "af36342f-69a3-4f40-95e9-4d5854f817b0",
+    "name": "GUANTES AZEMAD ECLIPSE NEGRO",
+    "price": 391024,
+    "promo_price": 160000
+  },
+  {
+    "id": "5a7a8628-6bfe-4d4d-a4b4-e06b82645c6d",
+    "name": "GUANTES AZEMAD ECLIPSE AZUL",
+    "price": 471243,
+    "promo_price": 160000
+  },
+  {
+    "id": "c66e52cc-38c4-48fd-8fe2-e6274c34aafc",
+    "name": "CANILLERAS JET CARBONO MOLDEADAS",
+    "price": 416052,
+    "promo_price": 200000
+  },
+  {
+    "id": "5cd1db20-cd36-4983-8577-cc30fc446b3a",
+    "name": "FRENOS TOOR COLORES",
+    "price": 350304,
+    "promo_price": 60000
+  },
+  {
+    "id": "f9344019-dba1-48f1-8579-1a903c4ef242",
+    "name": "FRENOS AZEMAD COLORES",
+    "price": 309827,
+    "promo_price": 60000
+  },
+  {
+    "id": "ee001484-50b8-44de-919e-f4a4974c85e9",
+    "name": "SUSPENSIONES ROLL-LINE VARIANT",
+    "price": 369146,
+    "promo_price": 95000
+  },
+  {
+    "id": "44286b66-a0c7-4d31-8a46-5deb657a129f",
+    "name": "SUSPENSIONES ROLL-LINE MISTRAL",
+    "price": 460596,
+    "promo_price": 95000
+  },
+  {
+    "id": "5421232d-32bd-437c-ba47-9f0c80e62c6d",
+    "name": "RODAMIENTOS ROLL-LINE ABEC 3",
+    "price": 439729,
+    "promo_price": 90000
+  },
+  {
+    "id": "43e4a15e-7432-4343-9ac4-ec3a811c7872",
+    "name": "Julieta 1",
+    "price": 1468000,
+    "promo_price": 1270000
+  },
+  {
+    "id": "fc32e6f2-4416-4e0b-822e-da81074b4ff6",
+    "name": "BOTA RENO ODDITY BLANCO/AZUL",
+    "price": 790000,
+    "promo_price": 775000
+  },
+  {
+    "id": "873b55c4-c4c1-499f-b44b-1cde72749c3a",
+    "name": "BOTA RENO INICIACION",
+    "price": 490000,
+    "promo_price": 450000
+  },
+  {
+    "id": "16a296c4-e11c-49f2-a964-8b721a2300ff",
+    "name": "BOTA RENO MILLENIUM MAX NEGRO/ROJO",
+    "price": 719998,
+    "promo_price": 680000
+  },
+  {
+    "id": "cccd90af-72d9-4368-b78c-dac6c10cbc65",
+    "name": "Bota Amateur 2 Negro Rojo",
+    "price": 480000,
+    "promo_price": 450000
+  },
+  {
+    "id": "151f5362-7933-4c6d-99c3-193b9126df29",
+    "name": "Bota Odditex Negro",
+    "price": 790000,
+    "promo_price": 720000
+  },
+  {
+    "id": "5cfdde7e-7ae6-4b47-884e-2fbf2e4fadb4",
+    "name": "COLLARIN RENO",
+    "price": 140000,
+    "promo_price": 110500
+  },
+  {
+    "id": "4c3ffedb-7297-4065-bda9-a1d55344e5a8",
+    "name": "CODERAS JET IMPACT",
+    "price": 240200,
+    "promo_price": 215500
+  },
+  {
+    "id": "9f89b2ba-96dd-4649-a187-2622feda0e71",
+    "name": "COLLARIN TOOR FORCE",
+    "price": 120500,
+    "promo_price": 109998
+  },
+  {
+    "id": "f2f168ea-885f-4ab0-8493-303dd5adb815",
+    "name": "PECHERA AZEMAD V-GUARD",
+    "price": 520498,
+    "promo_price": 485000
+  },
+  {
+    "id": "da07edaf-c3ef-49a5-9d38-015e8dcd438d",
+    "name": "GUANTILLAS JET",
+    "price": 120000,
+    "promo_price": 104999
+  },
+  {
+    "id": "2928ca9e-c873-421e-9899-5ffd9d387a78",
+    "name": "PERNERAS RENO EXEL SLEM",
+    "price": 1150000,
+    "promo_price": 800000
+  },
+  {
+    "id": "f5346069-5a3d-41ea-9f56-6127e8fea983",
+    "name": "CODERAS TOOR ROCK",
+    "price": 469924,
+    "promo_price": 280000
+  },
+  {
+    "id": "7e991cce-fd8e-4b1e-86bb-fba4c10eefe3",
+    "name": "RODILLERAS JET REFLEX ROJO",
+    "price": 517612,
+    "promo_price": 160000
+  },
+  {
+    "id": "46ef993c-9f94-4985-ba8f-87dbe2a9fa55",
+    "name": "GUANTES JET REFLEX GRIS",
+    "price": 551557,
+    "promo_price": 160000
+  },
+  {
+    "id": "e64b5c0d-9c4a-4f1d-b9a8-288d53bc5178",
+    "name": "RODILLERAS ARTICULADAS SKATER",
+    "price": 526406,
+    "promo_price": 200000
+  },
+  {
+    "id": "4a17d13f-b1cb-4bf8-a4cb-94c724d34435",
+    "name": "PATIN AZEMAD ECLIPSE UMBRA G2",
+    "price": 1450000,
+    "promo_price": null
+  },
+  {
+    "id": "7b97c712-0dac-4bb6-be74-f60bfcf12b18",
+    "name": "CORDONES AZEMAD COLORES",
+    "price": 35500,
+    "promo_price": 22500
+  },
+  {
+    "id": "c88b22ca-72e7-4ced-966c-538a4a91883e",
+    "name": "CASCO BAUER IMS 5.0 + VISERA FERRO",
+    "price": 550500,
+    "promo_price": 480500
+  },
+  {
+    "id": "0bdeb006-3f0c-41e6-b706-c61e1dc1ae4d",
+    "name": "COLLARIN CON PETO RENO",
+    "price": 125498,
+    "promo_price": 115500
+  },
+  {
+    "id": "9b1ac187-b15f-495f-a92d-eaff18f54f2f",
+    "name": "PERNERAS TOOR FORCE II NEGRO/BLANCO",
+    "price": 1250000,
+    "promo_price": 900000
+  },
+  {
+    "id": "b91a62bc-23a5-4dc1-b7cf-adf050cb4a44",
+    "name": "PANTALON PORTERO RENO LUXURY",
+    "price": 290000,
+    "promo_price": 250500
+  },
+  {
+    "id": "733a0a5d-88be-400a-b88a-7a1f04fa6a90",
+    "name": "PECHERA TOOR FORCE",
+    "price": 589998,
+    "promo_price": 520500
+  },
+  {
+    "id": "af5e520b-b4c8-4bb6-b884-77b217421b62",
+    "name": "PECHERA AZEMAD S-GUARD",
+    "price": 550000,
+    "promo_price": 480500
+  },
+  {
+    "id": "75511608-431c-4e1b-8383-e401f722fe95",
+    "name": "PATIN AZEMAD MINI HOCKEY NEGRO/ROJO/AZUL/GRIS",
+    "price": 220000,
+    "promo_price": null
+  },
+  {
+    "id": "26468330-aa61-42e1-b4ca-e2dcc932e297",
+    "name": "CORDONES JET",
+    "price": 25500,
+    "promo_price": 18000
+  },
+  {
+    "id": "3855a011-feb3-4afa-8be5-f9af51a316e8",
+    "name": "COQUILLA JET ADULTO",
+    "price": 21760,
+    "promo_price": 19998
+  },
+  {
+    "id": "ba204eba-d093-41a9-967b-2d9d3663aaaa",
+    "name": "BOXER PORTA COQUILLA JET",
+    "price": 40800,
+    "promo_price": 35000
+  },
+  {
+    "id": "81038fae-b25a-470b-afd7-0ae89b9ede74",
+    "name": "CORDONES JET FLUOR",
+    "price": 21760,
+    "promo_price": 18000
+  },
+  {
+    "id": "489d4070-7632-40fb-b15b-b4b1bd503495",
+    "name": "PELOTA RENO",
+    "price": 43520,
+    "promo_price": 36000
+  },
+  {
+    "id": "22cce63c-8d72-4ba7-b208-a020b3b0cbfb",
+    "name": "COQUILLA RENO",
+    "price": 21760,
+    "promo_price": 17999
+  },
+  {
+    "id": "9fb22812-0873-463c-9536-e7dbd1ecad24",
+    "name": "MEDIAS AZEMAD",
+    "price": 39500,
+    "promo_price": 29500
+  },
+  {
+    "id": "48411325-d6a5-452e-92ec-b8f7f2948b5c",
+    "name": "PANTALON PORTERO AZEMAD V-GUARD",
+    "price": 295000,
+    "promo_price": 260498
+  },
+  {
+    "id": "35513c58-a3f1-4327-8ef6-c986cbc6c20b",
+    "name": "PERNERAS RENO EXEL WALL 2",
+    "price": 1130000,
+    "promo_price": 780000
+  },
+  {
+    "id": "f7058792-0598-4757-94d3-d26288e29857",
+    "name": "STICK AZEMAD GT10 BEGINNER",
+    "price": 451075,
+    "promo_price": 290000
+  },
+  {
+    "id": "15e939d9-8cc8-4284-8457-99874cfbafcc",
+    "name": "PATIN AZEMAD ECLIPSE NEGRO",
+    "price": 1550000,
+    "promo_price": 1350000
+  },
+  {
+    "id": "7cfaccce-fd66-47ed-9e40-437e3dd762df",
+    "name": "Bello 8",
+    "price": 2072000,
+    "promo_price": 2290000
+  },
+  {
+    "id": "36ee7de0-cbf9-48eb-8f1e-a2beafb6fd75",
+    "name": "PATIN RENO BEECOMB",
+    "price": 1885000,
+    "promo_price": 1650000
+  },
+  {
+    "id": "b700a65b-119c-4fa3-bcf9-8a533a2bfc8f",
+    "name": "PECHERA PORTERO RENO LUXURY",
+    "price": 420498,
+    "promo_price": 380500
+  },
+  {
+    "id": "24c8ffdb-e751-4c13-954d-e6e988d481d3",
+    "name": "GUANTES AZEMAD V-GUARD",
+    "price": 1150000,
+    "promo_price": 800000
+  },
+  {
+    "id": "8e8c3787-25a7-45d7-a897-d506aac0bdde",
+    "name": "RODAMIENTOS ROLL-LINE ABEC 9",
+    "price": 296545,
+    "promo_price": 140000
+  },
+  {
+    "id": "7eab630f-6a5e-4cee-abf1-2cef4400f02f",
+    "name": "PELOTA AZEMAD MINI HOCKEY",
+    "price": 39497,
+    "promo_price": 35500
+  },
+  {
+    "id": "ac6f5532-628f-4d57-bcf7-387c35d7c858",
+    "name": "CASCO BAUER RE-AKT 65",
+    "price": 476000,
+    "promo_price": 440500
+  },
+  {
+    "id": "617c6260-fedf-4739-9d66-555bfd1253e4",
+    "name": "STICK RENO JUNCTION FIBRA",
+    "price": 556925,
+    "promo_price": 260000
+  },
+  {
+    "id": "2101c1ee-f895-48ea-ad4d-dd7b5327f1cb",
+    "name": "Bello 6",
+    "price": 2250000,
+    "promo_price": 1995000
+  },
+  {
+    "id": "0fb02078-a959-4282-8944-74c177744570",
+    "name": "Plancha Variant M",
+    "price": 465000,
+    "promo_price": 425000
+  },
+  {
+    "id": "54892a49-be19-45c3-9fd9-85711f935862",
+    "name": "PANTALON PORTERO JET IMPACT",
+    "price": 290498,
+    "promo_price": 240500
+  },
+  {
+    "id": "b0eaf7a9-0978-43a1-81e1-0034ee59a4b0",
+    "name": "PATIN RENO ODDITY NEGRO",
+    "price": 1600000,
+    "promo_price": 0
+  },
+  {
+    "id": "3c897489-b54e-4b32-beb2-31b008efcb6b",
+    "name": "VISERA ACRILICO BAUER CONCEPT III",
+    "price": 390500,
+    "promo_price": 315500
+  },
+  {
+    "id": "eecee7a7-f48e-496c-a7d5-e57e22f6b0a5",
+    "name": "CASCO BAUER RE-AKT 55",
+    "price": 380000,
+    "promo_price": 320500
+  },
+  {
+    "id": "54a729ec-f837-4a15-b49d-f46e17f1c3bb",
+    "name": "GUANTES RENO EXEL WALL 2",
+    "price": 1150000,
+    "promo_price": 800000
+  },
+  {
+    "id": "2222a7e5-b99e-4d39-92af-64c29eff95a1",
+    "name": "RODILLERAS RENO MASTER TEX NEGRO",
+    "price": 528064,
+    "promo_price": 190000
+  },
+  {
+    "id": "a8bd09b8-b164-4ef0-acf1-1d6ea57e11f2",
+    "name": "MOCHILA AZEMAD VAULT CORE",
+    "price": 494109,
+    "promo_price": 120000
+  },
+  {
+    "id": "2d26b995-a34e-4d7e-bdb0-d5c3a580b3f4",
+    "name": "PERNERAS RENO PROFESSIONAL DARK",
+    "price": 1200000,
+    "promo_price": 850000
+  },
+  {
+    "id": "979e537d-ec61-4d6e-a074-50a0362868ea",
+    "name": "CODERAS RENO LUXURY",
+    "price": 460367,
+    "promo_price": 240000
+  },
+  {
+    "id": "03cf6fc2-9a2c-4854-a920-6050a417e148",
+    "name": "GUANTILLAS PORTERO RENO",
+    "price": 130500,
+    "promo_price": 115500
+  },
+  {
+    "id": "72a54de2-c13b-452b-bb8d-613809e84269",
+    "name": "RODILLERAS AZEMAD ECLIPSE CELESTE",
+    "price": 448283,
+    "promo_price": 160000
+  },
+  {
+    "id": "fea549b9-f0f2-4f1e-a763-a118f1603b57",
+    "name": "FRENOS ROLL-LINE HOCKEY BLANCO",
+    "price": 320700,
+    "promo_price": 65000
+  },
+  {
+    "id": "ec28529b-d512-4fd8-98ec-ad242009ba2c",
+    "name": "MOCHILA AZEMAD VAULT MINI",
+    "price": 318376,
+    "promo_price": 110000
+  },
+  {
+    "id": "08595c31-a508-4e45-9666-6f3585c42f6f",
+    "name": "GUANTES RENO PROFESSIONAL DARK",
+    "price": 1200000,
+    "promo_price": 850000
+  },
+  {
+    "id": "c5598649-3c94-4b47-b96a-ed1e696c1815",
+    "name": "COLLARIN CON PETO TOOR FORCE",
+    "price": 411199,
+    "promo_price": 115000
+  },
+  {
+    "id": "f58c043e-d3bf-446a-86ba-b31e4b430478",
+    "name": "PLANCHA QSKATE GK PRO PORTERO",
+    "price": 789609,
+    "promo_price": 570000
+  },
+  {
+    "id": "e3a526ec-2e00-4b8b-b74f-2ab7744844e5",
+    "name": "RUEDAS AZEMAD DUEL 88A",
+    "price": 530202,
+    "promo_price": 230000
+  },
+  {
+    "id": "03e4e511-5462-4460-a08d-60ac54897b00",
+    "name": "CINTA PARA STICK AZEMAD COLORES",
+    "price": 39500,
+    "promo_price": 32500
+  },
+  {
+    "id": "62bd0117-6583-4a71-a428-71ed3ef0ef5e",
+    "name": "PANTALON PORTERO S-GUARD",
+    "price": 295000,
+    "promo_price": 230500
+  },
+  {
+    "id": "3564b6bd-3948-4952-aa63-6e2ed02b2e51",
+    "name": "RODILLERA RENO LUXURY",
+    "price": 381898,
+    "promo_price": 215000
+  },
+  {
+    "id": "6d80dc44-c1ce-4152-abc9-eb6c1a527f83",
+    "name": "CASCO BAUER IMS 5.0 + VISERA CONCEPT 3",
+    "price": 590498,
+    "promo_price": 530500
+  },
+  {
+    "id": "f2b2c622-af59-4beb-a05f-84c347926872",
+    "name": "GUANTES JET REFLEX AZUL",
+    "price": 316448,
+    "promo_price": 140000
+  },
+  {
+    "id": "e2cee856-0417-47b6-be2d-38710fd3ed40",
+    "name": "GUANTILLAS AZEMAD S-GUARD",
+    "price": 159997,
+    "promo_price": 120500
+  },
+  {
+    "id": "07b3c688-a97f-492a-8c4b-fcc46ed67ea9",
+    "name": "Plancha Variant C",
+    "price": 591000,
+    "promo_price": 555000
+  },
+  {
+    "id": "bc872e21-fa6e-47e2-af77-1a0893ed95b3",
+    "name": "PERNERAS AZEMAD V-GUARD",
+    "price": 1200000,
+    "promo_price": 850000
+  },
+  {
+    "id": "ffe11a04-a1bf-4db8-9025-fca286059545",
+    "name": "GUANTES RENO EXEL SLEM",
+    "price": 1150000,
+    "promo_price": 800000
+  },
+  {
+    "id": "d7d8a286-30ad-4689-8859-d8c80f878ce6",
+    "name": "BOTA RENO ODDITY 2",
+    "price": 789999,
+    "promo_price": 775000
+  },
+  {
+    "id": "3de3c456-92ee-4a5a-8559-af7178b42fd5",
+    "name": "PECHERA JET IMPACT",
+    "price": 448800,
+    "promo_price": 350500
+  },
+  {
+    "id": "e1657187-fe6d-4a6f-bfb3-d7cc7de50e49",
+    "name": "PECHERA TOOR FORCE PLUS (ASIMETRICA)",
+    "price": 916550,
+    "promo_price": 520000
+  },
+  {
+    "id": "d85ed1c1-cc91-4321-95ef-48738b52ab80",
+    "name": "RUEDAS ROLL-LINE CENTURION 95A",
+    "price": 573392,
+    "promo_price": 230000
+  },
+  {
+    "id": "eb38ddcf-e002-4e54-8e95-33524a78114b",
+    "name": "STICK AZEMAD MAGIC",
+    "price": 595143,
+    "promo_price": 230000
+  },
+  {
+    "id": "57f00abd-47d4-43dd-b0c5-c9e632d44fcc",
+    "name": "GUANTES TOOR FORCE I NEGRO/BLANCO",
+    "price": 1200000,
+    "promo_price": 850000
+  },
+  {
+    "id": "bf9b6189-934a-451e-af20-1c02983b13de",
+    "name": "PERNERAS RENO SUPREME DARK",
+    "price": 1250000,
+    "promo_price": 900000
+  },
+  {
+    "id": "2fbafa9d-6075-43a1-9260-4cf6d7906f3b",
+    "name": "GUANTES AZEMAD ECLIPSE VERDE",
+    "price": 485770,
+    "promo_price": 140000
+  },
+  {
+    "id": "76a3488b-b731-4c8b-a21b-b42e423abc1b",
+    "name": "RODILLERAS AZEMAD ECLIPSE GRIS",
+    "price": 540115,
+    "promo_price": 150000
+  },
+  {
+    "id": "89747f86-cabe-4809-9fc9-30576e141b9f",
+    "name": "CANILLERAS JET NYLON",
+    "price": 435418,
+    "promo_price": 140000
+  },
+  {
+    "id": "9c35d350-e745-41fc-8776-9c2b4f7268ee",
+    "name": "GUANTES RENO MASTER TEX NEGRO",
+    "price": 535723,
+    "promo_price": 210000
+  },
+  {
+    "id": "52638c9c-aa94-4e1a-8dbd-6894518be86d",
+    "name": "PLANCHA ROLL LINE BLASTER",
+    "price": 801414,
+    "promo_price": 495000
+  },
+  {
+    "id": "49792789-8f9f-4f41-bc0e-62f59283b372",
+    "name": "PLANCHA ROLL LINE MATRIX",
+    "price": 1800000,
+    "promo_price": 1450000
+  },
+  {
+    "id": "ff50fe18-31a0-4132-bef7-313083e696bf",
+    "name": "Risport Gemma 2026",
+    "price": 450500,
+    "promo_price": 390500
+  },
+  {
+    "id": "0d69baf9-4ec4-4d18-a7fc-11fac6c29086",
+    "name": "Bello 3",
+    "price": 2150000,
+    "promo_price": 1950000
+  },
+  {
+    "id": "e08b6bdd-d533-404f-8068-d05a68e0dc3f",
+    "name": "Carezza 3",
+    "price": 2862000,
+    "promo_price": 2590000
+  },
+  {
+    "id": "9ec16258-230b-4ddb-87ed-cd05450b71ef",
+    "name": "Bota Spider Rojo Negro",
+    "price": 775000,
+    "promo_price": 690500
+  },
+  {
+    "id": "c174e841-7318-43c3-87a7-c5adedf01975",
+    "name": "RODILLERAS TOOR LINE AIR BLANCO",
+    "price": 313855,
+    "promo_price": 160000
+  },
+  {
+    "id": "ff46919d-ff5d-4811-a799-4753194d97ee",
+    "name": "GUANTES TOOR LINE AIR NEGRO",
+    "price": 525671,
+    "promo_price": 160000
+  },
+  {
+    "id": "bf301f83-bed1-47b6-8078-ce192d264cca",
+    "name": "RODILLERAS JET REFLEX AZUL",
+    "price": 410994,
+    "promo_price": 140000
+  },
+  {
+    "id": "05b8c1d8-646c-4d9e-97ee-efee6dfe97b6",
+    "name": "Cuore 4",
+    "price": 855000,
+    "promo_price": 795000
+  },
+  {
+    "id": "79e7adcb-69d5-4897-88c7-eea9f4c68838",
+    "name": "Figura Prima",
+    "price": 1559000,
+    "promo_price": 1350000
+  },
+  {
+    "id": "8e3ee8fd-8613-46b2-960c-4564f01fc6b7",
+    "name": "Figura Buono",
+    "price": 1695000,
+    "promo_price": 1450000
+  },
+  {
+    "id": "94b22b8f-d178-4e16-86ec-5146362cd11d",
+    "name": "Carezza 1",
+    "price": 2590500,
+    "promo_price": 2150000
+  },
+  {
+    "id": "a5d5e92c-1ac8-45ff-b647-53fca6d75afe",
+    "name": "Anima 2",
+    "price": 1350000,
+    "promo_price": 1200000
+  },
+  {
+    "id": "ae012ed9-04d5-4e8b-b03c-6fdf8f423ef7",
+    "name": "Anima 3",
+    "price": 1395000,
+    "promo_price": 1290000
+  },
+  {
+    "id": "dce632dd-e541-464b-bda8-ad327ebcd746",
+    "name": "Overture 2 Competitivo",
+    "price": 1256000,
+    "promo_price": 1490000
+  },
+  {
+    "id": "966aafa5-e954-410a-9745-1245b547ae4c",
+    "name": "GUANTES JET REFLEX ROJO",
+    "price": 464709,
+    "promo_price": 160000
+  },
+  {
+    "id": "d1d16659-080d-4697-8eae-e7a15fd4be0b",
+    "name": "GUANTES RENO CONFORT TEX NEGRO",
+    "price": 589255,
+    "promo_price": 220000
+  },
+  {
+    "id": "edb63312-1e4d-4e0f-afd0-0bdcaf093fa4",
+    "name": "GUANTES JET REFLEX NEGRO",
+    "price": 416326,
+    "promo_price": 160000
+  },
+  {
+    "id": "2cf06c06-132d-42b8-ba08-f86e3036028f",
+    "name": "RODILLERAS AZEMAD ECLIPSE VERDE",
+    "price": 497195,
+    "promo_price": 160000
+  },
+  {
+    "id": "d38b1d3e-35aa-4387-83f8-4c6a9f3c4e67",
+    "name": "PATIN RENO MILLENIUM",
+    "price": 1790000,
+    "promo_price": 1550000
+  },
+  {
+    "id": "fcb3f735-7a12-4f7f-87bf-36658bdcb219",
+    "name": "CANILLERAS JET FIBRA MOLDEADAS",
+    "price": 466015,
+    "promo_price": 160000
+  },
+  {
+    "id": "62671d9c-e2b0-458a-a011-2f764952df6a",
+    "name": "PLANCHA ROLL LINE VARIANT C",
+    "price": 911456,
+    "promo_price": 530000
+  },
+  {
+    "id": "a087c16f-2cfe-4ad2-9173-b95a891c3e60",
+    "name": "RUEDAS TOOR GOALKEEPER 48MM",
+    "price": 542391,
+    "promo_price": 310000
+  },
+  {
+    "id": "a034cdcf-a223-475d-85f6-503322909d6b",
+    "name": "Bota Esordio",
+    "price": 302000,
+    "promo_price": null
+  },
+  {
+    "id": "e10c0773-b073-498d-88a7-b14c88687766",
+    "name": "Bota Rondo",
+    "price": 503000,
+    "promo_price": null
+  },
+  {
+    "id": "9d905c8d-5873-42ed-8aaf-1ff780914631",
+    "name": "Plancha Mirage",
+    "price": 320500,
+    "promo_price": 215000
+  },
+  {
+    "id": "f17e022f-c4e1-426a-b26f-eb5bb51c34af",
+    "name": "RF4 Black",
+    "price": 250500,
+    "promo_price": 195000
+  },
+  {
+    "id": "7b778492-9538-4a99-a340-a318e2631371",
+    "name": "Antares",
+    "price": 520500,
+    "promo_price": 475000
+  },
+  {
+    "id": "73c5700f-f446-4c63-83f1-408571a4e9da",
+    "name": "RODILLERAS TOOR LINE AIR NEGRO",
+    "price": 405275,
+    "promo_price": 160000
+  },
+  {
+    "id": "3783cf50-4ac0-4bb6-a3a4-b1f3d116f314",
+    "name": "BOTA AZEMAD ECLIPSE ROJO",
+    "price": 580000,
+    "promo_price": 510000
+  },
+  {
+    "id": "fb847d2d-4666-4a37-b085-336984d29729",
+    "name": "PLANCHA ROLL LINE MISTRAL",
+    "price": 1220500,
+    "promo_price": 870500
+  },
+  {
+    "id": "13174757-e630-4739-997a-e61652077fe8",
+    "name": "Overture - Edea Ice",
+    "price": 591000,
+    "promo_price": null
+  },
+  {
+    "id": "97926027-4c5c-400c-ab50-479ad2bb7f0a",
+    "name": "Bota Ritmo",
+    "price": 754000,
+    "promo_price": null
+  },
+  {
+    "id": "12c4fd52-bbc2-4ac1-aa79-2ff8c3d98022",
+    "name": "Bota Ritmo Black",
+    "price": 754000,
+    "promo_price": null
+  },
+  {
+    "id": "71fbdb4c-3cd7-4a10-bcc3-729310bdece3",
+    "name": "Bota Edea Classica",
+    "price": 754000,
+    "promo_price": null
+  },
+  {
+    "id": "b6724caa-91d0-4b5a-823d-5aafbf1f9310",
+    "name": "Chorus - Edea Ice",
+    "price": 842000,
+    "promo_price": null
+  },
+  {
+    "id": "5db61746-5e2a-4b20-981d-ea8843c6d6cc",
+    "name": "Concerto Ice",
+    "price": 1068000,
+    "promo_price": null
+  },
+  {
+    "id": "56c8ad39-0390-4189-a49a-ba9d9d757b7a",
+    "name": "Bota Edea Flamenco",
+    "price": 1206000,
+    "promo_price": null
+  },
+  {
+    "id": "2f631308-5151-4085-a0c8-88d458311e9b",
+    "name": "Bota Edea Fly",
+    "price": 1256000,
+    "promo_price": null
+  },
+  {
+    "id": "4a924ac4-da8f-4e14-b117-76eaa50ada1c",
+    "name": "Bota Edea Fly Black",
+    "price": 1256000,
+    "promo_price": null
+  },
+  {
+    "id": "a42c40ac-c27d-4355-8f6e-a4bec3d11dbd",
+    "name": "Ruedas Ice 61mm",
+    "price": 124000,
+    "promo_price": null
+  },
+  {
+    "id": "c6098080-fa9d-4ed5-b04f-9218ba05b3ca",
+    "name": "Magnum 57mm",
+    "price": 57000,
+    "promo_price": null
+  },
+  {
+    "id": "2d0d9b6c-d7f6-4fcb-8392-c6837e75b19d",
+    "name": "Giotto 57 MM",
+    "price": 75000,
+    "promo_price": null
+  },
+  {
+    "id": "d118284c-53ee-494c-85a4-2876d98f05a8",
+    "name": "Angel 57mm",
+    "price": 81000,
+    "promo_price": null
+  },
+  {
+    "id": "9791caf9-dd3b-4c04-be9e-d1b2b613589a",
+    "name": "Ruedas Devil Rolline 57mm",
+    "price": 86000,
+    "promo_price": null
+  },
+  {
+    "id": "fe23396f-1ce1-4c76-8d3b-16feda0f9d68",
+    "name": "Ruedas Ghibli 57mm",
+    "price": 93000,
+    "promo_price": null
+  },
+  {
+    "id": "5f2680dd-7996-429b-9b1a-82994d786811",
+    "name": "Ruedas Fox 92A 57mm Set de 4 ruedas.",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "f91def17-d42b-40cc-bc05-16bacf754fec",
+    "name": "Ruedas Panther 95A 57mm",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "59211d71-0a58-49ab-8c69-d319f1446fe5",
+    "name": "Ruedas Mustang 97A 57mm",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "99d65334-c48b-4869-8525-761b29f01234",
+    "name": "Ruedas Leopard 99A 57mm",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "0e4e7abd-8e9b-42aa-b58e-df2f88f1fa6f",
+    "name": "Ruedas Sfera 63 MM",
+    "price": 88000,
+    "promo_price": null
+  },
+  {
+    "id": "90eb7e13-35dc-4357-88a6-b35ea6029ff7",
+    "name": "Ruedas Rollervar Quad 58mm 85A",
+    "price": 76000,
+    "promo_price": null
+  },
+  {
+    "id": "1cead85c-1a2c-4132-abea-d77737b254c2",
+    "name": "Ruedas Felix HD 52 57mm",
+    "price": 81000,
+    "promo_price": null
+  },
+  {
+    "id": "39c13fb1-1f12-41b1-a4a6-0e3914aac3bf",
+    "name": "Ruedas Helium 64mm 83A",
+    "price": 176000,
+    "promo_price": null
+  },
+  {
+    "id": "2ee0b8bd-8851-4590-9185-abcf601e04e2",
+    "name": "Frenos Rollervar color",
+    "price": 13000,
+    "promo_price": null
+  },
+  {
+    "id": "080dfb20-0861-4cad-b53f-77cb4b6fe91a",
+    "name": "Freno Escuela",
+    "price": 21000,
+    "promo_price": null
+  },
+  {
+    "id": "128beb5d-6729-4423-bbc6-754f1ac37a6e",
+    "name": "GUANTES TOOR LINE AIR BLANCO",
+    "price": 452518,
+    "promo_price": 160000
+  },
+  {
+    "id": "40793003-2598-4a01-907f-70f3171662f9",
+    "name": "RODILLERAS JET REFLEX GRIS",
+    "price": 481986,
+    "promo_price": 140000
+  },
+  {
+    "id": "b5232c41-8fc5-4c0f-aed7-57726889d985",
+    "name": "RODILLERAS JET REFLEX NEGRO",
+    "price": 509469,
+    "promo_price": 140000
+  },
+  {
+    "id": "ac11a489-4155-44e2-9bc7-feaadd101c3a",
+    "name": "GUANTES AZEMAD ECLIPSE GRIS",
+    "price": 314558,
+    "promo_price": 140000
+  },
+  {
+    "id": "c5364f68-550e-4d0e-a337-14612d3d3399",
+    "name": "BOTA RENO MILLENIUM PLUS 3 NEGRO",
+    "price": 1033629,
+    "promo_price": 680000
+  },
+  {
+    "id": "29805f13-5f15-4c10-8d28-2839d5894ddb",
+    "name": "BOTA AZEMAD ECLIPSE AZUL",
+    "price": 590000,
+    "promo_price": 510000
+  },
+  {
+    "id": "78365d47-d167-45ac-bbf7-c61fbd5eba45",
+    "name": "BOTA AZEMAD ECLIPSE NEGRO",
+    "price": 589999,
+    "promo_price": 510000
+  },
+  {
+    "id": "f7b1d4a7-8b6b-4e26-9795-cfca8f3b5a3d",
+    "name": "BOTA AZEMAD ECLIPSE UMBRA G2 BLANCO",
+    "price": 590000,
+    "promo_price": 550000
+  },
+  {
+    "id": "b4f98173-4673-414e-9e08-d826dcedd4fe",
+    "name": "BOTA RENO BEECOMB BLANCO",
+    "price": 790000,
+    "promo_price": 750000
+  },
+  {
+    "id": "814a51bc-887d-4907-9492-1f141fb76a26",
+    "name": "BOTA RENO ODDITY NEGRO",
+    "price": 790000,
+    "promo_price": 775000
+  },
+  {
+    "id": "9989e8d6-9b18-4e89-b7b6-9f2cc4688f77",
+    "name": "STICK JET FORCE",
+    "price": 532675,
+    "promo_price": 230000
+  },
+  {
+    "id": "f68d03e4-2c88-42c0-a3f6-5f0f15592b35",
+    "name": "STICK TOOR K24",
+    "price": 639942,
+    "promo_price": 300000
+  },
+  {
+    "id": "6bc5e77a-42a5-4495-acd7-9fa18d7d883b",
+    "name": "STICK MUNDIAL PALITO",
+    "price": 278560,
+    "promo_price": 115000
+  },
+  {
+    "id": "384d6791-340a-4f11-9d64-93c5b6fcc452",
+    "name": "STICK AZEMAD RV 66",
+    "price": 401881,
+    "promo_price": 230000
+  },
+  {
+    "id": "d79baac3-1d2f-4417-aedc-32cc9f5b61c6",
+    "name": "BOTAS TOOR FALCO NEGRO",
+    "price": 490000,
+    "promo_price": 450000
+  },
+  {
+    "id": "564e0d8f-91ef-4b31-ab33-473df7aee272",
+    "name": "BOTA JET EVOLUTION AZUL",
+    "price": 490000,
+    "promo_price": 440000
+  },
+  {
+    "id": "9847cd6f-8501-4d2c-85ad-d2d68da63432",
+    "name": "BOTA RENO MILLENIUM MAX AZUL",
+    "price": 719998,
+    "promo_price": 680000
+  },
+  {
+    "id": "00e378dc-d4e6-4212-85dd-2020418955d6",
+    "name": "BOTA AZEMAD ECLIPSE UMBRA G2 NEGRO",
+    "price": 807358,
+    "promo_price": 550000
+  },
+  {
+    "id": "7894517e-1234-4b46-8950-278da1fa44d2",
+    "name": "RODAMIENTOS ROLL-LINE ABEC 9 SPEED MAX",
+    "price": 348175,
+    "promo_price": 150000
+  },
+  {
+    "id": "a7d6e7eb-de13-4381-9955-81a9d83a510a",
+    "name": "RODAMIENTOS AZEMAD ABEC 9",
+    "price": 418445,
+    "promo_price": 120000
+  },
+  {
+    "id": "e4f029dc-9751-4af8-b4cb-4f724c86da4e",
+    "name": "Freno redondo Riedell",
+    "price": 43000,
+    "promo_price": null
+  },
+  {
+    "id": "16cd1102-7284-4bd8-a2bd-a1969829beb3",
+    "name": "RODILLERAS AZEMAD ECLIPSE ROJO",
+    "price": 312039,
+    "promo_price": 140000
+  },
+  {
+    "id": "6d9b1d8a-ac9d-4b1d-890d-a7471c3c9cf0",
+    "name": "RODILLERA AZEMAD ECLIPSE NEGRO",
+    "price": 318748,
+    "promo_price": 140000
+  },
+  {
+    "id": "8133352d-7706-4671-88e4-09b52dc476f5",
+    "name": "CANILLERAS RENO CARBONO",
+    "price": 388338,
+    "promo_price": 190000
+  },
+  {
+    "id": "e2bdb60f-e96d-4fc9-93b2-2c8175804c68",
+    "name": "BOTAS AZEMAD ECLIPSE G2 NEGRO",
+    "price": 690500,
+    "promo_price": 520000
+  },
+  {
+    "id": "e3c34245-ef4f-4bb7-b178-f3acded656c0",
+    "name": "STICK AZEMAD PLUS",
+    "price": 557742,
+    "promo_price": 230000
+  },
+  {
+    "id": "9ce1e7f1-1800-4413-984e-5e8bf36ee177",
+    "name": "STICK AZEMAD AZ 100 SPECIAL",
+    "price": 412161,
+    "promo_price": 250000
+  },
+  {
+    "id": "6e4b9c1e-42cd-47f8-b29f-85a239bb1407",
+    "name": "STICK JET STRONG",
+    "price": 484720,
+    "promo_price": 230000
+  },
+  {
+    "id": "e2953e4f-3b43-40e6-a213-55614a94d7ed",
+    "name": "STICK MUNDIAL LAROCHE2015",
+    "price": 471231,
+    "promo_price": 170000
+  },
+  {
+    "id": "f0e92488-5d84-49c2-b65e-919952ec00f8",
+    "name": "STICK MUNDIAL REUS99",
+    "price": 384322,
+    "promo_price": 170000
+  },
+  {
+    "id": "5534d315-691a-41e2-bed2-40c28ebcf024",
+    "name": "STICK AZEMAD SPECIAL",
+    "price": 493439,
+    "promo_price": 200000
+  },
+  {
+    "id": "c859dd84-9e86-4df4-b8a7-ef4bb8336b3e",
+    "name": "STICK AZEMAD FLASH",
+    "price": 457535,
+    "promo_price": 190000
+  },
+  {
+    "id": "d96087de-20d3-4950-9fba-1175010620a9",
+    "name": "STICK AZEMAD RV 66 ELITE",
+    "price": 422147,
+    "promo_price": 230000
+  },
+  {
+    "id": "e618b545-d42f-4c1a-8645-2e3d4dd20c23",
+    "name": "STICK AZEMAD REDBULL HELDER NUNES",
+    "price": 628807,
+    "promo_price": 255000
+  },
+  {
+    "id": "1dfd3f02-8f32-47ef-a449-684f727bfa08",
+    "name": "STICK AZEMAD TINY",
+    "price": 498712,
+    "promo_price": 115000
+  },
+  {
+    "id": "e4abccda-bf31-42e4-a373-e21a34c92877",
+    "name": "STICK AZEMAD RV66 BEGINNER",
+    "price": 496818,
+    "promo_price": 190000
+  },
+  {
+    "id": "d6da76d4-06ed-4f46-9f0a-7e14898e39a3",
+    "name": "STICK AZEMAD BRAVE",
+    "price": 387995,
+    "promo_price": 230000
+  },
+  {
+    "id": "098c07d4-911a-4400-a665-4fccdb0f590b",
+    "name": "STICK AZEMAD PAU BARGALLO",
+    "price": 430636,
+    "promo_price": 230000
+  },
+  {
+    "id": "4f11fae0-210b-47f7-b31c-987f32fe0040",
+    "name": "STICK AZEMAD POL MANRRUBIA",
+    "price": 491776,
+    "promo_price": 240000
+  },
+  {
+    "id": "64ead8ed-41e5-4f32-b5ef-4cb12c1309c3",
+    "name": "STICK JET BLAND",
+    "price": 482432,
+    "promo_price": 230000
+  },
+  {
+    "id": "78a06616-8a5c-4014-9338-27372cde4a5f",
+    "name": "STICK JET SPECIAL FORCE",
+    "price": 630672,
+    "promo_price": 250000
+  },
+  {
+    "id": "423b3aa8-80af-4181-955c-0f9df979cd5e",
+    "name": "Freno Mignom Dance",
+    "price": 51000,
+    "promo_price": null
+  },
+  {
+    "id": "904d2ab5-5bb1-45d7-a884-75b81a2ac73d",
+    "name": "Freno Gris",
+    "price": 71000,
+    "promo_price": null
+  },
+  {
+    "id": "f5963da8-1e66-45bb-969b-c6e58f403db8",
+    "name": "Freno Rosa",
+    "price": 76000,
+    "promo_price": null
+  },
+  {
+    "id": "6720bda2-c55a-4188-997c-3a340bdb6d22",
+    "name": "Professional Ambar",
+    "price": 83000,
+    "promo_price": null
+  },
+  {
+    "id": "ce10392e-adaf-438e-a7f8-8b6ed8602743",
+    "name": "Freno Cappuccino",
+    "price": 88000,
+    "promo_price": null
+  },
+  {
+    "id": "92beef67-ff45-4761-a2f1-b86730257a9d",
+    "name": "GUANTILLAS AZEMAD V-GUARD",
+    "price": 422992,
+    "promo_price": 110000
+  },
+  {
+    "id": "87fbf597-3f56-4227-b163-fb865b48ed48",
+    "name": "RODILLERAS AZEMAD ECLIPSE AZUL",
+    "price": 381532,
+    "promo_price": 145000
+  },
+  {
+    "id": "f9c41038-5740-49af-93a9-4dcd6084dcb0",
+    "name": "Candy Abec 7",
+    "price": 63000,
+    "promo_price": null
+  },
+  {
+    "id": "c1f010cb-9ceb-40d9-9852-f6242f984fcf",
+    "name": "PIZARRA TACTICA RENO",
+    "price": 150000,
+    "promo_price": 100000
+  },
+  {
+    "id": "41280d28-5d3f-4c25-9bc3-b25ea3b0e17d",
+    "name": "COQUILLA AZEMAD",
+    "price": 37500,
+    "promo_price": 29500
+  },
+  {
+    "id": "a13c9f26-265f-4783-966e-37bf373c8fdb",
+    "name": "Density Super Star Abec 9",
+    "price": 126000,
+    "promo_price": null
+  },
+  {
+    "id": "852dccc4-5535-471e-8f5a-0843809e5438",
+    "name": "Abec 9",
+    "price": 161000,
+    "promo_price": null
+  },
+  {
+    "id": "81ba938f-0066-470e-890d-940d8edc7a4f",
+    "name": "Bolso Bystry 2026",
+    "price": 88000,
+    "promo_price": null
+  },
+  {
+    "id": "bf581971-9351-455c-9fd2-76c914ae9f42",
+    "name": "Density Abec 9 volume two Super Speed",
+    "price": 101000,
+    "promo_price": null
+  },
+  {
+    "id": "1aa8121e-e9b4-4452-b85d-2bf6a50454ab",
+    "name": "Density Abec 5",
+    "price": 71000,
+    "promo_price": null
+  },
+  {
+    "id": "f262e876-38d4-405a-a009-e62e5c89a7f6",
+    "name": "RUEDAS TOOR DYNAMIC 88A",
+    "price": 595746,
+    "promo_price": 240000
+  },
+  {
+    "id": "e302ff57-e1e9-469a-965a-cf9917263ec7",
+    "name": "Bello 4",
+    "price": 1829000,
+    "promo_price": 1690500
+  },
+  {
+    "id": "99e749d8-efbc-4f4a-a991-2f677d18a31a",
+    "name": "Extractor de rodamientos Roll Line",
+    "price": 290500,
+    "promo_price": 250000
+  },
+  {
+    "id": "74ae5a75-dad6-432d-91d2-86f9d71a1f32",
+    "name": "RISPORT Carezza 6",
+    "price": 2270500,
+    "promo_price": 2150000
+  },
+  {
+    "id": "255bdb13-3d2c-418d-ac5a-0867459045a4",
+    "name": "Bolso porta ruedas Roll Line",
+    "price": 91000,
+    "promo_price": null
+  },
+  {
+    "id": "f74a6eae-99f9-4558-abef-3dd2895dd78d",
+    "name": "Mochila Roll Line",
+    "price": 149000,
+    "promo_price": null
+  },
+  {
+    "id": "b0801708-7aae-4047-be22-71cf897aef74",
+    "name": "Trolley Roll Line",
+    "price": 249000,
+    "promo_price": null
+  },
+  {
+    "id": "cfa5818f-afd2-4488-892b-f3ec898b6efc",
+    "name": "Bolso para ruedas Buddies",
+    "price": 56000,
+    "promo_price": null
+  },
+  {
+    "id": "34afe171-a52f-423d-8d59-54d988cf9acf",
+    "name": "Caja de panuelos",
+    "price": 66000,
+    "promo_price": null
+  },
+  {
+    "id": "260897fe-96f4-4776-9017-7d0177779c86",
+    "name": "Bolso para ruedas Edea",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "e4b964db-f645-46ef-9e68-657e67cc0df3",
+    "name": "Edea Stripes",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "42ac3c30-7ad3-4b45-bfa9-1269d3e2b8c8",
+    "name": "Edea Kitten",
+    "price": 101000,
+    "promo_price": null
+  },
+  {
+    "id": "8195e550-ebc8-4bf4-99ca-8115dd08d517",
+    "name": "Edea Signorina",
+    "price": 108000,
+    "promo_price": null
+  },
+  {
+    "id": "ebbb96a4-21d1-4802-9e77-4e8bce1ef777",
+    "name": "Edea Ariel",
+    "price": 108000,
+    "promo_price": null
+  },
+  {
+    "id": "6539718c-d883-4662-aa4c-698ffe281564",
+    "name": "Edea Gold",
+    "price": 108000,
+    "promo_price": null
+  },
+  {
+    "id": "fe79ab9b-8548-495d-b52f-a33c1df33bfb",
+    "name": "Cosmetiquero Edea With Me",
+    "price": 114000,
+    "promo_price": null
+  },
+  {
+    "id": "929fa9d7-6235-46b9-b927-064d0e105a3b",
+    "name": "Cosmetiquero Edea Mon Amour 2025",
+    "price": 149000,
+    "promo_price": null
+  },
+  {
+    "id": "635fdde5-fac5-4708-9307-ee09926f4ce8",
+    "name": "Mochila Libra Sky Edea",
+    "price": 151000,
+    "promo_price": null
+  },
+  {
+    "id": "66693ba5-a169-44ac-8f2f-7233496c96a7",
+    "name": "Cube Edea",
+    "price": 151000,
+    "promo_price": null
+  },
+  {
+    "id": "278be270-adc7-4c89-bf31-7469fbb93803",
+    "name": "Libra Black Edea",
+    "price": 151000,
+    "promo_price": null
+  },
+  {
+    "id": "8cb642ed-3a78-4825-87e8-8aa478a73da5",
+    "name": "Mochila EDEA TROLLEY JACQUARD",
+    "price": 221000,
+    "promo_price": null
+  },
+  {
+    "id": "146fd731-38a9-42e0-b37b-813b12c64266",
+    "name": "Trolley Reflex",
+    "price": 350000,
+    "promo_price": null
+  },
+  {
+    "id": "ec1c4fc9-d20d-4d6f-92be-f4b49bc42cbc",
+    "name": "PATIN RENO BEECOMB AGILE ELITE",
+    "price": 2350000,
+    "promo_price": 1998500
+  },
+  {
+    "id": "b4051fd9-9dd6-4a24-8036-746b5adeddfb",
+    "name": "BOTAS AZEMAD ECLIPSE G2 AZUL",
+    "price": 560500,
+    "promo_price": 510000
+  },
+  {
+    "id": "b0d6d7b4-8d6e-4518-84d6-f22e7a05445a",
+    "name": "EXTRACTOR BOIANI",
+    "price": 244800,
+    "promo_price": 200000
+  },
+  {
+    "id": "68d3538d-1881-49a5-8c99-240255dc837c",
+    "name": "PLANCHA ROLL LINE VARIANT M",
+    "price": 767211,
+    "promo_price": 410000
+  },
+  {
+    "id": "89314db9-5a19-46df-bd68-c6e6999d5f04",
+    "name": "PLANCHA AZEMAD ALPHA",
+    "price": 656046,
+    "promo_price": 310000
+  },
+  {
+    "id": "e581b053-3345-4ef9-a1e8-ecd6a2dc4fae",
+    "name": "Bolso porta ruedas Azul RISPORT 2026",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "00ed82fc-f1d0-4638-9871-0c56a784012a",
+    "name": "Bolso Risport Standard 2025",
+    "price": 108000,
+    "promo_price": null
+  },
+  {
+    "id": "cbde4f9d-7fdb-4ff8-937f-4fc209c5becc",
+    "name": "Bolso Trolley Azul Risport 2026",
+    "price": 350000,
+    "promo_price": null
+  },
+  {
+    "id": "0edd6c28-c3db-4f74-a207-8ea84a26f672",
+    "name": "Cordones Risport",
+    "price": 16000,
+    "promo_price": null
+  },
+  {
+    "id": "3d17e772-e47d-42b5-a208-875a23b6b2c8",
+    "name": "Cordones normales - Edea",
+    "price": 16000,
+    "promo_price": null
+  },
+  {
+    "id": "6a690d86-17ac-473e-9d45-2e74abc6c23f",
+    "name": "Cordones con strass - Edea",
+    "price": 23000,
+    "promo_price": null
+  },
+  {
+    "id": "04d059ad-c5dd-4d3f-adb6-bb5feaabfbd5",
+    "name": "Plantillas Insole Impact",
+    "price": 48000,
+    "promo_price": null
+  },
+  {
+    "id": "687e2bfa-4eff-4311-b07b-aaadd59394fb",
+    "name": "Plantilla Tecnica Patinaje Artistico",
+    "price": 76000,
+    "promo_price": null
+  },
+  {
+    "id": "763a693f-c65a-4a61-9bfa-491a648671fc",
+    "name": "Plantillas Anti Shock",
+    "price": 76000,
+    "promo_price": null
+  },
+  {
+    "id": "a59be150-5318-4778-a0a3-c564b4395cfc",
+    "name": "PELOTA OFICIAL AZEMAD",
+    "price": 35360,
+    "promo_price": 29500
+  },
+  {
+    "id": "a073a373-2d14-408c-bca8-ca8954e76c07",
+    "name": "VISERA BAUER FERRO PROFILE II",
+    "price": 390500,
+    "promo_price": 260797
+  },
+  {
+    "id": "6274bea8-0190-4a87-bff1-cc7edf93f83d",
+    "name": "VISERA BAUER HYBRID SHIELD",
+    "price": 380800,
+    "promo_price": 250500
+  },
+  {
+    "id": "ab2aa6c2-fab6-4793-9e7f-9f8391345079",
+    "name": "CASCO BAUER IMS 5.0",
+    "price": 290000,
+    "promo_price": 250500
+  },
+  {
+    "id": "7cb8ffea-4ac2-486f-9e84-795adc00acea",
+    "name": "PLANCHA ROLL-LINE AGILE",
+    "price": 1250000,
+    "promo_price": 900000
+  },
+  {
+    "id": "1d774159-087b-41fc-abc1-a91576a7ab8b",
+    "name": "Plantillas Edea E-Soles",
+    "price": 98000,
+    "promo_price": null
+  },
+  {
+    "id": "10915c71-5ce7-45aa-8af6-d727dc0fffc0",
+    "name": "Panty simple al Detalle",
+    "price": 18000,
+    "promo_price": null
+  },
+  {
+    "id": "1aa5824b-31cf-4bae-b662-10abb9f38bde",
+    "name": "Panty simple con strass al detalle",
+    "price": 24000,
+    "promo_price": null
+  },
+  {
+    "id": "5e0f32b3-a788-45fd-8e0f-1917b9f8cc41",
+    "name": "Panty con estribo al detalle",
+    "price": 24000,
+    "promo_price": null
+  },
+  {
+    "id": "f11a2ad3-d36b-4ee5-acfa-76335955426b",
+    "name": "PLANCHA ROLL-LINE MIRAGE",
+    "price": 363545,
+    "promo_price": 210000
+  },
+  {
+    "id": "b09a0847-c6a3-48de-9ee9-efd381291889",
+    "name": "PLANCHA ROLL LINE DANCE",
+    "price": 1450000,
+    "promo_price": 1100000
+  },
+  {
+    "id": "ed4f9a43-d912-42ea-a2ec-24badc02523a",
+    "name": "RUEDAS ROLL-LINE CENTURION 92A",
+    "price": 589457,
+    "promo_price": 230000
+  },
+  {
+    "id": "585e8bc7-2bf1-4598-8fbb-8b4363ef4a3f",
+    "name": "RUEDAS JET 88A",
+    "price": 555357,
+    "promo_price": 230000
+  },
+  {
+    "id": "3ceb6db5-6d42-4582-9e07-f48dc5804bfb",
+    "name": "BOLSO AZEMAD TROLLEY VAULT PRO",
+    "price": 524687,
+    "promo_price": 350000
+  },
+  {
+    "id": "8378ac74-d105-4c63-a633-d65bedc59ea0",
+    "name": "STICK AZEMAD CATA FLORES",
+    "price": 463413,
+    "promo_price": 240000
+  },
+  {
+    "id": "bc0a6516-d1d0-4c95-933b-211f0b0c2202",
+    "name": "Repuestos Plancha Variant C",
+    "price": 7000,
+    "promo_price": null
+  },
+  {
+    "id": "8c99a28d-fa03-4306-b57a-a4ea36ed87ee",
+    "name": "Repuestos Plancha Matrix",
+    "price": 7000,
+    "promo_price": null
+  },
+  {
+    "id": "573aa588-1e72-4d8d-b136-59c5d2f65c2a",
+    "name": "Repuestos Plancha Dance",
+    "price": 7000,
+    "promo_price": null
+  },
+  {
+    "id": "108743cb-35b0-4b1e-9404-40dd02295353",
+    "name": "Patín Avanzado 3",
+    "price": 2235500,
+    "promo_price": 2100000
+  },
+  {
+    "id": "1004237c-6237-4684-b1f2-04355cdbd346",
+    "name": "EDEA Galaxy Pro 2",
+    "price": 3200000,
+    "promo_price": 2985500
+  },
+  {
+    "id": "f464a9c6-3ebb-4231-ad38-4c0edcc718f4",
+    "name": "Bello 1",
+    "price": 1729000,
+    "promo_price": 1650000
+  },
+  {
+    "id": "096ebeb6-e582-457e-9740-b1fd1fa47721",
+    "name": "Danza Prima",
+    "price": 2150000,
+    "promo_price": 1850000
+  },
+  {
+    "id": "64c2a69c-2784-4f23-a437-2b7b35515166",
+    "name": "Danza Pro",
+    "price": 2990000,
+    "promo_price": 2738000
+  },
+  {
+    "id": "d342a74c-620c-4554-989e-e7be4088db81",
+    "name": "Classic Rollervar 2026",
+    "price": 690500,
+    "promo_price": 550000
+  },
+  {
+    "id": "cb587dc4-7935-4255-af23-decd5b7eb775",
+    "name": "Classic Rollervar + Bolso Bystry 2026",
+    "price": 790500,
+    "promo_price": 690500
+  },
+  {
+    "id": "85f57d02-ea65-4b45-b897-26b9802f7d87",
+    "name": "Dolcezza 2",
+    "price": 1250000,
+    "promo_price": 980000
+  },
+  {
+    "id": "0f1a7d83-16c1-4d37-ab20-8b8cd58d288f",
+    "name": "Sole",
+    "price": 850500,
+    "promo_price": 790
+  },
+  {
+    "id": "eff0b33d-ea6d-40ab-901b-339be9e8c50f",
+    "name": "Carezza 6",
+    "price": 2590000,
+    "promo_price": 2450000
+  },
+  {
+    "id": "98fc84e8-1298-4e06-8d20-6b3491802073",
+    "name": "Bello 7",
+    "price": 2950000,
+    "promo_price": 2620000
+  },
+  {
+    "id": "baa3e867-a481-4335-a009-a44fa035db2a",
+    "name": "Galaxy Pro 4",
+    "price": 2999000,
+    "promo_price": 2895000
+  },
+  {
+    "id": "70df22b7-5aef-465b-b429-140b1289a85a",
+    "name": "Carezza 4",
+    "price": 3989000,
+    "promo_price": 3150000
+  },
+  {
+    "id": "f7eb50d8-66a2-45d9-9966-cbac1b20994a",
+    "name": "Galaxy Pro 3",
+    "price": 4300000,
+    "promo_price": 3390000
+  },
+  {
+    "id": "08e9162f-0853-4cc9-87d3-95a0d78f4e07",
+    "name": "Galaxy Pro 2",
+    "price": 3900000,
+    "promo_price": 3490000
+  },
+  {
+    "id": "b1fbc227-bb16-48b7-8582-76b4432891c5",
+    "name": "Mistral",
+    "price": 930000,
+    "promo_price": 895000
+  },
+  {
+    "id": "3522764e-2458-4cac-bcea-2dce2564deb4",
+    "name": "Plancha Matrix",
+    "price": 1745000,
+    "promo_price": 1500000
+  },
+  {
+    "id": "9373f142-784c-453a-9c86-4a716a15eb68",
+    "name": "Plancha Evo",
+    "price": 1990000,
+    "promo_price": 1860000
+  },
+  {
+    "id": "f3d7d05d-d081-43f3-ab0d-e3a6df0bb5eb",
+    "name": "Plancha Dance",
+    "price": 1156000,
+    "promo_price": 1000000
+  },
+  {
+    "id": "a17fe660-8972-4e3d-9190-5183aba88854",
+    "name": "Plancha Spin",
+    "price": 817000,
+    "promo_price": 760000
+  },
+  {
+    "id": "db3363bd-f89c-41af-afa1-25cc45b7a401",
+    "name": "Plancha Saturno",
+    "price": 620499,
+    "promo_price": 560000
+  },
+  {
+    "id": "a1da0d15-6be6-4d9c-b1cb-8b572a8b24a6",
+    "name": "Risport Ambra 2026",
+    "price": 890500,
+    "promo_price": 850000
+  },
+  {
+    "id": "1771239f-ff24-49f4-a423-c0a36b0adc04",
+    "name": "Mercurio Elite",
+    "price": 1299000,
+    "promo_price": 1250000
+  }
+]

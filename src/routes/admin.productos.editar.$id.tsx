@@ -305,7 +305,7 @@ function EditarProducto() {
             {stock === "limitado" && (
               <div className="adm-field">
                 <label>Cantidad</label>
-                <input className="adm-input" type="number" value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)} />
+                <input className="adm-input" type="number" min="0" value={stockQty ?? ""} onChange={e=>setStockQty(+e.target.value)} />
               </div>
             )}
           </div>

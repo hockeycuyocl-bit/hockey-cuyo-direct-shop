@@ -276,7 +276,7 @@ function NewProduct() {
                   <label className="adm-radio"><input type="radio" name="stock" checked={stock==="limitado"} onChange={()=>setStock("limitado")}/> Limitado</label>
                 </div>
                 {stock === "limitado" && (
-                  <input className="adm-input" type="number" placeholder="Unidades disponibles" style={{ marginTop: 8 }} value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)}/>
+                  <input className="adm-input" type="number" min="0" placeholder="Unidades disponibles" style={{ marginTop: 8 }} value={stockQty ?? ""} onChange={e=>setStockQty(+e.target.value)}/>
                 )}
               </div>
             </div>

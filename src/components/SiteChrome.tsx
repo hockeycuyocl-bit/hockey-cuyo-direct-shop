@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect, type ReactNode } from "react";
+import { Instagram, Facebook } from "lucide-react";
 import {
   SECTIONS, BRANDS, WHATSAPP_NUMBER, CONTACT_EMAIL, ADDRESS, waLink,
 } from "@/data/catalog";
@@ -288,8 +289,22 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="footer-bottom">
-        © {new Date().getFullYear()} Hockey Cuyo · Todos los derechos reservados
+      <div className="footer-bottom" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          <a href="https://www.instagram.com/hockeycuyo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Hockey Cuyo" style={{ color: "#9a9aa6" }}>
+            <Instagram size={22} />
+          </a>
+          <a href="https://www.facebook.com/hockey.cuyo" target="_blank" rel="noopener noreferrer" aria-label="Facebook Hockey Cuyo" style={{ color: "#9a9aa6" }}>
+            <Facebook size={22} />
+          </a>
+        </div>
+        <a href="https://www.instagram.com/digitalclickgrow/" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+          <span style={{ color: "#9a9aa6", fontSize: 13 }}>Diseño y desarrollo web por:</span>
+          <img src="/agencia/click-and-grow-logo.png" alt="Click and Grow" style={{ height: 24, width: "auto", objectFit: "contain" }} />
+        </a>
+        <div>
+          © {new Date().getFullYear()} Hockey Cuyo · Todos los derechos reservados
+        </div>
       </div>
     </footer>
   );

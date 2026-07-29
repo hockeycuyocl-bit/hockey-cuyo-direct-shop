@@ -56,6 +56,8 @@ function EditarProducto() {
   // Opciones
   const [freeShipping, setFreeShipping] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [featured, setFeatured] = useState(false);
+  const [featuredOrder, setFeaturedOrder] = useState<string>("");
   
   // Custom
   const [categorySlug, setCategorySlug] = useState("");
@@ -116,6 +118,8 @@ function EditarProducto() {
         setGender(""); // Removed gender
         setFreeShipping(p.freeShipping);
         setVisible(p.visible);
+        setFeatured(p.featured);
+        setFeaturedOrder(p.featuredOrder != null ? String(p.featuredOrder) : "");
         setCategorySlug(p.categorySlug || "");
         setBrandSlug(p.brandSlug || "");
         setSizes(p.sizes || []);
@@ -145,7 +149,7 @@ function EditarProducto() {
         badge: badge || undefined,
         stockType: stock,
         stockQty: stock === "limitado" ? stockQty : undefined,
-        freeShipping, visible,
+        freeShipping, visible, featured, featuredOrder: featuredOrder ? Number(featuredOrder) : undefined,
       });
 
       if (images.length >= 0) {
@@ -301,7 +305,7 @@ function EditarProducto() {
             {stock === "limitado" && (
               <div className="adm-field">
                 <label>Cantidad</label>
-                <input className="adm-input" type="number" value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)} />
+                <input className="adm-input" type="number" min="0" value={stockQty ?? ""} onChange={e=>setStockQty(+e.target.value)} />
               </div>
             )}
           </div>
@@ -377,6 +381,13 @@ function EditarProducto() {
             <div className="adm-check-group">
               <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Envío gratis</label>
               <label className="adm-check"><input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar en la tienda</label>
+              <label className="adm-check"><input type="checkbox" checked={featured} onChange={e=>setFeatured(e.target.checked)}/> Destacado (aparece en "Top Performance" de la home)</label>
+              {featured && (
+                <label className="adm-check" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  Posición (1 = primero)
+                  <input type="number" min="1" value={featuredOrder} onChange={e=>setFeaturedOrder(e.target.value)} style={{ width: 60 }} />
+                </label>
+              )}
             </div>
           </div>
         </div>

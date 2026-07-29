@@ -18,11 +18,16 @@ export function ProductCard({ p }: { p: Product }) {
 
   const slug = p.slug ?? productSlug(p.name);
   const hasVariants = ((p as any).sizes && (p as any).sizes.length > 0) || ((p as any).colors && (p as any).colors.length > 0);
+  const outOfStock = (p as any).stockType === "limitado" && ((p as any).stockQty || 0) <= 0;
   
   return (
     <article className="card">
       <Link to="/producto/$slug" params={{ slug }} className="card-img card-img-link">
-        {p.badge && <span className="badge">{p.badge}</span>}
+        {outOfStock ? (
+          <span className="badge" style={{ background: "#ef4444" }}>Agotado</span>
+        ) : (
+          p.badge && <span className="badge">{p.badge}</span>
+        )}
         <img src={imgSrc} alt={p.name} loading="lazy" />
       </Link>
       <div className="card-body">
@@ -45,7 +50,11 @@ export function ProductCard({ p }: { p: Product }) {
         })()}
 
         <div className="card-actions">
-          {hasVariants ? (
+          {outOfStock ? (
+            <button type="button" disabled className="add-btn" style={{ opacity: 0.5, cursor: "not-allowed" }}>
+              Agotado
+            </button>
+          ) : hasVariants ? (
             <Link to="/producto/$slug" params={{ slug }} className="add-btn">
               Seleccionar opciones
             </Link>

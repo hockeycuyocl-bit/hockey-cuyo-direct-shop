@@ -1,0 +1,645 @@
+{
+  "results": [
+    {
+      "csvName": "Mercurio Elite",
+      "dbName": "Mercurio Elite",
+      "priceBefore": 1299000,
+      "priceAfter": 1440000,
+      "promoBefore": 1250000,
+      "promoAfter": 1240000
+    },
+    {
+      "csvName": "Bota Esordio",
+      "dbName": "Bota Esordio",
+      "priceBefore": 302000,
+      "priceAfter": 449000,
+      "promoBefore": null,
+      "promoAfter": 310000
+    },
+    {
+      "csvName": "Bota Rondo",
+      "dbName": "Bota Rondo",
+      "priceBefore": 503000,
+      "priceAfter": 680000,
+      "promoBefore": null,
+      "promoAfter": 505000
+    },
+    {
+      "csvName": "Overture - Edea Ice",
+      "dbName": "Overture - Edea Ice",
+      "priceBefore": 591000,
+      "priceAfter": 740000,
+      "promoBefore": null,
+      "promoAfter": 591000
+    },
+    {
+      "csvName": "Bota Ritmo",
+      "dbName": "Bota Ritmo",
+      "priceBefore": 754000,
+      "priceAfter": 844000,
+      "promoBefore": null,
+      "promoAfter": 754000
+    },
+    {
+      "csvName": "Bota Ritmo Black",
+      "dbName": "Bota Ritmo Black",
+      "priceBefore": 754000,
+      "priceAfter": 844000,
+      "promoBefore": null,
+      "promoAfter": 754000
+    },
+    {
+      "csvName": "Bota Edea Classica",
+      "dbName": "Bota Edea Classica",
+      "priceBefore": 754000,
+      "priceAfter": 844000,
+      "promoBefore": null,
+      "promoAfter": 754000
+    },
+    {
+      "csvName": "Chorus - Edea Ice",
+      "dbName": "Chorus - Edea Ice",
+      "priceBefore": 842000,
+      "priceAfter": 932000,
+      "promoBefore": null,
+      "promoAfter": 842000
+    },
+    {
+      "csvName": "Concerto Ice",
+      "dbName": "Concerto Ice",
+      "priceBefore": 1068000,
+      "priceAfter": 1158000,
+      "promoBefore": null,
+      "promoAfter": 1068000
+    },
+    {
+      "csvName": "Bota Edea Flamenco",
+      "dbName": "Bota Edea Flamenco",
+      "priceBefore": 1206000,
+      "priceAfter": 1296000,
+      "promoBefore": null,
+      "promoAfter": 1206000
+    },
+    {
+      "csvName": "Bota Edea Fly",
+      "dbName": "Bota Edea Fly",
+      "priceBefore": 1256000,
+      "priceAfter": 1346000,
+      "promoBefore": null,
+      "promoAfter": 1256000
+    },
+    {
+      "csvName": "Bota Edea Fly Black",
+      "dbName": "Bota Edea Fly Black",
+      "priceBefore": 1256000,
+      "priceAfter": 1346000,
+      "promoBefore": null,
+      "promoAfter": 1256000
+    },
+    {
+      "csvName": "Ruedas Ice 61mm",
+      "dbName": "Ruedas Ice 61mm",
+      "priceBefore": 124000,
+      "priceAfter": 174000,
+      "promoBefore": null,
+      "promoAfter": 124000
+    },
+    {
+      "csvName": "Magnum 57mm",
+      "dbName": "Magnum 57mm",
+      "priceBefore": 57000,
+      "priceAfter": 107000,
+      "promoBefore": null,
+      "promoAfter": 57000
+    },
+    {
+      "csvName": "Giotto 57 MM",
+      "dbName": "Giotto 57 MM",
+      "priceBefore": 75000,
+      "priceAfter": 125000,
+      "promoBefore": null,
+      "promoAfter": 75000
+    },
+    {
+      "csvName": "Angel 57mm",
+      "dbName": "Angel 57mm",
+      "priceBefore": 81000,
+      "priceAfter": 131000,
+      "promoBefore": null,
+      "promoAfter": 81000
+    },
+    {
+      "csvName": "Ruedas Devil Rolline 57mm",
+      "dbName": "Ruedas Devil Rolline 57mm",
+      "priceBefore": 86000,
+      "priceAfter": 136000,
+      "promoBefore": null,
+      "promoAfter": 86000
+    },
+    {
+      "csvName": "Ruedas Ghibli 57mm",
+      "dbName": "Ruedas Ghibli 57mm",
+      "priceBefore": 93000,
+      "priceAfter": 143000,
+      "promoBefore": null,
+      "promoAfter": 93000
+    },
+    {
+      "csvName": "Ruedas Fox 92A 57mm Set de 4 ruedas.",
+      "dbName": "Ruedas Fox 92A 57mm Set de 4 ruedas.",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Ruedas Panther 95A 57mm",
+      "dbName": "Ruedas Panther 95A 57mm",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Ruedas Mustang 97A 57mm",
+      "dbName": "Ruedas Mustang 97A 57mm",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Ruedas Leopard 99A 57mm",
+      "dbName": "Ruedas Leopard 99A 57mm",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Ruedas Sfera 63 MM",
+      "dbName": "Ruedas Sfera 63 MM",
+      "priceBefore": 88000,
+      "priceAfter": 138000,
+      "promoBefore": null,
+      "promoAfter": 88000
+    },
+    {
+      "csvName": "Ruedas Rollervar Quad 58mm 85A",
+      "dbName": "Ruedas Rollervar Quad 58mm 85A",
+      "priceBefore": 76000,
+      "priceAfter": 126000,
+      "promoBefore": null,
+      "promoAfter": 76000
+    },
+    {
+      "csvName": "Ruedas Felix HD 52 57mm",
+      "dbName": "Ruedas Felix HD 52 57mm",
+      "priceBefore": 81000,
+      "priceAfter": 131000,
+      "promoBefore": null,
+      "promoAfter": 81000
+    },
+    {
+      "csvName": "Ruedas Helium 64mm 83A",
+      "dbName": "Ruedas Helium 64mm 83A",
+      "priceBefore": 176000,
+      "priceAfter": 226000,
+      "promoBefore": null,
+      "promoAfter": 176000
+    },
+    {
+      "csvName": "Frenos Rollervar color",
+      "dbName": "Frenos Rollervar color",
+      "priceBefore": 13000,
+      "priceAfter": 63000,
+      "promoBefore": null,
+      "promoAfter": 13000
+    },
+    {
+      "csvName": "Freno Escuela",
+      "dbName": "Freno Escuela",
+      "priceBefore": 21000,
+      "priceAfter": 71000,
+      "promoBefore": null,
+      "promoAfter": 21000
+    },
+    {
+      "csvName": "Freno redondo Riedell",
+      "dbName": "Freno redondo Riedell",
+      "priceBefore": 43000,
+      "priceAfter": 93000,
+      "promoBefore": null,
+      "promoAfter": 43000
+    },
+    {
+      "csvName": "Freno Mignom Dance",
+      "dbName": "Freno Mignom Dance",
+      "priceBefore": 51000,
+      "priceAfter": 101000,
+      "promoBefore": null,
+      "promoAfter": 51000
+    },
+    {
+      "csvName": "Freno Gris",
+      "dbName": "Freno Gris",
+      "priceBefore": 71000,
+      "priceAfter": 121000,
+      "promoBefore": null,
+      "promoAfter": 71000
+    },
+    {
+      "csvName": "Freno Rosa",
+      "dbName": "Freno Rosa",
+      "priceBefore": 76000,
+      "priceAfter": 126000,
+      "promoBefore": null,
+      "promoAfter": 76000
+    },
+    {
+      "csvName": "Professional Ambar",
+      "dbName": "Professional Ambar",
+      "priceBefore": 83000,
+      "priceAfter": 133000,
+      "promoBefore": null,
+      "promoAfter": 83000
+    },
+    {
+      "csvName": "Freno Cappuccino",
+      "dbName": "Freno Cappuccino",
+      "priceBefore": 88000,
+      "priceAfter": 138000,
+      "promoBefore": null,
+      "promoAfter": 88000
+    },
+    {
+      "csvName": "Candy Abec 7",
+      "dbName": "Candy Abec 7",
+      "priceBefore": 63000,
+      "priceAfter": 113000,
+      "promoBefore": null,
+      "promoAfter": 63000
+    },
+    {
+      "csvName": "Density Abec 5",
+      "dbName": "Density Abec 5",
+      "priceBefore": 71000,
+      "priceAfter": 121000,
+      "promoBefore": null,
+      "promoAfter": 71000
+    },
+    {
+      "csvName": "Density Abec 9 volume two Super Speed",
+      "dbName": "Density Abec 9 volume two Super Speed",
+      "priceBefore": 101000,
+      "priceAfter": 151000,
+      "promoBefore": null,
+      "promoAfter": 101000
+    },
+    {
+      "csvName": "Density Super Star Abec 9",
+      "dbName": "Density Super Star Abec 9",
+      "priceBefore": 126000,
+      "priceAfter": 176000,
+      "promoBefore": null,
+      "promoAfter": 126000
+    },
+    {
+      "csvName": "Abec 9",
+      "dbName": "Abec 9",
+      "priceBefore": 161000,
+      "priceAfter": 211000,
+      "promoBefore": null,
+      "promoAfter": 161000
+    },
+    {
+      "csvName": "Bolso Bystry 2026",
+      "dbName": "Bolso Bystry 2026",
+      "priceBefore": 88000,
+      "priceAfter": 138000,
+      "promoBefore": null,
+      "promoAfter": 88000
+    },
+    {
+      "csvName": "Bolso porta ruedas Roll Line",
+      "dbName": "Bolso porta ruedas Roll Line",
+      "priceBefore": 91000,
+      "priceAfter": 141000,
+      "promoBefore": null,
+      "promoAfter": 91000
+    },
+    {
+      "csvName": "Mochila Roll Line",
+      "dbName": "Mochila Roll Line",
+      "priceBefore": 149000,
+      "priceAfter": 199000,
+      "promoBefore": null,
+      "promoAfter": 149000
+    },
+    {
+      "csvName": "Trolley Roll Line",
+      "dbName": "Trolley Roll Line",
+      "priceBefore": 249000,
+      "priceAfter": 299000,
+      "promoBefore": null,
+      "promoAfter": 249000
+    },
+    {
+      "csvName": "Bolso para ruedas Buddies",
+      "dbName": "Bolso para ruedas Buddies",
+      "priceBefore": 56000,
+      "priceAfter": 106000,
+      "promoBefore": null,
+      "promoAfter": 56000
+    },
+    {
+      "csvName": "Caja de panuelos",
+      "dbName": "Caja de panuelos",
+      "priceBefore": 66000,
+      "priceAfter": 116000,
+      "promoBefore": null,
+      "promoAfter": 66000
+    },
+    {
+      "csvName": "Bolso para ruedas Edea",
+      "dbName": "Bolso para ruedas Edea",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Edea Stripes",
+      "dbName": "Edea Stripes",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Edea Kitten",
+      "dbName": "Edea Kitten",
+      "priceBefore": 101000,
+      "priceAfter": 151000,
+      "promoBefore": null,
+      "promoAfter": 101000
+    },
+    {
+      "csvName": "Edea Signorina",
+      "dbName": "Edea Signorina",
+      "priceBefore": 108000,
+      "priceAfter": 158000,
+      "promoBefore": null,
+      "promoAfter": 108000
+    },
+    {
+      "csvName": "Edea Ariel",
+      "dbName": "Edea Ariel",
+      "priceBefore": 108000,
+      "priceAfter": 158000,
+      "promoBefore": null,
+      "promoAfter": 108000
+    },
+    {
+      "csvName": "Edea Gold",
+      "dbName": "Edea Gold",
+      "priceBefore": 108000,
+      "priceAfter": 158000,
+      "promoBefore": null,
+      "promoAfter": 108000
+    },
+    {
+      "csvName": "Cosmetiquero Edea With Me",
+      "dbName": "Cosmetiquero Edea With Me",
+      "priceBefore": 114000,
+      "priceAfter": 164000,
+      "promoBefore": null,
+      "promoAfter": 114000
+    },
+    {
+      "csvName": "Cosmetiquero Edea Mon Amour 2025",
+      "dbName": "Cosmetiquero Edea Mon Amour 2025",
+      "priceBefore": 149000,
+      "priceAfter": 199000,
+      "promoBefore": null,
+      "promoAfter": 149000
+    },
+    {
+      "csvName": "Mochila Libra Sky Edea",
+      "dbName": "Mochila Libra Sky Edea",
+      "priceBefore": 151000,
+      "priceAfter": 201000,
+      "promoBefore": null,
+      "promoAfter": 151000
+    },
+    {
+      "csvName": "Cube Edea",
+      "dbName": "Cube Edea",
+      "priceBefore": 151000,
+      "priceAfter": 201000,
+      "promoBefore": null,
+      "promoAfter": 151000
+    },
+    {
+      "csvName": "Libra Black Edea",
+      "dbName": "Libra Black Edea",
+      "priceBefore": 151000,
+      "priceAfter": 201000,
+      "promoBefore": null,
+      "promoAfter": 151000
+    },
+    {
+      "csvName": "Mochila EDEA TROLLEY JACQUARD",
+      "dbName": "Mochila EDEA TROLLEY JACQUARD",
+      "priceBefore": 221000,
+      "priceAfter": 271000,
+      "promoBefore": null,
+      "promoAfter": 221000
+    },
+    {
+      "csvName": "Trolley Reflex",
+      "dbName": "Trolley Reflex",
+      "priceBefore": 350000,
+      "priceAfter": 440000,
+      "promoBefore": null,
+      "promoAfter": 350000
+    },
+    {
+      "csvName": "Bolso porta ruedas Azul RISPORT 2026",
+      "dbName": "Bolso porta ruedas Azul RISPORT 2026",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Bolso Risport Standard 2025",
+      "dbName": "Bolso Risport Standard 2025",
+      "priceBefore": 108000,
+      "priceAfter": 158000,
+      "promoBefore": null,
+      "promoAfter": 108000
+    },
+    {
+      "csvName": "Bolso Trolley Azul Risport 2026",
+      "dbName": "Bolso Trolley Azul Risport 2026",
+      "priceBefore": 350000,
+      "priceAfter": 440000,
+      "promoBefore": null,
+      "promoAfter": 350000
+    },
+    {
+      "csvName": "Cordones Risport",
+      "dbName": "Cordones Risport",
+      "priceBefore": 16000,
+      "priceAfter": 66000,
+      "promoBefore": null,
+      "promoAfter": 16000
+    },
+    {
+      "csvName": "Cordones normales - Edea",
+      "dbName": "Cordones normales - Edea",
+      "priceBefore": 16000,
+      "priceAfter": 66000,
+      "promoBefore": null,
+      "promoAfter": 16000
+    },
+    {
+      "csvName": "Cordones con strass - Edea",
+      "dbName": "Cordones con strass - Edea",
+      "priceBefore": 23000,
+      "priceAfter": 73000,
+      "promoBefore": null,
+      "promoAfter": 23000
+    },
+    {
+      "csvName": "Plantillas Insole Impact",
+      "dbName": "Plantillas Insole Impact",
+      "priceBefore": 48000,
+      "priceAfter": 98000,
+      "promoBefore": null,
+      "promoAfter": 48000
+    },
+    {
+      "csvName": "Plantilla Tecnica Patinaje Artistico",
+      "dbName": "Plantilla Tecnica Patinaje Artistico",
+      "priceBefore": 76000,
+      "priceAfter": 126000,
+      "promoBefore": null,
+      "promoAfter": 76000
+    },
+    {
+      "csvName": "Plantillas Anti Shock",
+      "dbName": "Plantillas Anti Shock",
+      "priceBefore": 76000,
+      "priceAfter": 126000,
+      "promoBefore": null,
+      "promoAfter": 76000
+    },
+    {
+      "csvName": "Plantillas Edea E-Soles",
+      "dbName": "Plantillas Edea E-Soles",
+      "priceBefore": 98000,
+      "priceAfter": 148000,
+      "promoBefore": null,
+      "promoAfter": 98000
+    },
+    {
+      "csvName": "Panty simple al Detalle",
+      "dbName": "Panty simple al Detalle",
+      "priceBefore": 18000,
+      "priceAfter": 68000,
+      "promoBefore": null,
+      "promoAfter": 18000
+    },
+    {
+      "csvName": "Panty simple con strass al detalle",
+      "dbName": "Panty simple con strass al detalle",
+      "priceBefore": 24000,
+      "priceAfter": 74000,
+      "promoBefore": null,
+      "promoAfter": 24000
+    },
+    {
+      "csvName": "Panty con estribo al detalle",
+      "dbName": "Panty con estribo al detalle",
+      "priceBefore": 24000,
+      "priceAfter": 74000,
+      "promoBefore": null,
+      "promoAfter": 24000
+    },
+    {
+      "csvName": "Repuestos Plancha Variant C",
+      "dbName": "Repuestos Plancha Variant C",
+      "priceBefore": 7000,
+      "priceAfter": 57000,
+      "promoBefore": null,
+      "promoAfter": 7000
+    },
+    {
+      "csvName": "Repuestos Plancha Matrix",
+      "dbName": "Repuestos Plancha Matrix",
+      "priceBefore": 7000,
+      "priceAfter": 57000,
+      "promoBefore": null,
+      "promoAfter": 7000
+    },
+    {
+      "csvName": "Repuestos Plancha Dance",
+      "dbName": "Repuestos Plancha Dance",
+      "priceBefore": 7000,
+      "priceAfter": 57000,
+      "promoBefore": null,
+      "promoAfter": 7000
+    },
+    {
+      "csvName": "Repuestos en Linea",
+      "dbName": "Repuestos en Linea",
+      "priceBefore": 11000,
+      "priceAfter": 61000,
+      "promoBefore": null,
+      "promoAfter": 11000
+    },
+    {
+      "csvName": "Repuestos Plancha EVO",
+      "dbName": "Repuestos Plancha EVO",
+      "priceBefore": 16000,
+      "priceAfter": 66000,
+      "promoBefore": null,
+      "promoAfter": 16000
+    },
+    {
+      "csvName": "Repuestos Plancha Mistral",
+      "dbName": "Repuestos Plancha Mistral",
+      "priceBefore": 16000,
+      "priceAfter": 66000,
+      "promoBefore": null,
+      "promoAfter": 16000
+    },
+    {
+      "csvName": "Repuestos Plancha Variant M",
+      "dbName": "Repuestos Plancha Variant M",
+      "priceBefore": 16000,
+      "priceAfter": 66000,
+      "promoBefore": null,
+      "promoAfter": 16000
+    },
+    {
+      "csvName": "Track Komplex",
+      "dbName": "Track Komplex",
+      "priceBefore": 46000,
+      "priceAfter": 96000,
+      "promoBefore": null,
+      "promoAfter": 46000
+    },
+    {
+      "csvName": "Truck Evo & Matrix Back Left steel",
+      "dbName": "Truck Evo & Matrix Back Left steel",
+      "priceBefore": 179000,
+      "priceAfter": 224000,
+      "promoBefore": 169000,
+      "promoAfter": 174000
+    }
+  ],
+  "noMatch": []
+}

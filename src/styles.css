@@ -763,12 +763,18 @@ details[open] > summary.m-link::after { content: "▴"; }
 .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
 .add-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  background: var(--bg-2); color: var(--fg);
-  border: 1px solid var(--border-strong); border-radius: 10px;
-  padding: 10px 12px; font-weight: 600; font-size: 13px; cursor: pointer;
+  background: linear-gradient(135deg, #ff2a2a 0%, #ff6a00 50%, #ffb020 100%);
+  color: #fff;
+  border: none; border-radius: 10px;
+  padding: 10px 12px; font-weight: 700; font-size: 13px; cursor: pointer;
+  box-shadow: 0 0 16px rgba(255, 90, 0, 0.55), 0 4px 12px rgba(255, 42, 42, 0.35);
   transition: all .2s;
 }
-.add-btn:hover { background: var(--bg-3); border-color: var(--accent); color: var(--accent-glow); }
+.add-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 22px rgba(255, 90, 0, 0.75), 0 4px 16px rgba(255, 42, 42, 0.5);
+  transform: translateY(-1px);
+}
 
 @media (max-width: 480px) {
   .card-actions { grid-template-columns: 1fr; }

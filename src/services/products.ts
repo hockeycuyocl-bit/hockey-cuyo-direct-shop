@@ -16,6 +16,8 @@ export type SupabaseProduct = {
   stockType: "infinito" | "limitado" | string;
   stockQty?: number;
   badge?: string;
+  featured: boolean;
+  featuredOrder?: number;
   visible: boolean;
   freeShipping: boolean;
   createdAt: number;
@@ -39,6 +41,8 @@ function mapToSupabaseProduct(row: any, images: any[] = []): SupabaseProduct {
     stockType: row.stock_type || "infinito",
     stockQty: row.stock_qty ?? undefined,
     badge: row.badge ?? undefined,
+    featured: row.featured ?? false,
+    featuredOrder: row.featured_order ?? undefined,
     visible: row.visible,
     freeShipping: row.free_shipping,
     createdAt: new Date(row.created_at).getTime(),
@@ -105,6 +109,21 @@ export async function getProductsByCategory(categorySlug: string): Promise<Supab
   return (products || []).map(row => mapToSupabaseProduct(row, row.product_images));
 }
 
+export async function getProductsByBrand(brandSlug: string): Promise<SupabaseProduct[]> {
+  const { data: products, error } = await supabase
+    .from("products")
+    .select(`*, product_images ( url, order_index )`)
+    .eq("brand_slug", brandSlug)
+    .eq("visible", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching products by brand:", error);
+    return [];
+  }
+  return (products || []).map(row => mapToSupabaseProduct(row, row.product_images));
+}
+
 export async function createProduct(data: any): Promise<SupabaseProduct | null> {
   const slug = data.slug || generateSlug(data.name);
   
@@ -122,6 +141,8 @@ export async function createProduct(data: any): Promise<SupabaseProduct | null> 
     stock_type: data.stockType || "infinito",
     stock_qty: data.stockQty || null,
     badge: data.badge || null,
+    featured: data.featured === true,
+    featured_order: data.featuredOrder ?? null,
     visible: data.visible !== false,
     free_shipping: data.freeShipping === true
   };
@@ -157,6 +178,8 @@ export async function updateProduct(id: string, data: any): Promise<SupabaseProd
   if (data.stockType !== undefined) updateData.stock_type = data.stockType;
   if (data.stockQty !== undefined) updateData.stock_qty = data.stockQty;
   if (data.badge !== undefined) updateData.badge = data.badge;
+  if (data.featured !== undefined) updateData.featured = data.featured;
+  if (data.featuredOrder !== undefined) updateData.featured_order = data.featuredOrder;
   if (data.visible !== undefined) updateData.visible = data.visible;
   if (data.freeShipping !== undefined) updateData.free_shipping = data.freeShipping;
 

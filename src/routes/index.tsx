@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { SECTIONS, BRANDS, waLink, PRODUCTS } from "@/data/catalog";
+import { SECTIONS, BRANDS, waLink } from "@/data/catalog";
 import { getProducts } from "@/services/products";
 import { ProductCard } from "@/components/ProductGrid";
 import { WhatsIcon } from "@/components/SiteChrome";
@@ -132,7 +132,7 @@ function Hero() {
   );
 }
 
-function BrandCard({ name, idx }: { name: string; idx: number }) {
+function BrandCard({ name, slug, logo, idx }: { name: string; slug: string; logo: string; idx: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -140,20 +140,31 @@ function BrandCard({ name, idx }: { name: string; idx: number }) {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: idx * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
     >
-      <Link to="/marca/$slug" params={{ slug: name.toLowerCase().replace(/[^a-z0-9]+/g, "-") }} className="brand-card">
-        <span className="b-tag">Brand</span>
-        <span className="b-name">{name}</span>
+      <Link to="/marca/$slug" params={{ slug }} className="brand-card" style={{ background: "#fff", borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+        <img src={logo} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
         <span className="b-arrow">↗</span>
       </Link>
     </motion.div>
   );
 }
 
-const FEATURED_BRANDS = ["Reno", "Azemad", "Toor", "Meneghini", "Roll-Line", "STD"];
+const FEATURED_BRANDS = [
+  { name: "Reno", slug: "reno", logo: "/marcas/reno.png" },
+  { name: "Azemad", slug: "azemad", logo: "/marcas/azemad.png" },
+  { name: "Toor", slug: "toor", logo: "/marcas/toor.png" },
+  { name: "Roll-Line", slug: "roll-line", logo: "/marcas/roll-line.png" },
+  { name: "Edea", slug: "edea", logo: "/marcas/edea.png" },
+  { name: "Risport", slug: "risport", logo: "/marcas/risport.png" },
+];
 
 function Index() {
   const supaProducts = Route.useLoaderData();
-  const allProducts = [...supaProducts, ...PRODUCTS].filter(p => p.visible !== false);
+  const visibleProducts = supaProducts.filter(p => p.visible !== false);
+  const featuredProducts = visibleProducts
+    .filter(p => p.featured)
+    .sort((a, b) => (a.featuredOrder ?? 999) - (b.featuredOrder ?? 999))
+    .slice(0, 12);
+  const regularProducts = visibleProducts.filter(p => !p.featured);
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 
   return (
@@ -188,16 +199,42 @@ function Index() {
         ))}
       </div>
 
-      {/* DESTACADOS (movido arriba de Marcas) */}
-      <div id="productos" className="section-head-v2">
+      {/* TOP PERFORMANCE (solo destacados, máx 12) */}
+      {featuredProducts.length > 0 && (
+        <>
+          <div id="productos" className="section-head-v2">
+            <div>
+              <p className="kicker">— Destacados</p>
+              <h2>Top performance</h2>
+            </div>
+            <p className="lead">Los productos más buscados de la temporada. Listos para despachar.</p>
+          </div>
+          <section className="products products-full-grid">
+            {featuredProducts.map((p, i) => (
+              <motion.div
+                key={p.slug}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.2, 0.7, 0.2, 1] }}
+              >
+                <ProductCard p={p} />
+              </motion.div>
+            ))}
+          </section>
+        </>
+      )}
+
+      {/* PRODUCTOS (el resto del catálogo) */}
+      <div id={featuredProducts.length === 0 ? "productos" : undefined} className="section-head-v2">
         <div>
-          <p className="kicker">— Destacados</p>
-          <h2>Top performance</h2>
+          <p className="kicker">— Catálogo</p>
+          <h2>Productos</h2>
         </div>
-        <p className="lead">Los productos más buscados de la temporada. Listos para despachar.</p>
+        <p className="lead">Todo nuestro equipamiento disponible.</p>
       </div>
       <section className="products products-full-grid">
-        {allProducts.map((p, i) => (
+        {regularProducts.map((p, i) => (
           <motion.div
             key={p.slug}
             initial={{ opacity: 0, y: 40 }}
@@ -220,7 +257,7 @@ function Index() {
           <p className="lead">Trabajamos con las mejores firmas del mundo. Originales, con garantía y stock real.</p>
         </div>
         <div className="brands-grid">
-          {FEATURED_BRANDS.map((b, i) => <BrandCard key={b} name={b} idx={i} />)}
+          {FEATURED_BRANDS.map((b, i) => <BrandCard key={b.name} name={b.name} slug={b.slug} logo={b.logo} idx={i} />)}
         </div>
       </section>
     </>

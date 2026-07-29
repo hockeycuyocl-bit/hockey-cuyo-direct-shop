@@ -45,6 +45,8 @@ function NewProduct() {
   const [gender, setGender] = useState("sin");
   const [freeShipping, setFreeShipping] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [featured, setFeatured] = useState(false);
+  const [featuredOrder, setFeaturedOrder] = useState<string>("");
   
   const [categorySlug, setCategorySlug] = useState("");
   const [brandSlug, setBrandSlug] = useState("");
@@ -101,6 +103,8 @@ function NewProduct() {
         stockQty: stock === "limitado" ? stockQty : undefined,
         visible,
         freeShipping,
+        featured,
+        featuredOrder: featuredOrder ? Number(featuredOrder) : undefined,
         categorySlug,
         brandSlug,
         badge,
@@ -272,7 +276,7 @@ function NewProduct() {
                   <label className="adm-radio"><input type="radio" name="stock" checked={stock==="limitado"} onChange={()=>setStock("limitado")}/> Limitado</label>
                 </div>
                 {stock === "limitado" && (
-                  <input className="adm-input" type="number" placeholder="Unidades disponibles" style={{ marginTop: 8 }} value={stockQty || ""} onChange={e=>setStockQty(+e.target.value)}/>
+                  <input className="adm-input" type="number" min="0" placeholder="Unidades disponibles" style={{ marginTop: 8 }} value={stockQty ?? ""} onChange={e=>setStockQty(+e.target.value)}/>
                 )}
               </div>
             </div>
@@ -400,6 +404,13 @@ function NewProduct() {
             <div className="adm-check-group">
               <label className="adm-check"><input type="checkbox" checked={freeShipping} onChange={e=>setFreeShipping(e.target.checked)}/> Este producto tiene envío gratis</label>
               <label className="adm-check"><input type="checkbox" checked={visible} onChange={e=>setVisible(e.target.checked)}/> Mostrar en la tienda</label>
+              <label className="adm-check"><input type="checkbox" checked={featured} onChange={e=>setFeatured(e.target.checked)}/> Destacado (aparece en "Top Performance" de la home)</label>
+              {featured && (
+                <label className="adm-check" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  Posición (1 = primero)
+                  <input type="number" min="1" value={featuredOrder} onChange={e=>setFeaturedOrder(e.target.value)} style={{ width: 60 }} />
+                </label>
+              )}
             </div>
           </div>
         </div>

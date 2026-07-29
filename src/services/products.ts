@@ -109,6 +109,21 @@ export async function getProductsByCategory(categorySlug: string): Promise<Supab
   return (products || []).map(row => mapToSupabaseProduct(row, row.product_images));
 }
 
+export async function searchProducts(query: string): Promise<SupabaseProduct[]> {
+  const { data: products, error } = await supabase
+    .from("products")
+    .select(`*, product_images ( url, order_index )`)
+    .ilike("name", `%${query}%`)
+    .eq("visible", true)
+    .limit(8);
+
+  if (error) {
+    console.error("Error searching products:", error);
+    return [];
+  }
+  return (products || []).map(row => mapToSupabaseProduct(row, row.product_images));
+}
+
 export async function getProductsByBrand(brandSlug: string): Promise<SupabaseProduct[]> {
   const { data: products, error } = await supabase
     .from("products")

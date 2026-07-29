@@ -38,8 +38,8 @@ export function ProductCard({ p }: { p: Product }) {
         {(() => {
           const promo = (p as any).promo_price || (p as any).promoPrice;
           return promo && promo > 0 ? (
-            <div className="price">
-              <span style={{ textDecoration: "line-through", opacity: 0.5, fontSize: "0.8em", marginRight: 8 }}>
+            <div className="price" style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", columnGap: 8 }}>
+              <span style={{ textDecoration: "line-through", opacity: 0.5, fontSize: "0.8em" }}>
                 {formatPrice(p.price)}
               </span>
               <span style={{ color: "var(--accent)" }}>{formatPrice(promo)}</span>

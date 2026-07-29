@@ -64,7 +64,7 @@ main { flex: 1; }
 }
 .nav-link:hover, .nav-link[data-status="active"] { color: #fff; background: rgba(255,255,255,.06); }
 
-.nav-icons { display: none; align-items: center; gap: 4px; margin-left: 8px; }
+.nav-icons { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
 .nav-icon-btn {
   width: 40px; height: 40px; border-radius: 10px;
   background: transparent; border: 1px solid transparent; color: rgba(255,255,255,.85);
@@ -127,10 +127,11 @@ main { flex: 1; }
   display: flex; flex-direction: column; gap: 4px;
   padding: 12px 20px 24px; border-top: 1px solid var(--border);
   background: rgba(5,5,5,.96); backdrop-filter: blur(18px);
-  max-height: calc(100vh - 70px); overflow-y: auto;
+  max-height: calc(100dvh - 70px); overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .m-link {
-  display: block; padding: 14px 14px; border-radius: 12px;
+  display: inline-flex; flex-direction: column; padding: 14px 14px; border-radius: 12px;
   font-size: 15px; font-weight: 600; text-decoration: none; color: var(--fg);
   background: rgba(255,255,255,.04); cursor: pointer; list-style: none;
   border: 1px solid var(--border);

@@ -38,7 +38,7 @@ function HeroVideo() {
       muted
       loop
       playsInline
-      preload="auto"
+      preload="metadata"
       poster={HERO_POSTER}
     >
       <source src={HERO_VIDEO} type="video/mp4" />

@@ -70,7 +70,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
             next[i] = { ...next[i], qty: next[i].qty + qty };
             return next;
           }
-          return [...prev, { id, name: p.name, price: p.price, img: p.img, variant, qty }];
+          const promo = (p as any).promoPrice || (p as any).promo_price;
+          const finalPrice = promo && promo > 0 ? promo : p.price;
+          return [...prev, { id, name: p.name, price: finalPrice, img: p.img, variant, qty }];
         });
         setOpen(true);
       },

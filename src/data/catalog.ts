@@ -241,6 +241,7 @@ export type Product = {
   brandSlug: string;
   badge?: string;
   price: number;
+  promoPrice?: number;
   desc: string;
   features: string[];
   img: string;

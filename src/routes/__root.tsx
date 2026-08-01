@@ -83,6 +83,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Sticks, patines, protecciones y accesorios para hockey sobre patines y patinaje artístico. Mendoza, Argentina." },
       { property: "og:title", content: "Hockey Cuyo" },
       { property: "og:description", content: "Equipamiento profesional para hockey sobre patines y patinaje artístico." },
+      { name: "google-site-verification", content: "sBAylld7JmdTnrqsx5Wb0HShylrMM8PnJTmqN-VVOQ0" },
+      { property: "og:image", content: "https://hockeycuyo.com.ar/og-image.jpg" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

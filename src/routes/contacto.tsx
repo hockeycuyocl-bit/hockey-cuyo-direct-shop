@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WHATSAPP_NUMBER, CONTACT_EMAIL, ADDRESS, waLink } from "@/data/catalog";
 import { WhatsIcon } from "@/components/SiteChrome";
+import { Instagram, Facebook } from "lucide-react";
 
 export const Route = createFileRoute("/contacto")({
   head: () => ({

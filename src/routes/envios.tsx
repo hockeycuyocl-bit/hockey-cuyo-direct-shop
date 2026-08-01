@@ -18,9 +18,9 @@ function ShippingPage() {
 
       <h2>Envíos</h2>
       <ul>
-        <li>Despachamos en 24/48hs hábiles luego de confirmado el pago.</li>
+        <li>Despachamos entre 5 a 10 días hábiles luego de confirmado el pago.</li>
         <li>Trabajamos con Andreani, Correo Argentino y transportes a convenir.</li>
-        <li>Retiro sin cargo en Ruta de los Patos 2657, Maipú, Mendoza.</li>
+        <li>Entrega sin cargo en ciudad de Mendoza.</li>
         <li>El costo del envío se coordina por WhatsApp según destino y peso.</li>
       </ul>
 

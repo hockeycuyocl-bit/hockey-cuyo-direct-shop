@@ -164,7 +164,17 @@ function Index() {
     .filter(p => p.featured)
     .sort((a, b) => (a.featuredOrder ?? 999) - (b.featuredOrder ?? 999))
     .slice(0, 12);
-  const regularProducts = visibleProducts.filter(p => !p.featured);
+  const getSectionIndex = (catSlug?: string) => {
+    if (!catSlug) return 999;
+    const idx = SECTIONS.findIndex(s => 
+      s.groups.some(g => g.slug === catSlug || g.subcategories.some(sub => sub.slug === catSlug))
+    );
+    return idx >= 0 ? idx : 999;
+  };
+
+  const regularProducts = visibleProducts
+    .filter(p => !p.featured)
+    .sort((a, b) => getSectionIndex(a.categorySlug) - getSectionIndex(b.categorySlug));
   const homeCategories = SECTIONS[0].groups.slice(0, 8);
 
   return (

@@ -53,13 +53,7 @@ function ContactPage() {
         <WhatsIcon /> Escribir por WhatsApp
       </a>
 
-      <iframe
-        className="map-frame"
-        title="Mapa Hockey Cuyo"
-        src={`https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`}
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      />
+
     </div>
   );
 }

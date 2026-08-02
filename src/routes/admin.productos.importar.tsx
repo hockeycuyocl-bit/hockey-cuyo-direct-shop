@@ -4,6 +4,7 @@ import { SECTIONS } from "@/data/catalog";
 import { getProducts, createProduct } from "@/services/products";
 import { Upload, FileSpreadsheet, CheckCircle2, ArrowLeft, Download, Filter, X } from "lucide-react";
 import { toast } from "sonner";
+import ExcelJS from "exceljs";
 
 export const Route = createFileRoute("/admin/productos/importar")({
   loader: async () => await getProducts(),
@@ -26,7 +27,7 @@ function ExportImportProducts() {
 
   // -- EXPORT STATE --
   const [showFilters, setShowFilters] = useState(false);
-  const [includeDesc, setIncludeDesc] = useState(true);
+  const [showExportModal, setShowExportModal] = useState(false);
   
   // Filter states
   const [sortBy, setSortBy] = useState("Mas nuevo");
@@ -68,23 +69,97 @@ function ExportImportProducts() {
   }, [allProducts, filterCategory, filterStock, filterPromo, filterVisible, filterShipping, filterDims]);
 
   // -- EXPORT LOGIC --
-  const handleExport = () => {
-    let csv = "\uFEFFnombre;descripcion;precio;precio_promo;categoria;marca;costo;talles;colores;stock;sku;visible\n";
-    filteredExport.forEach(p => {
-      const desc = includeDesc ? `"${(p.description || "").replace(/"/g, '""')}"` : "";
-      const sizes = p.sizes ? p.sizes.join("|") : "";
-      const colors = p.colors ? p.colors.join("|") : "";
-      csv += `"${p.name}";${desc};${p.price};${p.promoPrice || ""};${p.categorySlug || ""};${p.brandSlug || ""};${p.cost || ""};${sizes};${colors};${p.stockType === "infinito" ? "infinito" : p.stockQty || 0};${p.sku || ""};${p.visible}\n`;
+  const exportToExcel = async (data: any[], filename: string, columns: any[]) => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Productos");
+
+    worksheet.columns = columns;
+
+    data.forEach(row => {
+      worksheet.addRow(row);
     });
     
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    worksheet.getRow(1).font = { bold: true };
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `productos_export_${new Date().getTime()}.csv`);
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleExportCompleto = () => {
+    const data = filteredExport.map(p => {
+      let desc = p.description || "";
+      if (desc.length > 100) desc = desc.substring(0, 100) + "...";
+      return {
+        nombre: p.name,
+        descripcion: desc,
+        precio: p.price,
+        precio_promo: p.promoPrice || "",
+        categoria: p.categorySlug || "",
+        marca: p.brandSlug || "",
+        costo: p.cost || "",
+        talles: p.sizes ? p.sizes.join("|") : "",
+        colores: p.colors ? p.colors.join("|") : "",
+        stock: p.stockType === "infinito" ? "infinito" : p.stockQty || 0,
+        sku: p.sku || "",
+        visible: p.visible ? "Si" : "No"
+      };
+    });
+
+    const columns = [
+      { header: "Nombre", key: "nombre", width: 35 },
+      { header: "Descripción", key: "descripcion", width: 60 },
+      { header: "Precio", key: "precio", width: 15 },
+      { header: "Precio Promo", key: "precio_promo", width: 15 },
+      { header: "Categoría", key: "categoria", width: 20 },
+      { header: "Marca", key: "marca", width: 20 },
+      { header: "Costo", key: "costo", width: 15 },
+      { header: "Talles", key: "talles", width: 20 },
+      { header: "Colores", key: "colores", width: 20 },
+      { header: "Stock", key: "stock", width: 15 },
+      { header: "SKU", key: "sku", width: 20 },
+      { header: "Visible", key: "visible", width: 10 }
+    ];
+
+    const date = new Date().toISOString().split("T")[0];
+    exportToExcel(data, `productos_completo_${date}.xlsx`, columns);
+    setShowExportModal(false);
+  };
+
+  const handleExportPrecios = () => {
+    const data = filteredExport.map(p => ({
+      producto: p.name,
+      costo: p.cost || "",
+      precio_venta: p.price,
+      precio_promo: p.promoPrice || "",
+      categoria: p.categorySlug || "",
+      marca: p.brandSlug || "",
+      stock: p.stockType === "infinito" ? "infinito" : p.stockQty || 0,
+      sku: p.sku || "",
+      visible: p.visible ? "Si" : "No"
+    }));
+
+    const columns = [
+      { header: "Producto", key: "producto", width: 35 },
+      { header: "Costo", key: "costo", width: 15 },
+      { header: "Precio de Venta", key: "precio_venta", width: 18 },
+      { header: "Precio Promocional", key: "precio_promo", width: 20 },
+      { header: "Categoría", key: "categoria", width: 20 },
+      { header: "Marca", key: "marca", width: 20 },
+      { header: "Stock", key: "stock", width: 15 },
+      { header: "SKU", key: "sku", width: 20 },
+      { header: "Visible", key: "visible", width: 10 }
+    ];
+
+    const date = new Date().toISOString().split("T")[0];
+    exportToExcel(data, `productos_precios_${date}.xlsx`, columns);
+    setShowExportModal(false);
   };
 
   const handleDownloadTemplate = () => {
@@ -320,12 +395,7 @@ function ExportImportProducts() {
             </button>
           </div>
 
-          <label className="adm-check" style={{ marginBottom: 32 }}>
-            <input type="checkbox" checked={includeDesc} onChange={e => setIncludeDesc(e.target.checked)} />
-            Incluir descripciones
-          </label>
-
-          <button className="adm-btn primary" onClick={handleExport} style={{ width: "100%", justifyContent: "center", padding: "12px" }}>
+          <button className="adm-btn primary" onClick={() => setShowExportModal(true)} style={{ width: "100%", justifyContent: "center", padding: "12px" }}>
             <Download size={18} /> Exportar
           </button>
         </div>
@@ -494,6 +564,24 @@ function ExportImportProducts() {
             <div style={{ padding: 24, borderTop: "1px solid var(--a-border)", display: "flex", gap: 12, justifyContent: "flex-end" }}>
               <button className="adm-btn" onClick={() => setShowFilters(false)}>Cancelar</button>
               <button className="adm-btn primary" onClick={() => setShowFilters(false)}>Filtrar</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showExportModal && (
+        <div className="modal-overlay" onClick={() => setShowExportModal(false)}>
+          <div className="adm-card modal-content" onClick={e => e.stopPropagation()} style={{ width: 400 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <h2 className="admin-h2" style={{ margin: 0 }}>Opciones de exportación</h2>
+              <button className="adm-icon-btn" onClick={() => setShowExportModal(false)}><X size={20}/></button>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <button className="adm-btn" onClick={handleExportCompleto} style={{ padding: "12px", justifyContent: "center" }}>
+                Exportar todo (completo)
+              </button>
+              <button className="adm-btn" onClick={handleExportPrecios} style={{ padding: "12px", justifyContent: "center" }}>
+                Solo precios y costos
+              </button>
             </div>
           </div>
         </div>

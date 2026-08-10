@@ -154,6 +154,12 @@ details[open] > summary.m-link::after { content: "▴"; }
   border: 1px solid var(--border);
 }
 .m-item img { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; }
+.m-cat-link {
+  display: block; padding: 10px 16px; text-decoration: none;
+  color: var(--fg); font-size: 14px; font-weight: 500;
+  border-radius: 8px; transition: background 0.15s;
+}
+.m-cat-link:hover, .m-cat-link:active { background: var(--bg-3); }
 .m-brands { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 8px 0; }
 .m-brand {
   padding: 14px; border-radius: 12px; background: var(--bg-3);

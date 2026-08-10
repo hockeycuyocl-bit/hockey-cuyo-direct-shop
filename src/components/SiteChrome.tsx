@@ -219,15 +219,12 @@ export function SiteHeader() {
                 {s.name}
               </summary>
               <div className="m-sublist">
-                <div className="m-grid">
-                  {s.groups.map(g => (
-                    <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
-                      onClick={() => setMobileOpen(false)} className="m-item">
-                      <img src={g.image} alt={g.name} loading="lazy" />
-                      <span>{g.name}</span>
-                    </Link>
-                  ))}
-                </div>
+                {s.groups.map(g => (
+                  <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
+                    onClick={() => setMobileOpen(false)} className="m-cat-link">
+                    {g.name}
+                  </Link>
+                ))}
               </div>
             </details>
           ))}

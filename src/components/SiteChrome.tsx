@@ -207,26 +207,30 @@ export function SiteHeader() {
         <div className="mobile-menu">
           <Link to="/" onClick={() => setMobileOpen(false)} className="m-link">Inicio</Link>
 
-          <details open>
-            <summary className="m-link">Categorías</summary>
-            <div className="m-sublist">
-              {SECTIONS.map(s => (
-                <details key={s.slug} open={openSection === s.slug}
-                  onToggle={(e) => (e.currentTarget as HTMLDetailsElement).open && setOpenSection(s.slug)}>
-                  <summary className="m-sub-title">{s.name}</summary>
-                  <div className="m-grid">
-                    {s.groups.map(g => (
-                      <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
-                        onClick={() => setMobileOpen(false)} className="m-item">
-                        <img src={g.image} alt={g.name} loading="lazy" />
-                        <span>{g.name}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </details>
-              ))}
-            </div>
-          </details>
+          {SECTIONS.map(s => (
+            <details key={s.slug} open={openSection === s.slug}>
+              <summary
+                className="m-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenSection(openSection === s.slug ? null : s.slug);
+                }}
+              >
+                {s.name}
+              </summary>
+              <div className="m-sublist">
+                <div className="m-grid">
+                  {s.groups.map(g => (
+                    <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
+                      onClick={() => setMobileOpen(false)} className="m-item">
+                      <img src={g.image} alt={g.name} loading="lazy" />
+                      <span>{g.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </details>
+          ))}
 
           <details open={brandsOpen} onToggle={(e) => setBrandsOpen((e.currentTarget as HTMLDetailsElement).open)}>
             <summary className="m-link">Marcas</summary>

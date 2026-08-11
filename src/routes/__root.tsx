@@ -128,6 +128,17 @@ fbq('track', 'PageView');`
             alt=""
           />
         </noscript>
+
+        {/* Google Ads */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18367502796" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-18367502796');`
+          }}
+        />
       </head>
       <body>
         {children}

@@ -63,6 +63,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const variant = opts?.variant;
         const qty = opts?.qty ?? 1;
         const id = makeId(p.name, variant);
+
+        const promo = (p as any).promoPrice || (p as any).promo_price;
+        const finalPrice = promo && promo > 0 ? promo : p.price;
+
         setItems(prev => {
           const i = prev.findIndex(x => x.id === id);
           if (i >= 0) {
@@ -70,10 +74,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
             next[i] = { ...next[i], qty: next[i].qty + qty };
             return next;
           }
-          const promo = (p as any).promoPrice || (p as any).promo_price;
-          const finalPrice = promo && promo > 0 ? promo : p.price;
           return [...prev, { id, name: p.name, price: finalPrice, img: p.img, variant, qty }];
         });
+
+        if (typeof window !== "undefined" && (window as any).gtag) {
+          (window as any).gtag('event', 'conversion', {
+            'send_to': 'AW-18367502796/zRu5CLGdjeAcEMyzp7ZE',
+            'value': finalPrice,
+            'currency': 'ARS'
+          });
+        }
+
         setOpen(true);
       },
       remove: (id) => setItems(prev => prev.filter(i => i.id !== id)),

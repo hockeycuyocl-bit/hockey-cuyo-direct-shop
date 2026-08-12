@@ -101,7 +101,7 @@ function EditarProducto() {
         setDescription(p.description);
         setPrice(p.price);
         setPromoPrice(p.promoPrice);
-        setCosto(undefined); // Removed cost
+        setCosto(p.cost);
         setVideoUrl(""); // Removed videoUrl
         setImages((p.images || []).map((url, i) => ({
           id: `img-${i}-${Math.random().toString(36).slice(2,7)}`,
@@ -141,15 +141,19 @@ function EditarProducto() {
     setSaving(true);
     try {
       await updateProduct(id, {
-        name, description, price, promoPrice, sku,
-        categorySlug: categorySlug || undefined,
-        brandSlug: brandSlug || undefined,
-        sizes: sizes.length > 0 ? sizes : undefined,
-        colors: colors.length > 0 ? colors : undefined,
-        badge: badge || undefined,
+        name, description, price, 
+        promoPrice: promoPrice ?? null, 
+        sku: sku || null,
+        cost: costo ?? null,
+        categorySlug: categorySlug || null,
+        brandSlug: brandSlug || null,
+        sizes: sizes.length > 0 ? sizes : null,
+        colors: colors.length > 0 ? colors : null,
+        badge: badge || null,
         stockType: stock,
-        stockQty: stock === "limitado" ? stockQty : undefined,
-        freeShipping, visible, featured, featuredOrder: featuredOrder ? Number(featuredOrder) : undefined,
+        stockQty: stock === "limitado" ? (stockQty ?? null) : null,
+        freeShipping, visible, featured, 
+        featuredOrder: featuredOrder ? Number(featuredOrder) : null,
       });
 
       if (images.length >= 0) {
@@ -268,11 +272,11 @@ function EditarProducto() {
             <div className="adm-row">
               <div className="adm-field">
                 <label>Precio de venta</label>
-                <input className="adm-input" type="number" placeholder="0.00" value={price || ""} onChange={e=>setPrice(+e.target.value)}/>
+                <input className="adm-input" type="number" placeholder="0.00" value={price || ""} onChange={e=>setPrice(e.target.value ? +e.target.value : 0)}/>
               </div>
               <div className="adm-field">
                 <label>Precio promocional</label>
-                <input className="adm-input" type="number" placeholder="0.00" value={promoPrice || ""} onChange={e=>setPromoPrice(+e.target.value)}/>
+                <input className="adm-input" type="number" placeholder="0.00" value={promoPrice || ""} onChange={e=>setPromoPrice(e.target.value ? +e.target.value : undefined)}/>
                 <span className="hint">Si se completa, se mostrará como oferta.</span>
               </div>
             </div>
@@ -283,7 +287,7 @@ function EditarProducto() {
             <div className="adm-row">
               <div className="adm-field">
                 <label>Costo</label>
-                <input className="adm-input" type="number" placeholder="0.00" value={costo || ""} onChange={e=>setCosto(+e.target.value)}/>
+                <input className="adm-input" type="number" placeholder="0.00" value={costo || ""} onChange={e=>setCosto(e.target.value ? +e.target.value : undefined)}/>
                 <span className="hint">Uso interno.</span>
               </div>
               <div className="adm-field">
@@ -303,10 +307,10 @@ function EditarProducto() {
               </select>
             </div>
             {stock === "limitado" && (
-              <div className="adm-field">
-                <label>Cantidad</label>
-                <input className="adm-input" type="number" min="0" value={stockQty ?? ""} onChange={e=>setStockQty(+e.target.value)} />
-              </div>
+                <div className="adm-field">
+                  <label>Cantidad en stock</label>
+                  <input className="adm-input" type="number" placeholder="Ej: 15" value={stockQty || ""} onChange={e=>setStockQty(e.target.value ? +e.target.value : undefined)}/>
+                </div>
             )}
           </div>
         </div>

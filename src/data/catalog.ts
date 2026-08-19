@@ -213,25 +213,135 @@ export const SECTIONS: Section[] = [
       }
     ]
   },
+  {
+    slug: "patines",
+    name: "Patines",
+    groups: [
+      {
+        slug: "agresivos", name: "Agresivos", image: IMG.patin,
+        subcategories: [{ slug: "agresivos", name: "Agresivos", image: IMG.patin }]
+      },
+      {
+        slug: "fsk", name: "FSK", image: IMG.patin,
+        subcategories: [{ slug: "fsk", name: "FSK", image: IMG.patin }]
+      },
+      {
+        slug: "wizard", name: "Wizard", image: IMG.patin,
+        subcategories: [{ slug: "wizard", name: "Wizard", image: IMG.patin }]
+      },
+      {
+        slug: "infantiles", name: "Infantiles", image: IMG.patin,
+        subcategories: [{ slug: "infantiles", name: "Infantiles", image: IMG.patin }]
+      },
+      {
+        slug: "iniciantes", name: "Iniciantes", image: IMG.patin,
+        subcategories: [{ slug: "iniciantes", name: "Iniciantes", image: IMG.patin }]
+      },
+      {
+        slug: "carrera", name: "Carrera", image: IMG.patin,
+        subcategories: [{ slug: "carrera", name: "Carrera", image: IMG.patin }]
+      },
+      {
+        slug: "freestyle", name: "Freestyle", image: IMG.patin,
+        subcategories: [{ slug: "freestyle", name: "Freestyle", image: IMG.patin }]
+      },
+      {
+        slug: "escuela", name: "Escuela", image: IMG.patin,
+        subcategories: [{ slug: "escuela", name: "Escuela", image: IMG.patin }]
+      },
+      {
+        slug: "suv", name: "SUV", image: IMG.patin,
+        subcategories: [{ slug: "suv", name: "SUV", image: IMG.patin }]
+      },
+      {
+        slug: "botas", name: "Botas", image: IMG.patin,
+        subcategories: [{ slug: "botas", name: "Botas", image: IMG.patin }]
+      }
+    ]
+  }
 ];
 
 export type Brand = { slug: string; name: string };
 export const BRANDS: Brand[] = [
+  { slug: "3m", name: "3M" },
+  { slug: "accel", name: "Accel" },
+  { slug: "act", name: "ACT" },
+  { slug: "art", name: "ART" },
+  { slug: "atop", name: "Atop" },
   { slug: "azemad", name: "Azemad" },
   { slug: "bauer", name: "Bauer" },
+  { slug: "bd-doglife", name: "BD Doglife" },
+  { slug: "bioracer", name: "Bioracer" },
+  { slug: "bladies", name: "Bladies" },
+  { slug: "bolle", name: "Bollé" },
+  { slug: "bones-bearings", name: "Bones Bearings" },
   { slug: "bystry", name: "Bystry" },
+  { slug: "chaya-skates", name: "Chaya Skates" },
+  { slug: "create-originals", name: "Create Originals" },
+  { slug: "cymatics", name: "Cymatics" },
   { slug: "density", name: "Density" },
   { slug: "edea", name: "Edea" },
+  { slug: "endless-blading-co", name: "Endless Blading Co." },
+  { slug: "ennui", name: "ENNUI" },
+  { slug: "eulogy-wheels", name: "Eulogy Wheels" },
+  { slug: "falcon", name: "Falcon" },
   { slug: "footgel", name: "Footgel" },
+  { slug: "fr-skates", name: "FR Skates" },
+  { slug: "frenzy-scooter", name: "Frenzy Scooter" },
+  { slug: "gawds", name: "Gawds" },
+  { slug: "ground-control", name: "Ground Control" },
+  { slug: "imperial-skates", name: "Imperial Skates" },
+  { slug: "infinity-wheels", name: "Infinity Wheels" },
+  { slug: "intuition", name: "Intuition" },
+  { slug: "iqon", name: "IQON" },
   { slug: "jet", name: "Jet" },
+  { slug: "kizer-frames", name: "Kizer Frames" },
   { slug: "komplex", name: "Komplex" },
+  { slug: "matter-wheels", name: "Matter Wheels" },
+  { slug: "mc-cargo", name: "MC Cargo" },
+  { slug: "mesmer-skates", name: "Mesmer Skates" },
+  { slug: "miller-division", name: "Miller Division" },
+  { slug: "mx-skates", name: "mx Skates" },
+  { slug: "myfit", name: "MyFit" },
+  { slug: "neo-by-fr-skates", name: "NEO by FR Skates" },
+  { slug: "next-skates", name: "Next Skates" },
+  { slug: "nothing-fashion", name: "Nothing Fashion" },
+  { slug: "one-skates", name: "One Skates" },
+  { slug: "phoenix", name: "Phoenix" },
+  { slug: "playlife-skates", name: "Playlife Skates" },
+  { slug: "powerslide", name: "Powerslide" },
+  { slug: "pro-tec", name: "Pro-tec" },
+  { slug: "razors-skates", name: "Razors Skates" },
+  { slug: "rekd-performance-protection", name: "REKD Performance Protection" },
   { slug: "reno", name: "Reno" },
   { slug: "riedell", name: "Riedell" },
+  { slug: "rio-roller", name: "Rio Roller" },
   { slug: "risport", name: "Risport" },
+  { slug: "roces", name: "Roces" },
   { slug: "roll-line", name: "Roll-Line" },
+  { slug: "rollerbones", name: "Rollerbones" },
   { slug: "rollervar", name: "Rollervar" },
+  { slug: "seba", name: "Seba" },
+  { slug: "sector-9", name: "Sector 9" },
+  { slug: "sfr", name: "SFR" },
   { slug: "skater", name: "Skater" },
+  { slug: "slamm-scooters", name: "Slamm Scooters" },
+  { slug: "spinner-wheels", name: "Spinner Wheels" },
+  { slug: "swell-skates", name: "Swell Skates" },
+  { slug: "swings-on-wings", name: "Swings on Wings" },
+  { slug: "them", name: "Them" },
+  { slug: "tltf", name: "TLTF" },
+  { slug: "tnec", name: "TNEC" },
   { slug: "toor", name: "Toor" },
+  { slug: "triple-x", name: "Triple X" },
+  { slug: "triple8", name: "Triple8" },
+  { slug: "ubc-powerslide", name: "UBC Powerslide" },
+  { slug: "ufs", name: "UFS+" },
+  { slug: "undercover-wheels", name: "Undercover Wheels" },
+  { slug: "usd-skates", name: "USD Skates" },
+  { slug: "wicked-bearings", name: "Wicked Bearings" },
+  { slug: "wizard-skating", name: "Wizard Skating" },
+  { slug: "zoom-skates", name: "Zoom Skates" }
 ];
 
 export type Product = {

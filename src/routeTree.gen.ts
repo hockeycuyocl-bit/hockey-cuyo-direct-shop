@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProductoSlugRouteImport } from './routes/producto.$slug'
 import { Route as MarcaSlugRouteImport } from './routes/marca.$slug'
+import { Route as DeporteSlugRouteImport } from './routes/deporte.$slug'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AdminProductosIndexRouteImport } from './routes/admin.productos.index'
@@ -70,6 +71,11 @@ const MarcaSlugRoute = MarcaSlugRouteImport.update({
   path: '/marca/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeporteSlugRoute = DeporteSlugRouteImport.update({
+  id: '/deporte/$slug',
+  path: '/deporte/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   id: '/categoria/$slug',
   path: '/categoria/$slug',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/deporte/$slug': typeof DeporteSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
   '/producto/$slug': typeof ProductoSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/deporte/$slug': typeof DeporteSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
   '/producto/$slug': typeof ProductoSlugRoute
   '/admin': typeof AdminIndexRoute
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/deporte/$slug': typeof DeporteSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
   '/producto/$slug': typeof ProductoSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/admin/$'
     | '/categoria/$slug'
+    | '/deporte/$slug'
     | '/marca/$slug'
     | '/producto/$slug'
     | '/admin/'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/admin/$'
     | '/categoria/$slug'
+    | '/deporte/$slug'
     | '/marca/$slug'
     | '/producto/$slug'
     | '/admin'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/admin/$'
     | '/categoria/$slug'
+    | '/deporte/$slug'
     | '/marca/$slug'
     | '/producto/$slug'
     | '/admin/'
@@ -213,6 +225,7 @@ export interface RootRouteChildren {
   EnviosRoute: typeof EnviosRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
+  DeporteSlugRoute: typeof DeporteSlugRoute
   MarcaSlugRoute: typeof MarcaSlugRoute
   ProductoSlugRoute: typeof ProductoSlugRoute
 }
@@ -280,6 +293,13 @@ declare module '@tanstack/react-router' {
       path: '/marca/$slug'
       fullPath: '/marca/$slug'
       preLoaderRoute: typeof MarcaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deporte/$slug': {
+      id: '/deporte/$slug'
+      path: '/deporte/$slug'
+      fullPath: '/deporte/$slug'
+      preLoaderRoute: typeof DeporteSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categoria/$slug': {
@@ -355,6 +375,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnviosRoute: EnviosRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
+  DeporteSlugRoute: DeporteSlugRoute,
   MarcaSlugRoute: MarcaSlugRoute,
   ProductoSlugRoute: ProductoSlugRoute,
 }

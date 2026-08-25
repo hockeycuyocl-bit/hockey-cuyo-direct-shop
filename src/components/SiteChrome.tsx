@@ -70,12 +70,13 @@ function CategoriesMega() {
       {/* Columna 1: Secciones */}
       <div className="mega-col mega-sections">
         {SECTIONS.map(section => (
-          <div
+          <Link
             key={section.slug}
+            to="/deporte/$slug"
+            params={{ slug: section.slug }}
             className={`mega-row${activeSection === section.slug ? " active" : ""}`}
             onMouseEnter={() => {
               setActiveSection(section.slug);
-              // Al cambiar de sección, seleccionar el primer grupo de la nueva sección por defecto
               const nextSection = SECTIONS.find(s => s.slug === section.slug);
               if (nextSection && nextSection.groups.length > 0) {
                 setActiveGroup(nextSection.groups[0].slug);
@@ -84,7 +85,7 @@ function CategoriesMega() {
           >
             <span>{section.name}</span>
             <span style={{ fontSize: 10, opacity: 0.6 }}>›</span>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -208,25 +209,26 @@ export function SiteHeader() {
           <Link to="/" onClick={() => setMobileOpen(false)} className="m-link">Inicio</Link>
 
           {SECTIONS.map(s => (
-            <details key={s.slug} open={openSection === s.slug}>
-              <summary
-                className="m-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpenSection(openSection === s.slug ? null : s.slug);
-                }}
-              >
-                {s.name}
-              </summary>
-              <div className="m-sublist">
-                {s.groups.map(g => (
-                  <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
-                    onClick={() => setMobileOpen(false)} className="m-cat-link">
-                    {g.name}
-                  </Link>
-                ))}
+            <div key={s.slug}>
+              <div className="m-link" style={{ display: 'flex', justifyContent: 'space-between', paddingRight: '1rem', borderBottom: openSection === s.slug ? 'none' : undefined }}>
+                <Link to="/deporte/$slug" params={{ slug: s.slug }} onClick={() => setMobileOpen(false)} style={{ flex: 1, textDecoration: 'none', color: 'inherit' }}>
+                  {s.name}
+                </Link>
+                <div onClick={() => setOpenSection(openSection === s.slug ? null : s.slug)} style={{ paddingLeft: '1rem', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  {openSection === s.slug ? '▴' : '▾'}
+                </div>
               </div>
-            </details>
+              {openSection === s.slug && (
+                <div className="m-sublist" style={{ borderBottom: '1px solid var(--border)' }}>
+                  {s.groups.map(g => (
+                    <Link key={g.slug} to="/categoria/$slug" params={{ slug: g.slug }}
+                      onClick={() => setMobileOpen(false)} className="m-cat-link">
+                      {g.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
 
           <details open={brandsOpen} onToggle={(e) => setBrandsOpen((e.currentTarget as HTMLDetailsElement).open)}>

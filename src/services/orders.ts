@@ -8,22 +8,29 @@ export type OrderPayload = {
   total: number;
 };
 
+function generateTrackingToken() {
+  return Array.from(crypto.getRandomValues(new Uint8Array(6)))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 export async function createOrder(data: OrderPayload) {
-  const { data: order, error } = await supabase
+  const trackingToken = generateTrackingToken();
+
+  const { error } = await supabase
     .from("orders")
     .insert([{
       ...data,
+      tracking_token: trackingToken,
       payment_status: "pendiente",
       payment_method: "whatsapp",
       shipping_status: "preparando"
-    }])
-    .select("tracking_token")
-    .single();
+    }]);
 
   if (error) {
     console.error("Error creating order:", error);
     throw new Error("No se pudo crear la orden.");
   }
 
-  return order.tracking_token;
+  return trackingToken;
 }

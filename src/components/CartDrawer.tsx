@@ -1,9 +1,10 @@
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/data/catalog";
 import { WhatsIcon } from "./SiteChrome";
+import { Link } from "@tanstack/react-router";
 
 export function CartDrawer() {
-  const { isOpen, close, items, total, setQty, remove, clear, checkoutUrl } = useCart();
+  const { isOpen, close, items, total, setQty, remove, clear } = useCart();
   if (!isOpen) return null;
 
   return (
@@ -46,15 +47,13 @@ export function CartDrawer() {
                 <span>Total</span>
                 <strong>{formatPrice(total)}</strong>
               </div>
-              <a
-                href={checkoutUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/checkout"
                 className="btn-wa-primary cart-checkout"
                 onClick={close}
               >
-                <WhatsIcon size={18} /> Finalizar por WhatsApp
-              </a>
+                Finalizar compra
+              </Link>
               <button className="cart-clear" onClick={clear}>Vaciar carrito</button>
             </footer>
           </>

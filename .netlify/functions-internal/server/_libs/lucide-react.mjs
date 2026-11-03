@@ -363,6 +363,16 @@ var Download = createLucideIcon("download", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Facebook = createLucideIcon("facebook", [["path", {
+	d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
+	key: "1jg4f8"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Funnel = createLucideIcon("funnel", [["path", {
 	d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
 	key: "sc7q7i"
@@ -477,6 +487,34 @@ var Image = createLucideIcon("image", [
 	["path", {
 		d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21",
 		key: "1xmnt7"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var Instagram = createLucideIcon("instagram", [
+	["rect", {
+		width: "20",
+		height: "20",
+		x: "2",
+		y: "2",
+		rx: "5",
+		ry: "5",
+		key: "2e1cvw"
+	}],
+	["path", {
+		d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z",
+		key: "9exkf1"
+	}],
+	["line", {
+		x1: "17.5",
+		x2: "17.51",
+		y1: "6.5",
+		y2: "6.5",
+		key: "r4j83e"
 	}]
 ]);
 /**
@@ -1040,4 +1078,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { Funnel as A, Bold as B, List as C, Image as D, Italic as E, CircleQuestionMark as F, ArrowRight as H, CircleCheck as I, ChevronDown as L, DollarSign as M, CreditCard as N, ImageOff as O, Construction as P, ChartColumn as R, LogIn as S, LayoutDashboard as T, ArrowLeft as U, Bell as V, Pencil as _, TrendingUp as a, Menu as b, Sparkles as c, ShieldCheck as d, Settings as f, Percent as g, Plug as h, Truck as i, Download as j, GripVertical as k, ShoppingCart as l, Plus as m, Users as n, Trash2 as o, Search as p, Upload as r, Store as s, X as t, ShoppingBag as u, Package as v, Link2 as w, Megaphone as x, MessageSquare as y, Building2 as z };
+export { GripVertical as A, ChartColumn as B, List as C, Instagram as D, Italic as E, CreditCard as F, ArrowLeft as G, Bold as H, Construction as I, CircleQuestionMark as L, Facebook as M, Download as N, Image as O, DollarSign as P, CircleCheck as R, LogIn as S, LayoutDashboard as T, Bell as U, Building2 as V, ArrowRight as W, Pencil as _, TrendingUp as a, Menu as b, Sparkles as c, ShieldCheck as d, Settings as f, Percent as g, Plug as h, Truck as i, Funnel as j, ImageOff as k, ShoppingCart as l, Plus as m, Users as n, Trash2 as o, Search as p, Upload as r, Store as s, X as t, ShoppingBag as u, Package as v, Link2 as w, Megaphone as x, MessageSquare as y, ChevronDown as z };

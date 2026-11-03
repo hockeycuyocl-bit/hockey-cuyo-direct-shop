@@ -1,6 +1,6 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { g as Link, y as useParams } from "../_libs/@tanstack/react-router+[...].mjs";
-import { P as Construction } from "../_libs/lucide-react.mjs";
+import { I as Construction } from "../_libs/lucide-react.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/admin._-DbGquMVz.js
 var import_jsx_runtime = require_jsx_runtime();
 function Placeholder() {

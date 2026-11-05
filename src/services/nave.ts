@@ -1,22 +1,19 @@
 /**
- * Nave Webhook Handler — Hockey Cuyo
+ * Nave Payment Gateway Service — Hockey Cuyo
  *
- * Endpoints documentados de Nave (verificados contra la implementación oficial):
+ * Microservicios oficiales Nave / Ranty (según especificación estricta de Nave):
  *
- *   Auth M2M:
- *     Sandbox:    https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2ms
- *     Producción: https://services.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate
+ * Auth M2M:
+ *   Sandbox:    https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate
+ *   Producción: https://services.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate
  *
- *   API base (integraciones):
- *     Sandbox:    https://api-sandbox.ranty.io/api
- *     Producción: https://api.ranty.io/api
+ * Payment Requests (Ecommerce):
+ *   Sandbox:    https://api-sandbox.ranty.io/integrations/payment_requests/ecommerce
+ *   Producción: https://api.ranty.io/integrations/payment_requests/ecommerce
  *
- *   Payments MS:
- *     Sandbox:    https://punku-sandbox.ranty.io/payments-ms/payments
- *     Producción: https://punku.ranty.io/payments-ms/payments
- *
- * Este módulo NO accede a variables VITE_* (secretos del frontend).
- * Todos los secretos se leen de process.env en el servidor (Netlify Functions).
+ * Payments MS (Consulta de pagos):
+ *   Sandbox:    https://api-sandbox.ranty.io/integrations/payments/{payment_id}
+ *   Producción: https://api.ranty.io/integrations/payments/{payment_id}
  */
 
 import { createClient } from "@supabase/supabase-js";
@@ -25,11 +22,12 @@ import { createClient } from "@supabase/supabase-js";
 // Tipos
 // ---------------------------------------------------------------------------
 
-/** Configuración de un entorno Nave (sandbox o production). */
-type NaveEnvConfig = {
-  environment: "sandbox" | "production";
+export type NaveEnv = "sandbox" | "production";
+
+export type NaveEnvConfig = {
+  environment: NaveEnv;
   authUrl: string;
-  apiBaseUrl: string;
+  paymentRequestsUrl: string;
   paymentsBaseUrl: string;
   clientId: string;
   clientSecret: string;
@@ -37,27 +35,70 @@ type NaveEnvConfig = {
   posId: string;
 };
 
-/** Estructura mínima esperada del body de la notificación webhook de Nave. */
+export type NaveProductItem = {
+  id?: string;
+  name: string;
+  quantity: number;
+  price?: number;
+  unit_price?: {
+    currency: string;
+    value: string;
+  };
+};
+
+export type NavePaymentRequestPayload = {
+  external_payment_id: string;
+  tracking_token: string;
+  amount: number;
+  products: NaveProductItem[];
+  buyer: {
+    name: string;
+    phone: string;
+    user_email?: string;
+    email?: string;
+  };
+};
+
+export type NavePaymentRequestResult = {
+  payment_request_id: string;
+  checkout_url: string;
+  transaction_id?: string;
+  qr_data?: string;
+};
+
 type NaveWebhookPayload = {
   payment_id?: string;
-  external_reference?: string;
+  external_payment_id?: string;
+  payment_check_url?: string;
+  [key: string]: unknown;
+};
+
+type NavePaymentStatus = {
+  name: string;
+  [key: string]: unknown;
+};
+
+type NavePaymentResponse = {
+  id?: string;
+  status?: NavePaymentStatus;
+  external_payment_id?: string;
   [key: string]: unknown;
 };
 
 // ---------------------------------------------------------------------------
-// Dominios oficiales — hardcodeados, nunca tomados del request
+// Dominios oficiales Nave
 // ---------------------------------------------------------------------------
 
-const NAVE_DOMAINS = {
+export const NAVE_DOMAINS = {
   sandbox: {
-    auth: "https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2ms",
-    api: "https://api-sandbox.ranty.io/api",
-    payments: "https://punku-sandbox.ranty.io/payments-ms/payments",
+    auth: "https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate",
+    paymentRequests: "https://api-sandbox.ranty.io/integrations/payment_requests/ecommerce",
+    payments: "https://api-sandbox.ranty.io/integrations/payments",
   },
   production: {
     auth: "https://services.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate",
-    api: "https://api.ranty.io/api",
-    payments: "https://punku.ranty.io/payments-ms/payments",
+    paymentRequests: "https://api.ranty.io/integrations/payment_requests/ecommerce",
+    payments: "https://api.ranty.io/integrations/payments",
   },
 } as const;
 
@@ -73,14 +114,14 @@ function getEnvVar(name: string): string {
   return value;
 }
 
-function getNaveConfig(environment: "sandbox" | "production"): NaveEnvConfig {
+export function getNaveConfig(environment: NaveEnv = "sandbox"): NaveEnvConfig {
   const prefix = environment === "sandbox" ? "NAVE_SANDBOX" : "NAVE_PROD";
   const domains = NAVE_DOMAINS[environment];
 
   return {
     environment,
     authUrl: domains.auth,
-    apiBaseUrl: domains.api,
+    paymentRequestsUrl: domains.paymentRequests,
     paymentsBaseUrl: domains.payments,
     clientId: getEnvVar(`${prefix}_CLIENT_ID`),
     clientSecret: getEnvVar(`${prefix}_CLIENT_SECRET`),
@@ -89,24 +130,25 @@ function getNaveConfig(environment: "sandbox" | "production"): NaveEnvConfig {
   };
 }
 
-/**
- * Crea un cliente Supabase con la Service Role Key (backend-only).
- * Nunca usa la anon key del frontend.
- */
-function getSupabaseAdmin() {
-  const url = getEnvVar("SUPABASE_URL");
-  const serviceKey = getEnvVar("SUPABASE_SERVICE_ROLE_KEY");
+export function getSupabaseAdmin() {
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
+  const serviceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY ||
+    "";
+  if (!url || !serviceKey) {
+    throw new Error("[nave] Configuración de Supabase incompleta");
+  }
   return createClient(url, serviceKey);
 }
 
 // ---------------------------------------------------------------------------
-// Autenticación M2M con Nave
+// Autenticación M2M
 // ---------------------------------------------------------------------------
 
-/** Cache de tokens en memoria por entorno para evitar solicitar uno nuevo en cada request. */
 const tokenCache: Record<string, { token: string; expiresAt: number }> = {};
 
-async function getNaveAccessToken(config: NaveEnvConfig): Promise<string> {
+export async function getNaveAccessToken(config: NaveEnvConfig): Promise<string> {
   const cacheKey = config.environment;
   const cached = tokenCache[cacheKey];
   if (cached && cached.expiresAt > Date.now() + 30_000) {
@@ -115,7 +157,10 @@ async function getNaveAccessToken(config: NaveEnvConfig): Promise<string> {
 
   const response = await fetch(config.authUrl, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
     body: JSON.stringify({
       client_id: config.clientId,
       client_secret: config.clientSecret,
@@ -151,36 +196,152 @@ async function getNaveAccessToken(config: NaveEnvConfig): Promise<string> {
 }
 
 // ---------------------------------------------------------------------------
-// Consulta autenticada del pago a Nave (fuente de verdad)
+// Creación de Payment Request (Ecommerce) según esquema oficial de Nave
 // ---------------------------------------------------------------------------
 
-type NavePaymentStatus = {
-  name: string;
-  [key: string]: unknown;
-};
+export async function createNavePaymentRequest(
+  payload: NavePaymentRequestPayload,
+  environment: NaveEnv = "sandbox",
+  originUrl = "https://hockeycuyo.com.ar"
+): Promise<NavePaymentRequestResult> {
+  const config = getNaveConfig(environment);
+  const token = await getNaveAccessToken(config);
 
-type NavePaymentResponse = {
-  id?: string;
-  status?: NavePaymentStatus;
-  external_reference?: string;
-  [key: string]: unknown;
-};
+  // Esquema oficial de Nave:
+  // - external_payment_id (máx. 36 caracteres)
+  // - seller.pos_id
+  // - transactions.amount.currency / value (string con dos decimales)
+  // - transactions.products (unit_price con currency y value con dos decimales)
+  // - buyer (user_email, name, phone)
+  // - additional_info.callback_url
+  // - duration_time
+  const externalPaymentId = String(payload.external_payment_id).trim().slice(0, 36);
+  if (!externalPaymentId) {
+    throw new Error("[nave] external_payment_id es requerido y no puede estar vacío");
+  }
 
-async function fetchNavePayment(
+  const buyerEmail = payload.buyer.user_email || payload.buyer.email;
+
+  const requestBody = {
+    external_payment_id: externalPaymentId,
+    seller: {
+      pos_id: config.posId,
+    },
+    transactions: {
+      amount: {
+        currency: "ARS",
+        value: Number(payload.amount).toFixed(2),
+      },
+      products: payload.products.map((p, idx) => {
+        const rawPrice = p.price ?? (p.unit_price ? Number(p.unit_price.value) : 0);
+        return {
+          id: p.id || String(idx + 1),
+          name: p.name,
+          quantity: p.quantity,
+          unit_price: {
+            currency: "ARS",
+            value: Number(rawPrice).toFixed(2),
+          },
+        };
+      }),
+    },
+    buyer: {
+      name: payload.buyer.name,
+      phone: payload.buyer.phone,
+      ...(buyerEmail ? { user_email: buyerEmail } : {}),
+    },
+    additional_info: {
+      callback_url: `${originUrl}/checkout/confirmacion?token=${payload.tracking_token}`,
+    },
+    duration_time: 1800,
+  };
+
+  const response = await fetch(config.paymentRequestsUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => "");
+    throw new Error(
+      `[nave] Error creando Payment Request (${response.status}): ${errorText}`
+    );
+  }
+
+  const resJson = (await response.json()) as {
+    data?: {
+      payment_request_id?: string;
+      checkout_url?: string;
+      transaction_id?: string;
+      qr_data?: string;
+    };
+    payment_request_id?: string;
+    checkout_url?: string;
+    transaction_id?: string;
+    qr_data?: string;
+  };
+
+  const data = resJson.data || resJson;
+  const paymentRequestId = data.payment_request_id;
+  const checkoutUrl = data.checkout_url;
+
+  if (!paymentRequestId || !checkoutUrl) {
+    throw new Error(
+      "[nave] Respuesta de Payment Request incompleta: falta checkout_url o payment_request_id"
+    );
+  }
+
+  return {
+    payment_request_id: paymentRequestId,
+    checkout_url: checkoutUrl,
+    transaction_id: data.transaction_id,
+    qr_data: data.qr_data,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Consulta Autenticada de Pago (Fuente de Verdad)
+// Endpoint: https://api-sandbox.ranty.io/integrations/payments/{payment_id}
+// ---------------------------------------------------------------------------
+
+export async function fetchNavePayment(
   paymentId: string,
-  config: NaveEnvConfig
+  config: NaveEnvConfig,
+  paymentCheckUrl?: string
 ): Promise<NavePaymentResponse> {
   const token = await getNaveAccessToken(config);
 
-  // Usar el payments microservice con el ID proporcionado.
-  // La URL se construye SOLO desde dominios hardcodeados, nunca del request.
-  const url = `${config.paymentsBaseUrl}/${encodeURIComponent(paymentId)}`;
+  let url = `${config.paymentsBaseUrl}/${encodeURIComponent(paymentId)}`;
+
+  if (paymentCheckUrl) {
+    try {
+      const parsed = new URL(paymentCheckUrl);
+      const isOfficialDomain =
+        parsed.hostname.endsWith("ranty.io") ||
+        parsed.hostname.endsWith("apinaranja.com");
+      if (isOfficialDomain) {
+        url = paymentCheckUrl;
+      } else {
+        console.warn(
+          `[nave] payment_check_url no oficial rechazada: ${paymentCheckUrl}. Usando endpoint oficial.`
+        );
+      }
+    } catch {
+      // Ignorar URL mal formada y usar endpoint oficial
+    }
+  }
 
   const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
+      Accept: "application/json",
     },
   });
 
@@ -195,14 +356,13 @@ async function fetchNavePayment(
 }
 
 // ---------------------------------------------------------------------------
-// Lógica de procesamiento del webhook
+// Procesamiento de Webhook con Idempotencia
 // ---------------------------------------------------------------------------
 
 async function processWebhook(
   payload: NaveWebhookPayload,
-  environment: "sandbox" | "production"
+  environment: NaveEnv
 ): Promise<{ status: number; body: Record<string, unknown> }> {
-  // 1. Extraer payment_id — campo documentado en la notificación de Nave
   const paymentId = payload.payment_id;
   if (!paymentId || typeof paymentId !== "string") {
     return {
@@ -211,7 +371,6 @@ async function processWebhook(
     };
   }
 
-  // 2. Obtener configuración del entorno
   let config: NaveEnvConfig;
   try {
     config = getNaveConfig(environment);
@@ -227,7 +386,6 @@ async function processWebhook(
     };
   }
 
-  // 3. Obtener cliente Supabase (backend con service role)
   let supabase: ReturnType<typeof createClient>;
   try {
     supabase = getSupabaseAdmin();
@@ -240,17 +398,16 @@ async function processWebhook(
     };
   }
 
-  // 4. Buscar la orden por gateway_payment_id para correlación e idempotencia
+  // 1. Idempotencia: si ya está pagada por gateway_payment_id, devolver 200 inmediatamente
   const { data: existingOrder } = await supabase
     .from("orders")
     .select("id, payment_status, gateway_payment_id")
     .eq("gateway_payment_id", paymentId)
     .maybeSingle();
 
-  // 4a. Idempotencia: si ya está pagada, responder 200 sin reprocesar
   if (existingOrder && existingOrder.payment_status === "pagado") {
     console.log(
-      `[nave][${environment}] Pago ${paymentId} ya procesado (orden ${existingOrder.id}). Ignorando duplicado.`
+      `[nave][${environment}] Pago ${paymentId} ya procesado (orden ${existingOrder.id}). Respondiendo 200.`
     );
     return {
       status: 200,
@@ -258,22 +415,21 @@ async function processWebhook(
     };
   }
 
-  // 4b. Si no hay orden asociada, intentar correlación por external_reference
+  // 2. Correlación: buscar por external_payment_id (order.id) o payment_request_id
   let orderId: string | null = existingOrder?.id || null;
+  const correlationRef = payload.external_payment_id;
 
-  if (!orderId && payload.external_reference) {
+  if (!orderId && correlationRef) {
     const { data: refOrder } = await supabase
       .from("orders")
       .select("id, payment_status, gateway_payment_id")
-      .eq("payment_request_id", payload.external_reference)
+      .or(
+        `id.eq.${correlationRef},payment_request_id.eq.${correlationRef}`
+      )
       .maybeSingle();
 
     if (refOrder) {
-      // Si ya estaba pagada por otro flujo, no reprocesar
       if (refOrder.payment_status === "pagado") {
-        console.log(
-          `[nave][${environment}] Orden por ref ${payload.external_reference} ya pagada. Ignorando.`
-        );
         return {
           status: 200,
           body: { received: true, already_processed: true },
@@ -285,9 +441,8 @@ async function processWebhook(
 
   if (!orderId) {
     console.warn(
-      `[nave][${environment}] No se encontró orden para payment_id=${paymentId}, external_reference=${payload.external_reference}`
+      `[nave][${environment}] No se encontró orden para payment_id=${paymentId}, external_payment_id=${correlationRef}`
     );
-    // Responder 200 para que Nave no reintente, pero registrar el evento
     return {
       status: 200,
       body: {
@@ -297,17 +452,20 @@ async function processWebhook(
     };
   }
 
-  // 5. Consultar el estado real del pago en Nave (fuente de verdad)
+  // 3. Consultar estado real a Nave (Fuente de Verdad)
   let navePayment: NavePaymentResponse;
   try {
-    navePayment = await fetchNavePayment(paymentId, config);
+    navePayment = await fetchNavePayment(
+      paymentId,
+      config,
+      payload.payment_check_url
+    );
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error(
       `[nave][${environment}] Error consultando pago a Nave:`,
       msg
     );
-    // Devolver 500 para que Nave reintente más tarde
     return {
       status: 500,
       body: { error: "Error temporal al verificar pago con Nave" },
@@ -316,7 +474,7 @@ async function processWebhook(
 
   const statusName = navePayment.status?.name?.toUpperCase() || "UNKNOWN";
 
-  // 6. Actualizar la orden según el estado oficial de Nave
+  // 4. Actualizar orden según veredicto oficial
   const updateData: Record<string, unknown> = {
     gateway_payment_id: paymentId,
     gateway_metadata: navePayment,
@@ -326,17 +484,12 @@ async function processWebhook(
     updateData.payment_status = "pagado";
     updateData.payment_method = "nave";
     console.log(
-      `[nave][${environment}] Pago ${paymentId} APROBADO → marcando orden ${orderId} como pagado`
+      `[nave][${environment}] Pago ${paymentId} APROBADO -> orden ${orderId} marcada como 'pagado'`
     );
   } else if (statusName === "REJECTED" || statusName === "CANCELLED") {
     updateData.payment_status = "cancelado";
     console.log(
-      `[nave][${environment}] Pago ${paymentId} ${statusName} → marcando orden ${orderId} como cancelado`
-    );
-  } else {
-    // PENDING u otros estados: registrar metadata pero no cambiar payment_status
-    console.log(
-      `[nave][${environment}] Pago ${paymentId} estado=${statusName} → registrando sin cambiar estado de orden ${orderId}`
+      `[nave][${environment}] Pago ${paymentId} ${statusName} -> orden ${orderId} marcada como 'cancelado'`
     );
   }
 
@@ -362,21 +515,23 @@ async function processWebhook(
       received: true,
       order_id: orderId,
       payment_status: statusName,
-      updated: statusName === "APPROVED" || statusName === "REJECTED" || statusName === "CANCELLED",
+      updated:
+        statusName === "APPROVED" ||
+        statusName === "REJECTED" ||
+        statusName === "CANCELLED",
     },
   };
 }
 
 // ---------------------------------------------------------------------------
-// Handler HTTP principal — invocado desde server.ts
+// Handler HTTP principal (invocado desde server.ts)
 // ---------------------------------------------------------------------------
 
 export async function handleNaveWebhookRequest(
   request: Request,
-  environment: "sandbox" | "production",
+  environment: NaveEnv,
   _env?: unknown
 ): Promise<Response> {
-  // Solo aceptar POST
   if (request.method !== "POST") {
     return new Response(
       JSON.stringify({ error: "Método no permitido. Se requiere POST." }),
@@ -390,7 +545,6 @@ export async function handleNaveWebhookRequest(
     );
   }
 
-  // Parsear body
   let payload: NaveWebhookPayload;
   try {
     const contentType = request.headers.get("content-type") || "";
@@ -416,7 +570,6 @@ export async function handleNaveWebhookRequest(
     );
   }
 
-  // Validar que el payload sea un objeto
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
     return new Response(
       JSON.stringify({ error: "Payload debe ser un objeto JSON" }),
@@ -427,7 +580,6 @@ export async function handleNaveWebhookRequest(
     );
   }
 
-  // Procesar
   const result = await processWebhook(payload, environment);
 
   return new Response(JSON.stringify(result.body), {

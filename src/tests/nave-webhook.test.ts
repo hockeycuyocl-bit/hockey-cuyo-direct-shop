@@ -6,7 +6,10 @@
  * sin necesitar un servidor HTTP externo.
  */
 
-import { handleNaveWebhookRequest } from "../services/nave.ts";
+import {
+  handleNaveWebhookRequest,
+  createNavePaymentRequest,
+} from "../services/nave.ts";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -150,7 +153,7 @@ async function main() {
       async () => {
         const req = makeRequest("POST", {
           payment_id: "test_pay_123",
-          external_reference: "ref_456",
+          external_payment_id: "ref_456",
         });
         const res = await handleNaveWebhookRequest(req, "sandbox");
         assert(res.status === 500, `Esperado 500, recibido ${res.status}`);
@@ -198,6 +201,90 @@ async function main() {
           res1.status === res2.status && res1.status === 500,
           `Ambas respuestas deben devolver 500 controlado: ${res1.status} vs ${res2.status}`
         );
+      }
+    )
+  );
+
+  // ── Test 10: Payload oficial de createNavePaymentRequest cumple especificaciones ──
+  track(
+    await runTest(
+      "createNavePaymentRequest envía unit_price, user_email, strings de 2 decimales y external_payment_id <= 36",
+      async () => {
+        const originalFetch = globalThis.fetch;
+        let interceptedBody: any = null;
+
+        globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+          const urlStr = String(input);
+          if (urlStr.includes("auth0") || urlStr.includes("m2msPrivate")) {
+            return new Response(
+              JSON.stringify({ access_token: "mock_token", expires_in: 3600 }),
+              { status: 200, headers: { "Content-Type": "application/json" } }
+            );
+          }
+          if (urlStr.includes("payment_requests")) {
+            interceptedBody = JSON.parse(init?.body as string);
+            return new Response(
+              JSON.stringify({
+                payment_request_id: "pr_123",
+                checkout_url: "https://nave.example.com/checkout/123",
+              }),
+              { status: 200, headers: { "Content-Type": "application/json" } }
+            );
+          }
+          return originalFetch(input, init);
+        }) as typeof fetch;
+
+        try {
+          process.env.NAVE_SANDBOX_CLIENT_ID = "mock_client";
+          process.env.NAVE_SANDBOX_CLIENT_SECRET = "mock_secret";
+          process.env.NAVE_SANDBOX_AUDIENCE = "mock_aud";
+          process.env.NAVE_SANDBOX_POS_ID = "mock_pos";
+
+          await createNavePaymentRequest({
+            external_payment_id: "12345678-1234-1234-1234-123456789012-extra-long",
+            tracking_token: "tok_abc",
+            amount: 15000,
+            products: [
+              { id: "p1", name: "Palo Hockey", quantity: 1, price: 15000 },
+            ],
+            buyer: {
+              name: "Juan Perez",
+              phone: "2615555555",
+              email: "juan@example.com",
+            },
+          });
+
+          assert(interceptedBody !== null, "Debe interceptar el body");
+          assert(
+            interceptedBody.external_payment_id.length <= 36,
+            "external_payment_id debe tener máx 36 caracteres"
+          );
+          assert(
+            interceptedBody.transactions.amount.value === "15000.00",
+            `Importe total debe tener 2 decimales string, recibido: ${interceptedBody.transactions.amount.value}`
+          );
+          const prod = interceptedBody.transactions.products[0];
+          assert(prod.unit_price !== undefined, "Producto debe tener unit_price");
+          assert(
+            prod.unit_price.currency === "ARS",
+            "unit_price currency debe ser ARS"
+          );
+          assert(
+            prod.unit_price.value === "15000.00",
+            `unit_price value debe ser string con 2 decimales, recibido: ${prod.unit_price.value}`
+          );
+          assert(prod.price === undefined, "Producto NO debe tener campo price");
+          assert(
+            interceptedBody.buyer.user_email === "juan@example.com",
+            "buyer debe tener user_email"
+          );
+          assert(
+            interceptedBody.buyer.email === undefined,
+            "buyer NO debe tener campo email"
+          );
+        } finally {
+          globalThis.fetch = originalFetch;
+        }
       }
     )
   );

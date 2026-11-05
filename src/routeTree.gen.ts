@@ -20,6 +20,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProductoSlugRouteImport } from './routes/producto.$slug'
 import { Route as MarcaSlugRouteImport } from './routes/marca.$slug'
 import { Route as DeporteSlugRouteImport } from './routes/deporte.$slug'
+import { Route as CheckoutConfirmacionRouteImport } from './routes/checkout.confirmacion'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AdminProductosIndexRouteImport } from './routes/admin.productos.index'
@@ -82,6 +83,11 @@ const DeporteSlugRoute = DeporteSlugRouteImport.update({
   path: '/deporte/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutConfirmacionRoute = CheckoutConfirmacionRouteImport.update({
+  id: '/confirmacion',
+  path: '/confirmacion',
+  getParentRoute: () => CheckoutRoute,
+} as any)
 const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   id: '/categoria/$slug',
   path: '/categoria/$slug',
@@ -116,13 +122,14 @@ const AdminProductosEditarIdRoute = AdminProductosEditarIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/checkout': typeof CheckoutRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/custom-lab': typeof CustomLabRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/checkout/confirmacion': typeof CheckoutConfirmacionRoute
   '/deporte/$slug': typeof DeporteSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
   '/producto/$slug': typeof ProductoSlugRoute
@@ -134,13 +141,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/checkout': typeof CheckoutRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/custom-lab': typeof CustomLabRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/checkout/confirmacion': typeof CheckoutConfirmacionRoute
   '/deporte/$slug': typeof DeporteSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
   '/producto/$slug': typeof ProductoSlugRoute
@@ -154,13 +162,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/checkout': typeof CheckoutRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/custom-lab': typeof CustomLabRoute
   '/envios': typeof EnviosRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/admin/$': typeof AdminSplatRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/checkout/confirmacion': typeof CheckoutConfirmacionRoute
   '/deporte/$slug': typeof DeporteSlugRoute
   '/marca/$slug': typeof MarcaSlugRoute
   '/producto/$slug': typeof ProductoSlugRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/admin/$'
     | '/categoria/$slug'
+    | '/checkout/confirmacion'
     | '/deporte/$slug'
     | '/marca/$slug'
     | '/producto/$slug'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/admin/$'
     | '/categoria/$slug'
+    | '/checkout/confirmacion'
     | '/deporte/$slug'
     | '/marca/$slug'
     | '/producto/$slug'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/admin/$'
     | '/categoria/$slug'
+    | '/checkout/confirmacion'
     | '/deporte/$slug'
     | '/marca/$slug'
     | '/producto/$slug'
@@ -232,7 +244,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  CheckoutRoute: typeof CheckoutRoute
+  CheckoutRoute: typeof CheckoutRouteWithChildren
   ContactoRoute: typeof ContactoRoute
   CustomLabRoute: typeof CustomLabRoute
   EnviosRoute: typeof EnviosRoute
@@ -322,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeporteSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/confirmacion': {
+      id: '/checkout/confirmacion'
+      path: '/confirmacion'
+      fullPath: '/checkout/confirmacion'
+      preLoaderRoute: typeof CheckoutConfirmacionRouteImport
+      parentRoute: typeof CheckoutRoute
+    }
     '/categoria/$slug': {
       id: '/categoria/$slug'
       path: '/categoria/$slug'
@@ -387,10 +406,22 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface CheckoutRouteChildren {
+  CheckoutConfirmacionRoute: typeof CheckoutConfirmacionRoute
+}
+
+const CheckoutRouteChildren: CheckoutRouteChildren = {
+  CheckoutConfirmacionRoute: CheckoutConfirmacionRoute,
+}
+
+const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
+  CheckoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  CheckoutRoute: CheckoutRoute,
+  CheckoutRoute: CheckoutRouteWithChildren,
   ContactoRoute: ContactoRoute,
   CustomLabRoute: CustomLabRoute,
   EnviosRoute: EnviosRoute,

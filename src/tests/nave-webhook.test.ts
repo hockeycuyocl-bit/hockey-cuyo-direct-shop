@@ -9,6 +9,7 @@
 import {
   handleNaveWebhookRequest,
   createNavePaymentRequest,
+  getSupabaseAdmin,
 } from "../services/nave.ts";
 
 // ---------------------------------------------------------------------------
@@ -208,7 +209,7 @@ async function main() {
   // ── Test 10: Payload oficial de createNavePaymentRequest cumple especificaciones ──
   track(
     await runTest(
-      "createNavePaymentRequest envía unit_price, user_email, strings de 2 decimales y external_payment_id <= 36",
+      "createNavePaymentRequest: transactions es array, unit_price, user_email, strings de 2 decimales, external_payment_id <= 36",
       async () => {
         const originalFetch = globalThis.fetch;
         let interceptedBody: any = null;
@@ -255,15 +256,36 @@ async function main() {
           });
 
           assert(interceptedBody !== null, "Debe interceptar el body");
+
+          // external_payment_id truncado a máx 36 chars
           assert(
             interceptedBody.external_payment_id.length <= 36,
             "external_payment_id debe tener máx 36 caracteres"
           );
+
+          // transactions debe ser un ARRAY (documentación oficial de Nave)
           assert(
-            interceptedBody.transactions.amount.value === "15000.00",
-            `Importe total debe tener 2 decimales string, recibido: ${interceptedBody.transactions.amount.value}`
+            Array.isArray(interceptedBody.transactions),
+            `transactions debe ser un array, recibido: ${typeof interceptedBody.transactions}`
           );
-          const prod = interceptedBody.transactions.products[0];
+          assert(
+            interceptedBody.transactions.length >= 1,
+            "transactions debe tener al menos un elemento"
+          );
+
+          const tx = interceptedBody.transactions[0];
+          assert(
+            tx.amount?.value === "15000.00",
+            `Importe total debe tener 2 decimales string, recibido: ${tx.amount?.value}`
+          );
+
+          const prod = tx.products[0];
+          assert(prod.name === "Palo Hockey", "Producto debe tener name");
+          assert(
+            prod.description !== undefined && prod.description.length > 0,
+            "Producto debe tener description"
+          );
+          assert(prod.quantity === 1, "Producto debe tener quantity");
           assert(prod.unit_price !== undefined, "Producto debe tener unit_price");
           assert(
             prod.unit_price.currency === "ARS",
@@ -275,6 +297,12 @@ async function main() {
           );
           assert(prod.price === undefined, "Producto NO debe tener campo price");
           assert(
+            prod.id === undefined,
+            "Producto NO debe incluir campo id (no documentado en Nave products)"
+          );
+
+          // buyer.user_email (no buyer.email)
+          assert(
             interceptedBody.buyer.user_email === "juan@example.com",
             "buyer debe tener user_email"
           );
@@ -284,6 +312,112 @@ async function main() {
           );
         } finally {
           globalThis.fetch = originalFetch;
+        }
+      }
+    )
+  );
+
+  // ── Test 11: Respuesta de Nave con campo `id` (identificador oficial documentado) ──
+  track(
+    await runTest(
+      "createNavePaymentRequest: acepta campo `id` como identificador del payment request",
+      async () => {
+        const originalFetch = globalThis.fetch;
+
+        globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+          const urlStr = String(input);
+          if (urlStr.includes("auth0") || urlStr.includes("m2msPrivate")) {
+            return new Response(
+              JSON.stringify({ access_token: "mock_token", expires_in: 3600 }),
+              { status: 200, headers: { "Content-Type": "application/json" } }
+            );
+          }
+          if (urlStr.includes("payment_requests")) {
+            // Simulamos la respuesta con el campo `id` (documentado por Nave)
+            // en lugar de `payment_request_id`
+            return new Response(
+              JSON.stringify({
+                data: {
+                  id: "pr_id_oficial_nave",
+                  checkout_url: "https://nave.example.com/checkout/oficial",
+                },
+              }),
+              { status: 200, headers: { "Content-Type": "application/json" } }
+            );
+          }
+          return originalFetch(input, init);
+        }) as typeof fetch;
+
+        try {
+          process.env.NAVE_SANDBOX_CLIENT_ID = "mock_client";
+          process.env.NAVE_SANDBOX_CLIENT_SECRET = "mock_secret";
+          process.env.NAVE_SANDBOX_AUDIENCE = "mock_aud";
+          process.env.NAVE_SANDBOX_POS_ID = "mock_pos";
+
+          const result = await createNavePaymentRequest({
+            external_payment_id: "test-id-para-campo-id",
+            tracking_token: "tok_id_test",
+            amount: 5000,
+            products: [{ name: "Producto Test", quantity: 1, price: 5000 }],
+            buyer: { name: "Test User", phone: "2610000000", user_email: "test@example.com" },
+          });
+
+          assert(
+            result.payment_request_id === "pr_id_oficial_nave",
+            `payment_request_id debe ser el valor de data.id, recibido: ${result.payment_request_id}`
+          );
+          assert(
+            result.checkout_url === "https://nave.example.com/checkout/oficial",
+            `checkout_url incorrecto: ${result.checkout_url}`
+          );
+        } finally {
+          globalThis.fetch = originalFetch;
+        }
+      }
+    )
+  );
+
+  // ── Test 12: getSupabaseAdmin falla explícitamente sin SUPABASE_SERVICE_ROLE_KEY ──
+  track(
+    await runTest(
+      "getSupabaseAdmin: falla explícitamente si falta SUPABASE_SERVICE_ROLE_KEY (no usa clave anónima)",
+      async () => {
+        const originalServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        const originalAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+        const originalUrl = process.env.SUPABASE_URL;
+
+        try {
+          // Simular entorno donde existe la clave anónima pero NO la service role
+          process.env.SUPABASE_URL = "https://test.supabase.co";
+          process.env.SUPABASE_SERVICE_ROLE_KEY = "";
+          process.env.VITE_SUPABASE_ANON_KEY = "anon_key_publica_que_no_debe_usarse";
+
+          let errorThrown = false;
+          let errorMessage = "";
+          try {
+            getSupabaseAdmin();
+          } catch (err: unknown) {
+            errorThrown = true;
+            errorMessage = err instanceof Error ? err.message : String(err);
+          }
+
+          assert(errorThrown, "getSupabaseAdmin debe lanzar un error si falta SUPABASE_SERVICE_ROLE_KEY");
+          assert(
+            errorMessage.includes("SERVICE_ROLE_KEY"),
+            `El error debe mencionar SUPABASE_SERVICE_ROLE_KEY, recibido: "${errorMessage}"`
+          );
+          assert(
+            !errorMessage.includes("anon"),
+            "El error no debe mencionar ni usar la clave anónima"
+          );
+        } finally {
+          // Restaurar variables originales
+          if (originalServiceKey !== undefined) process.env.SUPABASE_SERVICE_ROLE_KEY = originalServiceKey;
+          else delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+          if (originalAnonKey !== undefined) process.env.VITE_SUPABASE_ANON_KEY = originalAnonKey;
+          else delete process.env.VITE_SUPABASE_ANON_KEY;
+          if (originalUrl !== undefined) process.env.SUPABASE_URL = originalUrl;
+          else delete process.env.SUPABASE_URL;
         }
       }
     )

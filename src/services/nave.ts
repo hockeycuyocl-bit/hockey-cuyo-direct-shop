@@ -38,6 +38,7 @@ export type NaveEnvConfig = {
 export type NaveProductItem = {
   id?: string;
   name: string;
+  description?: string;
   quantity: number;
   price?: number;
   unit_price?: {
@@ -60,6 +61,9 @@ export type NavePaymentRequestPayload = {
 };
 
 export type NavePaymentRequestResult = {
+  /** ID del payment request según el campo documentado por Nave.
+   *  La API puede devolver este valor como `id` o como `payment_request_id`
+   *  dentro del objeto `data`. Siempre se normaliza a este campo. */
   payment_request_id: string;
   checkout_url: string;
   transaction_id?: string;
@@ -132,12 +136,23 @@ export function getNaveConfig(environment: NaveEnv = "sandbox"): NaveEnvConfig {
 
 export function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
-  const serviceKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY ||
-    "";
-  if (!url || !serviceKey) {
-    throw new Error("[nave] Configuración de Supabase incompleta");
+
+  // IMPORTANTE: Solo se acepta la Service Role Key — NUNCA la clave anónima.
+  // La clave anónima (VITE_SUPABASE_ANON_KEY) es pública y no tiene permisos
+  // de escritura server-side. Usar la anon key aquí sería una falla silenciosa
+  // de seguridad que corrompería el procesamiento de webhooks.
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+
+  if (!url) {
+    throw new Error(
+      "[nave] Configuración de Supabase incompleta: falta SUPABASE_URL"
+    );
+  }
+  if (!serviceKey) {
+    throw new Error(
+      "[nave] Configuración de Supabase incompleta: falta SUPABASE_SERVICE_ROLE_KEY. " +
+        "No se puede usar la clave anónima (VITE_SUPABASE_ANON_KEY) para operaciones de servidor."
+    );
   }
   return createClient(url, serviceKey);
 }
@@ -210,8 +225,9 @@ export async function createNavePaymentRequest(
   // Esquema oficial de Nave:
   // - external_payment_id (máx. 36 caracteres)
   // - seller.pos_id
-  // - transactions.amount.currency / value (string con dos decimales)
-  // - transactions.products (unit_price con currency y value con dos decimales)
+  // - transactions (ARRAY): cada elemento tiene amount y products
+  //   - amount.currency / value (string con dos decimales)
+  //   - products: unit_price con currency y value con dos decimales
   // - buyer (user_email, name, phone)
   // - additional_info.callback_url
   // - duration_time
@@ -227,24 +243,33 @@ export async function createNavePaymentRequest(
     seller: {
       pos_id: config.posId,
     },
-    transactions: {
-      amount: {
-        currency: "ARS",
-        value: Number(payload.amount).toFixed(2),
+    // La documentación oficial de Nave especifica transactions como ARRAY
+    transactions: [
+      {
+        amount: {
+          currency: "ARS",
+          value: Number(payload.amount).toFixed(2),
+        },
+        // Cada producto según contrato oficial de Nave:
+        // - name
+        // - description
+        // - quantity
+        // - unit_price: { currency, value }
+        // (Nota: `id` no está documentado en products de Nave)
+        products: payload.products.map((p) => {
+          const rawPrice = p.price ?? (p.unit_price ? Number(p.unit_price.value) : 0);
+          return {
+            name: p.name,
+            description: p.description || p.name,
+            quantity: p.quantity,
+            unit_price: {
+              currency: "ARS",
+              value: Number(rawPrice).toFixed(2),
+            },
+          };
+        }),
       },
-      products: payload.products.map((p, idx) => {
-        const rawPrice = p.price ?? (p.unit_price ? Number(p.unit_price.value) : 0);
-        return {
-          id: p.id || String(idx + 1),
-          name: p.name,
-          quantity: p.quantity,
-          unit_price: {
-            currency: "ARS",
-            value: Number(rawPrice).toFixed(2),
-          },
-        };
-      }),
-    },
+    ],
     buyer: {
       name: payload.buyer.name,
       phone: payload.buyer.phone,
@@ -275,24 +300,30 @@ export async function createNavePaymentRequest(
 
   const resJson = (await response.json()) as {
     data?: {
+      id?: string;
       payment_request_id?: string;
       checkout_url?: string;
       transaction_id?: string;
       qr_data?: string;
     };
+    id?: string;
     payment_request_id?: string;
     checkout_url?: string;
     transaction_id?: string;
     qr_data?: string;
   };
 
+  // La documentación oficial de Nave indica que el identificador se devuelve
+  // como `id` dentro de un objeto `data`. Se mantiene compatibilidad con
+  // `payment_request_id` por si varía entre versiones de la API.
   const data = resJson.data || resJson;
-  const paymentRequestId = data.payment_request_id;
+  const paymentRequestId = data.id || data.payment_request_id;
   const checkoutUrl = data.checkout_url;
 
   if (!paymentRequestId || !checkoutUrl) {
     throw new Error(
-      "[nave] Respuesta de Payment Request incompleta: falta checkout_url o payment_request_id"
+      `[nave] Respuesta de Payment Request incompleta: falta checkout_url o identificador (id/payment_request_id). ` +
+        `Respuesta recibida: ${JSON.stringify(resJson)}`
     );
   }
 
